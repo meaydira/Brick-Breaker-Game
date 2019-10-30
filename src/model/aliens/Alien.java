@@ -1,4 +1,4 @@
 package model.aliens;
 
-public class Alien {
+public abstract class Alien {
 }

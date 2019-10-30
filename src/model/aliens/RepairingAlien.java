@@ -1,4 +1,4 @@
 package model.aliens;
 
-public class RepairingAlien {
+public class RepairingAlien extends Alien {
 }
