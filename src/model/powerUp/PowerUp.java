@@ -1,4 +1,5 @@
 package model.powerUp;
 
-public class PowerUp {
+public abstract class PowerUp {
+
 }
