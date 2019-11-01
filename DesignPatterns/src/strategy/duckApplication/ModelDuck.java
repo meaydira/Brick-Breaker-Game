@@ -1,3 +1,6 @@
+package strategy.duckApplication;
+
+
 public class ModelDuck extends Duck{
 
     public ModelDuck() {
