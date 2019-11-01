@@ -1,3 +1,5 @@
+package strategy.duckApplication;
+
 public class FlyNoWay implements FlyBehaviour{
     @Override
     public void fly() {

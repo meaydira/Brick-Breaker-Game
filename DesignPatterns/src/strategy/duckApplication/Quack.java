@@ -1,3 +1,6 @@
+package strategy.duckApplication;
+
+
 public class Quack implements QuackBehaviour{
 
     @Override

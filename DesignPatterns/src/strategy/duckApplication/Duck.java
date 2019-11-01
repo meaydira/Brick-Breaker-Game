@@ -1,3 +1,5 @@
+package strategy.duckApplication;
+
 public abstract class Duck {
     /**
      * For different quacking behaviour we have the interface quackbehaviour
