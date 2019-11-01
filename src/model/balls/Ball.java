@@ -12,7 +12,9 @@ public abstract class Ball {
         this.y_position = y_position;
     }
 
-
+    public void bounce(){
+        //TODO : Implement bounce method
+    }
 
 
 }
