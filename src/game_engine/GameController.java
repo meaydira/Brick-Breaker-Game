@@ -1,5 +1,6 @@
 package game_engine;
 
+import model.Map;
 import model.Paddle;
 import model.balls.Ball;
 import model.balls.SimpleBall;

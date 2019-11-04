@@ -1,5 +1,6 @@
 package game_engine;
 
+import model.Map;
 import model.bricks.Brick;
 import model.bricks.SimpleBrick;
 
