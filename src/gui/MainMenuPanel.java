@@ -24,16 +24,24 @@ public class MainMenuPanel extends JFrame implements GameConstants {
     JLabel welcomeLabel;
     JLabel clickLabel;
     JLabel imageContainer;
+    private static MainMenuPanel mainmenu_instance = null;
 
-    public MainMenuPanel() {
-        super("Bricking Bad");
-        setLayout(null);
-        playGameButton = new JButton("Play Game");
-        loginButton = new JButton("Login Game");
-        registerButton = new JButton("Register Game");
-        initializeMenu();
+    public static MainMenuPanel getInstance(){
+        if(mainmenu_instance == null){
+            mainmenu_instance = new MainMenuPanel();
+            mainmenu_instance.setTitle("Bricking Bad");
+            mainmenu_instance.setLayout(null);
+            mainmenu_instance.playGameButton = new JButton("Play Game");
+            mainmenu_instance.loginButton = new JButton("Login Game");
+            mainmenu_instance.registerButton = new JButton("Register Game");
+            mainmenu_instance.initializeMenu();
+            return mainmenu_instance;
+        }else{
+            return mainmenu_instance;
+        }
 
     }
+
 
     public void initializeMenu() {
         ImageIcon gameImage = new ImageIcon("b_bad_logo.jpg");
@@ -46,9 +54,9 @@ public class MainMenuPanel extends JFrame implements GameConstants {
         pack();
 
         imageContainer.setBounds(WINDOW_WIDTH / 2 - 150, 150, 300, 200);
-        playGameButton.setBounds(WINDOW_WIDTH / 2 - 250, 400, 150, 80);
-        loginButton.setBounds(WINDOW_WIDTH / 2 - 70, 400, 150, 80);
-        registerButton.setBounds(WINDOW_WIDTH / 2 + 100, 400, 150, 80);
+        playGameButton.setBounds(WINDOW_WIDTH / 2 - 230, 400, 100, 55);
+        loginButton.setBounds(WINDOW_WIDTH / 2 - 50, 400, 100, 55);
+        registerButton.setBounds(WINDOW_WIDTH / 2 + 120, 400, 100, 55);
         welcomeLabel = new JLabel("Welcome to Bricking Bad");
         clickLabel = new JLabel("Login Or Register To Save Score");
         welcomeLabel.setBounds(WINDOW_WIDTH / 2 - 150, 100, 300, 40);

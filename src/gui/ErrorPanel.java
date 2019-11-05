@@ -1,7 +1,6 @@
 package gui;
 
 import game_engine.GameConstants;
-import game_engine.Redirection;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,17 +9,26 @@ import java.awt.event.ActionListener;
 
 public class ErrorPanel extends JFrame implements GameConstants {
 
-    JLabel welcomeLabel;
+    JLabel errorLabel;
     JLabel imageContainer;
     JButton exitButton;
+    private static ErrorPanel errorpanel_instance = null;
 
-    public ErrorPanel() {
-        super("Bricking Bad");
-        setLayout(null);
-        initializeMenu();
+
+    public static ErrorPanel getInstance(){
+        if(errorpanel_instance == null){
+            errorpanel_instance = new ErrorPanel();
+            errorpanel_instance.setTitle("Bricking Bad");
+            errorpanel_instance.setLayout(null);
+            errorpanel_instance.initializePanel();
+            return errorpanel_instance;
+        }else{
+            return errorpanel_instance;
+        }
+
     }
 
-    public void initializeMenu()  {
+    public void initializePanel()  {
         ImageIcon gameImage = new ImageIcon("b_bad_logo.jpg");
         imageContainer = new JLabel();
         exitButton = new JButton("Exit");
@@ -31,11 +39,11 @@ public class ErrorPanel extends JFrame implements GameConstants {
         setResizable(false);
         pack();
 
-        welcomeLabel = new JLabel("Authentication Failed");
-        welcomeLabel.setBounds(WINDOW_WIDTH / 2 - 150, 400, 300, 40);
-        welcomeLabel.setHorizontalAlignment(JLabel.CENTER);
+        errorLabel = new JLabel("Authentication Failed");
+        errorLabel.setBounds(WINDOW_WIDTH / 2 - 150, 400, 300, 40);
+        errorLabel.setHorizontalAlignment(JLabel.CENTER);
         imageContainer.setBounds(WINDOW_WIDTH / 2 - 150, 150, 300, 200);
-        exitButton.setBounds(WINDOW_WIDTH / 2 - 75, 500, 150, 80);
+        exitButton.setBounds(WINDOW_WIDTH / 2 - 75, 500, 150, 50);
         addComponents();
         exitButton.addActionListener(new exitGameHandller());
         setVisible(true);
@@ -49,7 +57,7 @@ public class ErrorPanel extends JFrame implements GameConstants {
     }
 
     public void addComponents() {
-        add(welcomeLabel);
+        add(errorLabel);
         add(imageContainer);
         add(exitButton);
     }
