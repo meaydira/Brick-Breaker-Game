@@ -19,4 +19,5 @@ public class Direction {
     public void setY_velocity(int y_velocity) {
         this.y_velocity = y_velocity;
     }
+
 }
