@@ -1,4 +1,4 @@
-package model;
+package game_engine;
 
 public class Player {
 
@@ -6,11 +6,9 @@ public class Player {
     private String username;
     private String password;
     private int numberOfLivesRemaining;
-    
 
-    private int score = 0;
+
     public Player(){
-
     }
     public Player getInstance(){
         if(player_instance==null) {

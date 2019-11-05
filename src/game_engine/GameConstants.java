@@ -1,10 +1,17 @@
 package game_engine;
 
-public interface GameConstants {
+import java.awt.*;
+import java.awt.Toolkit;
 
+public interface GameConstants {
     //Window Size
-    public static final int WINDOW_WIDTH = 500;
-    public static final int WINDOW_HEIGHT = 500;
+
+    public static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    public static final int WINDOW_HEIGHT = screenSize.height * 2 / 3;
+    public static final int WINDOW_WIDTH = screenSize.width * 1 / 3;
+    public static final int frame_x = (screenSize.width - WINDOW_HEIGHT) / 4;
+    public static final int frame_y = (screenSize.width - WINDOW_HEIGHT) / 4;
+
 
     //Lives
     public static final int MAX_LIVES = 5;

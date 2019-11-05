@@ -20,7 +20,4 @@ public class Direction {
         this.y_velocity = y_velocity;
     }
 
-
-
-
 }

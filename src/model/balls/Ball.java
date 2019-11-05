@@ -1,41 +1,16 @@
 package model.balls;
-<<<<<<< HEAD
-import model.Direction;
-
-public abstract class Ball {
-
-    private int x_position;
-    private int y_position;
-    private Direction direction;
-
-    public Ball(int x_position, int y_position) {
-        this.x_position = x_position;
-        this.y_position = y_position;
-    }
-
-    public void bounce(){
-        //TODO : Implement bounce method
-    }
-
-=======
-
 import game_engine.GameConstants;
 import model.GameObject;
 
 import java.awt.*;
 
-
-
 public class Ball extends GameObject implements GameConstants{
 
     private int xDir = 1, yDir = -1;
 
-
-
     public Ball(int x_coordianate, int y_coordinate, int width, int height, Color color) {
         super(x_coordianate, y_coordinate, width, height, color);
     }
-
 
     //Draw the ball
     @Override
@@ -67,7 +42,6 @@ public class Ball extends GameObject implements GameConstants{
         this.yDir = yDir;
     }
 
-
     //Accessor methods
     public int getXDir() {
         return xDir;
@@ -76,6 +50,5 @@ public class Ball extends GameObject implements GameConstants{
     public int getYDir() {
         return yDir;
     }
->>>>>>> first-iteration
 
 }

@@ -1,4 +1,4 @@
-package model.powerUp;
+package model.powerUps;
 
 public class ChemicalBallPowerUp {
 }

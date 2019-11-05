@@ -3,7 +3,7 @@ package game_engine;
 import javax.swing.*;
 import java.awt.*;
 
-public class Runner extends JFrame implements GameConstants{
+public class Runner{
 
     private static JFrame frame;
     private static GameController GameApplication;
@@ -13,7 +13,7 @@ public class Runner extends JFrame implements GameConstants{
     public static void main(String[] args) {
 
         GameController application = new GameController();
-        application.run();
+//      application.run();
 
     }
 

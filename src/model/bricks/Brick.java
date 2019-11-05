@@ -1,26 +1,5 @@
 package model.bricks;
 
-<<<<<<< HEAD
-public abstract class Brick {
-    private int x_coordinate;
-    private int y_coordinate;
-    int strength;
-    boolean isVisible = true;
-
-    public Brick(int x_coordinate,int y_coordinate){
-        this.x_coordinate = x_coordinate;
-        this.y_coordinate = y_coordinate;
-    }
-    public void disappear(){
-        if (strength == 0) isVisible = false;
-    };
-
-    public void hasBeenHit(){
-        this.strength--;
-    }
-
-
-=======
 import model.GameObject;
 
 import java.awt.*;
@@ -61,17 +40,13 @@ public abstract class Brick  extends GameObject {
         return lives;
     }
 
-
     public void setLives(int lives) {
         this.lives = lives;
     }
 
-
     public int getHits() {
         return this.hits;
     }
-
-
 
     public int getX_coordinate() {
         return x_coordinate;
@@ -98,6 +73,4 @@ public abstract class Brick  extends GameObject {
     }
 
 
-
->>>>>>> first-iteration
 }
