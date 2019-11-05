@@ -5,16 +5,9 @@ import java.awt.*;
 
 public class Runner{
 
-    private static JFrame frame;
-    private static GameController GameApplication;
-    private static Container pane;
-    private static Dimension dim;
-
     public static void main(String[] args) {
-
-        GameController application = new GameController();
-//      application.run();
-
+        GameController gameController = new GameController();
+        System.exit(0);
     }
 
 }

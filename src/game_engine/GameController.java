@@ -1,32 +1,53 @@
 package game_engine;
 
+import gui.ErrorPanel;
 import gui.MainMenuPanel;
 
 public class GameController implements GameConstants {
     //Game-objects on screen
-//    private Paddle paddle;
-//    private ArrayList<Ball> balls;
-//    private Map gameMap;
+
     private MainMenuPanel mainMenu;
-//    private int score = 0, lives = MAX_LIVES, bricksLeft = MAX_BRICKS, waitTime = 3, xSpeed, withSound, level = 1;
-//    private String playerName;
+    private ErrorPanel errorPanel;
     private Game game;
-//    private AtomicBoolean isPaused = new AtomicBoolean(true);
+    private Player player;
 
     //Constructor
     public GameController() {
-       mainMenu= new MainMenuPanel();
-        if(!mainMenu.getPlayPermission()){
-            // The game must be initialized
-            // The map must be chosen here
-            System.out.println("System must visit register or login page");
+        mainMenu = new MainMenuPanel();
+        Redirection rd = mainMenu.getDesiredPage();
+        if (authenticated(redirectDesiredPage(rd))){
+            playGame();
         }else{
-
+            showErrorPanel();
         }
-
-
     }
 
+
+    public boolean authenticated(Player player){
+        //TODO: We must add authentication information to this line of code.
+        return true;
+    }
+    public void playGame(){
+
+    }
+    public void showErrorPanel(){
+        errorPanel = new ErrorPanel();
+    }
+
+    public Player redirectDesiredPage(Redirection rd) {
+        if (rd == Redirection.gamePage) {
+            return null;
+        } else if (rd == Redirection.loginPage) {
+            Player dummyAutheticatedPlayer = new Player();
+            return dummyAutheticatedPlayer;
+        } else if (rd == Redirection.loginPage) {
+            Player dummyAutheticatedPlayer = new Player();
+            return dummyAutheticatedPlayer;
+        }
+        return null;
+    }
 }
+
+
 
 
