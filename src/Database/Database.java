@@ -25,7 +25,6 @@ public class Database {
 
     }
 
-
     public Player getPlayer(int id){
         Player player = null;
          for(Player p : players_DB){
