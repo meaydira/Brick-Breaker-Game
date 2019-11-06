@@ -7,22 +7,32 @@ import gui.Renderer;
 
 public class GameController implements GameConstants {
     //Game-objects on screen
-
+    private static GameController controller_instance = null;
     private Renderer renderer;
     private Game game;
     private Player player;
     private Authentication auth;
     //Constructor
     public GameController() {
-        renderer = Renderer.getInstance();
-        auth = Authentication.getInstance();
-        Redirection rd = renderer.getMainMenu().getDesiredPage();
-        if (authenticated(redirectDesiredPage(rd))){
-            playGame();
+
+    }
+    public static GameController getInstance(){
+        if(controller_instance == null){
+            controller_instance = new GameController();
+            controller_instance.renderer = Renderer.getInstance();
+            controller_instance.auth = Authentication.getInstance();
+            Redirection rd = controller_instance.renderer.getMainMenu().getDesiredPage();
+            if (controller_instance.authenticated(controller_instance.redirectDesiredPage(rd))){
+                controller_instance.playGame();
+            }else{
+                controller_instance.showErrorPanel();
+            }
+            return controller_instance;
         }else{
-            showErrorPanel();
+            return controller_instance;
         }
     }
+
     public boolean authenticated(Player player){
      //   if(player == null){return false;}
         //TODO: Authentication will be implemented.
