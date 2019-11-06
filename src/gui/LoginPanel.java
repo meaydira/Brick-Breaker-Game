@@ -21,9 +21,7 @@ public class LoginPanel extends JFrame implements GameConstants {
     private String username;
     private String password;
 
-
     private static LoginPanel loginpanel_instance = null;
-
 
     public static LoginPanel getInstance(){
         if(loginpanel_instance == null){
@@ -40,7 +38,7 @@ public class LoginPanel extends JFrame implements GameConstants {
 
     public void initializePanel() {
         loginButton = new JButton("Login Game");
-        exitButton = new JButton("Return Main Menu");
+      //  exitButton = new JButton("Return Main Menu");
         ImageIcon gameImage = new ImageIcon("b_bad_logo.jpg");
         imageContainer = new JLabel();
         imageContainer.setIcon(gameImage);
@@ -52,7 +50,7 @@ public class LoginPanel extends JFrame implements GameConstants {
 
         imageContainer.setBounds(WINDOW_WIDTH / 2 - 150, 150, 300, 200);
         loginButton.setBounds(WINDOW_WIDTH / 2 - 50, 500, 100, 55);
-        exitButton.setBounds(WINDOW_WIDTH / 2 + 50, 500, 100, 55);
+  //      exitButton.setBounds(WINDOW_WIDTH / 2 + 50, 500, 100, 55);
         welcomeLabel = new JLabel("Login Page");
         usernameLabel = new JLabel("Username: ");
         passwordLabel = new JLabel("Password: ");
@@ -86,7 +84,7 @@ public class LoginPanel extends JFrame implements GameConstants {
     public void addComponents() {
         add(welcomeLabel);
         add(loginButton);
-        add(exitButton);
+        //add(exitButton);
         add(imageContainer);
         add(usernameLabel);
         add(passwordLabel);
@@ -96,22 +94,28 @@ public class LoginPanel extends JFrame implements GameConstants {
     }
     public void addListeners(){
         loginButton.addActionListener(new loginGameButtonHandler());
-        exitButton.addActionListener(new exitButtonHandler());
+//        exitButton.addActionListener(new exitButtonHandler());
     }
 
     private class loginGameButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent event) {
            username = usernameField.getText();
            password = passwordField.getText();
-            synchronized (loginButton) {
-                loginButton.notify();
-            }
+            releaseLock();
+            setVisible(false);
         }
     }
 
-    private class exitButtonHandler implements ActionListener {
+  /*  private class exitButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent event) {
+            releaseLock();
+
             setVisible(false);
+        }
+    }*/
+    private void releaseLock(){
+        synchronized (loginButton) {
+            loginButton.notify();
         }
     }
 
@@ -122,8 +126,5 @@ public class LoginPanel extends JFrame implements GameConstants {
     public String getPassword() {
         return password;
     }
-
-
-
 
 }
