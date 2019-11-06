@@ -4,13 +4,12 @@ public class Player {
 
     private String username;
     private String password;
-    private int numberOfLivesRemaining;
+    private String isAuth;
 
 
     public Player(String username,String password){
         this.username = username;
         this.password = password;
-        this.numberOfLivesRemaining = 3;
     }
 
     public String getUsername() {
