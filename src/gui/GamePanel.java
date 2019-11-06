@@ -29,7 +29,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         if (game_instance == null) {
             game_instance = new GamePanel();
             game_instance.setLayout(null);
-            game_instance.map = new MapGenerator(4, 12);
+            game_instance.map = new MapGenerator(6, 12);
             game_instance.addKeyListener(game_instance);
             game_instance.setFocusable(true);
             game_instance.setFocusTraversalKeysEnabled(false);
@@ -59,7 +59,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
 
         map.draw((Graphics2D) g);
 
-        g.setColor(Color.yellow);
+        g.setColor(Color.white);
         g.fillRect(0, 0, 3, 592);
         g.fillRect(0, 0, 692, 3);
         g.fillRect(691, 0, 3, 592);
@@ -70,11 +70,11 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         g.drawString("" + score, 590, 30);
 
         // the paddle
-        g.setColor(Color.green);
+        g.setColor(Color.gray);
         g.fillRect(playerX, 550, PADDLE_WIDTH, 20);
 
         // the ball
-        g.setColor(Color.yellow);
+        g.setColor(Color.white);
         g.fillOval(ballposX, ballposY, 20, 20);
 
         // when you won the game
@@ -82,11 +82,11 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
             play = false;
             ballXdir = 0;
             ballYdir = 0;
-            g.setColor(Color.RED);
+            g.setColor(Color.white);
             g.setFont(new Font("serif", Font.BOLD, 30));
             g.drawString("You Won", 260, 300);
 
-            g.setColor(Color.RED);
+            g.setColor(Color.white);
             g.setFont(new Font("serif", Font.BOLD, 20));
             g.drawString("Press (Enter) to Restart", 230, 350);
         }
@@ -96,11 +96,11 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
             play = false;
             ballXdir = 0;
             ballYdir = 0;
-            g.setColor(Color.RED);
+            g.setColor(Color.white);
             g.setFont(new Font("serif", Font.BOLD, 30));
             g.drawString("Game Over, Scores: " + score, 190, 300);
 
-            g.setColor(Color.RED);
+            g.setColor(Color.white);
             g.setFont(new Font("serif", Font.BOLD, 20));
             g.drawString("Press (Enter) to Restart", 230, 350);
         }
@@ -136,7 +136,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
                 playerX = 310;
                 score = 0;
                 totalBricks = 21;
-                map = new MapGenerator(4, 12);
+                map = new MapGenerator(6, 12);
 
                 repaint();
             } else switchMode();
@@ -173,10 +173,16 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
             if (new Rectangle(ballposX, ballposY, 20, 20).intersects(new Rectangle(playerX, 550, 30, 8))) {
                 ballYdir = -ballYdir;
                 ballXdir = -2;
-            } else if (new Rectangle(ballposX, ballposY, 20, 20).intersects(new Rectangle(playerX + 70, 550, 30, 8))) {
+            } else if (new Rectangle(ballposX, ballposY, 20, 20).intersects(new Rectangle(playerX + 120, 550, 30, 8))) {
                 ballYdir = -ballYdir;
-                ballXdir = ballXdir + 1;
-            } else if (new Rectangle(ballposX, ballposY, 20, 20).intersects(new Rectangle(playerX + 30, 550, 40, 8))) {
+                ballXdir = +2;
+            } else if (new Rectangle(ballposX, ballposY, 20, 20).intersects(new Rectangle(playerX + 30, 550, 30, 8))) {
+                ballYdir = -ballYdir;
+                ballXdir = ballXdir-1;
+            } else if (new Rectangle(ballposX, ballposY, 20, 20).intersects(new Rectangle(playerX + 90, 550, 30, 8))) {
+                ballYdir = -ballYdir;
+                ballXdir = ballXdir+1;
+            } else if (new Rectangle(ballposX, ballposY, 20, 20).intersects(new Rectangle(playerX + 60, 550, 30, 8))) {
                 ballYdir = -ballYdir;
             }
 
@@ -186,7 +192,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
                 for (int j = 0; j < map.map[0].length; j++) {
                     if (map.map[i][j] > 0) {
                         //scores++;
-                        int brickX = j * map.brickWidth + 80;
+                        int brickX = j * map.brickWidth + 70;
                         int brickY = i * map.brickHeight + 50;
                         int brickWidth = map.brickWidth;
                         int brickHeight = map.brickHeight;

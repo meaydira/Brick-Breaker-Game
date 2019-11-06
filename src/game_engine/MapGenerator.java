@@ -36,12 +36,12 @@ public class MapGenerator implements GameConstants
                 if(map[i][j] > 0)
                 {
                     g.setColor(getColor(Math.floorMod(i+j, 4)));
-                    g.fillRect(j * brickWidth + 80, i * brickHeight + 50, brickWidth, brickHeight);
+                    g.fillRect(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight);
 
                     // this is just to show separate brick, game can still run without it
                     g.setStroke(new BasicStroke(3));
                     g.setColor(Color.black);
-                    g.drawRect(j * brickWidth + 80, i * brickHeight + 50, brickWidth, brickHeight);
+                    g.drawRect(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight);
                 }
             }
         }
@@ -49,12 +49,7 @@ public class MapGenerator implements GameConstants
 
     public Color getColor(int x){
 
-        switch(x) {
-            case 0: return Color.RED;
-            case 1: return Color.GREEN;
-            case 2: return Color.BLUE;
-            default : return Color.YELLOW;
-        }
+       return Color.white;
     }
 
     public void setBrickValue(int value, int row, int col)

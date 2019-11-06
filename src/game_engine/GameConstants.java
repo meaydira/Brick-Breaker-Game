@@ -25,7 +25,7 @@ public interface GameConstants {
     public static final int BALL_Y_START = 245;
 
     //Paddle
-    public static final int PADDLE_WIDTH = 70;
+    public static final int PADDLE_WIDTH = 150;
     public static final int PADDLE_HEIGHT = 10;
     public static final int PADDLE_RIGHT_BOUND = 430;
     public static final int PADDLE_X_START = 225;
