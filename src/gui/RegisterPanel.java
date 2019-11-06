@@ -119,6 +119,7 @@ public class RegisterPanel extends JFrame implements GameConstants {
                 synchronized (registerButton) {
                     registerButton.notify();
                 }
+                setVisible(false);
             }
             }
 

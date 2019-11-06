@@ -11,7 +11,6 @@ public class Player {
     private ArrayList<Game> savedGames;
     private boolean isAuth;
 
-
     public Player(int id,String username,String password){
         this.id = id;
         this.username = username;
