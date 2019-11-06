@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 public class LoginPanel extends JFrame implements GameConstants {
 
     JButton loginButton;
+    JButton exitButton;
     JLabel welcomeLabel;
     JLabel clickLabel;
     JLabel imageContainer;
@@ -39,6 +40,7 @@ public class LoginPanel extends JFrame implements GameConstants {
 
     public void initializePanel() {
         loginButton = new JButton("Login Game");
+        exitButton = new JButton("Return Main Menu");
         ImageIcon gameImage = new ImageIcon("b_bad_logo.jpg");
         imageContainer = new JLabel();
         imageContainer.setIcon(gameImage);
@@ -50,6 +52,7 @@ public class LoginPanel extends JFrame implements GameConstants {
 
         imageContainer.setBounds(WINDOW_WIDTH / 2 - 150, 150, 300, 200);
         loginButton.setBounds(WINDOW_WIDTH / 2 - 50, 500, 100, 55);
+        exitButton.setBounds(WINDOW_WIDTH / 2 + 50, 500, 100, 55);
         welcomeLabel = new JLabel("Login Page");
         usernameLabel = new JLabel("Username: ");
         passwordLabel = new JLabel("Password: ");
@@ -83,6 +86,7 @@ public class LoginPanel extends JFrame implements GameConstants {
     public void addComponents() {
         add(welcomeLabel);
         add(loginButton);
+        add(exitButton);
         add(imageContainer);
         add(usernameLabel);
         add(passwordLabel);
@@ -92,6 +96,7 @@ public class LoginPanel extends JFrame implements GameConstants {
     }
     public void addListeners(){
         loginButton.addActionListener(new loginGameButtonHandler());
+        exitButton.addActionListener(new exitButtonHandler());
     }
 
     private class loginGameButtonHandler implements ActionListener {
@@ -101,6 +106,12 @@ public class LoginPanel extends JFrame implements GameConstants {
             synchronized (loginButton) {
                 loginButton.notify();
             }
+        }
+    }
+
+    private class exitButtonHandler implements ActionListener {
+        public void actionPerformed(ActionEvent event) {
+            setVisible(false);
         }
     }
 

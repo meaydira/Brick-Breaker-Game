@@ -1,15 +1,24 @@
 package game_engine;
 
+import java.util.ArrayList;
+
 public class Player {
 
     private String username;
     private String password;
-    private String isAuth;
+    private int id;
+    private ArrayList<Map> savedMaps;
+    private ArrayList<Game> savedGames;
+    private boolean isAuth;
 
 
-    public Player(String username,String password){
+    public Player(int id,String username,String password){
+        this.id = id;
         this.username = username;
         this.password = password;
+        this.savedMaps = new ArrayList<Map>();
+        this.savedGames = new ArrayList<Game>();
+
     }
 
     public String getUsername() {
@@ -19,4 +28,6 @@ public class Player {
     public String getPassword() {
         return password;
     }
+
+    public int getID() {    return id; }
 }

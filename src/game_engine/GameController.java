@@ -1,6 +1,9 @@
 package game_engine;
 
-import gui.*;
+import gui.GamePanel;
+import gui.LoginPanel;
+import gui.RegisterPanel;
+import gui.Renderer;
 
 public class GameController implements GameConstants {
     //Game-objects on screen
@@ -8,10 +11,11 @@ public class GameController implements GameConstants {
     private Renderer renderer;
     private Game game;
     private Player player;
-
+    private Authentication auth;
     //Constructor
     public GameController() {
         renderer = Renderer.getInstance();
+        auth = Authentication.getInstance();
         Redirection rd = renderer.getMainMenu().getDesiredPage();
         if (authenticated(redirectDesiredPage(rd))){
             playGame();
@@ -21,13 +25,11 @@ public class GameController implements GameConstants {
     }
 
     public boolean authenticated(Player player){
-        //TODO: We must add authentication information to this line of code.
-        //TODO: Here we will check db, it the username record exits but the password does not match auth fails.
-        //TODO: If the username does not lie in the database, it means we will create a new record.
-        return false;
+        if(player == null){return false;}
+        return true;
     }
     public void playGame(){
-
+        renderer.getGamePanel();
     }
     public void showErrorPanel(){
         renderer.getErrorPanel();
@@ -35,18 +37,18 @@ public class GameController implements GameConstants {
 
     public Player redirectDesiredPage(Redirection rd) {
         if (rd == Redirection.gamePage) {
-            return null;
+            GamePanel gp = renderer.getGamePanel();
+            return player;
         }
         else if (rd == Redirection.loginPage) {
             LoginPanel lp = renderer.getLoginPanel();
-            Player player = new Player(lp.getUsername(),lp.getPassword());
-            return player;
+            return auth.loginUser(lp.getUsername(),lp.getPassword());
+
+
         }
         else if (rd == Redirection.registerPage) {
-            RegisterPanel rp = RegisterPanel.getInstance();
-            Player player = new Player(rp.getUsername(),rp.getPassword());
-            //TODO insert this player to the database.
-            return null;
+            RegisterPanel rp = renderer.getRegisterPanel();
+            return  auth.registerUser(rp.getUsername(),rp.getPassword());
         }
         return null;
     }

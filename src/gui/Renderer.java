@@ -5,6 +5,7 @@ public class Renderer {
     private ErrorPanel errorPanel;
     private LoginPanel loginPanel;
     private RegisterPanel registerPanel;
+    private GamePanel gamePanel;
     private static Renderer renderer_instance = null;
 
     public static Renderer getInstance(){
@@ -29,6 +30,11 @@ public class Renderer {
     public LoginPanel getLoginPanel() {
         this.loginPanel= LoginPanel.getInstance();
         return loginPanel;
+    }
+
+    public GamePanel getGamePanel(){
+        this.gamePanel = GamePanel.getInstance();
+        return gamePanel;
     }
 
     public RegisterPanel getRegisterPanel() {
