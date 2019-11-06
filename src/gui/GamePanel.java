@@ -63,7 +63,9 @@ public class GamePanel extends JFrame implements GameConstants {
     }
     private class exitGameHandller implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-           // redirectPage(Redirection.registerPage);
+           synchronized (exitButton){
+               exitButton.notify();
+           }
             setVisible(false);
         }
     }
