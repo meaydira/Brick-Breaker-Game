@@ -7,23 +7,23 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ErrorPanel extends JFrame implements GameConstants {
+public class GamePanel extends JFrame implements GameConstants {
 
-    JLabel errorLabel;
+    JLabel messageLabel;
     JLabel imageContainer;
     JButton exitButton;
-    private static ErrorPanel errorpanel_instance = null;
+    private static GamePanel game_instance = null;
 
 
-    public static ErrorPanel getInstance(){
-        if(errorpanel_instance == null){
-            errorpanel_instance = new ErrorPanel();
-            errorpanel_instance.setTitle("Bricking Bad");
-            errorpanel_instance.setLayout(null);
-            errorpanel_instance.initializePanel();
-            return errorpanel_instance;
+    public static GamePanel getInstance(){
+        if(game_instance == null){
+            game_instance = new GamePanel();
+            game_instance.setTitle("Bricking Bad");
+            game_instance.setLayout(null);
+            game_instance.initializePanel();
+            return game_instance;
         }else{
-            return errorpanel_instance;
+            return game_instance;
         }
 
     }
@@ -39,33 +39,33 @@ public class ErrorPanel extends JFrame implements GameConstants {
         setResizable(false);
         pack();
 
-        errorLabel = new JLabel("Authentication Failed");
-        errorLabel.setBounds(WINDOW_WIDTH / 2 - 150, 400, 300, 40);
-        errorLabel.setHorizontalAlignment(JLabel.CENTER);
+        messageLabel = new JLabel("Authentication Successful");
+        messageLabel.setBounds(WINDOW_WIDTH / 2 - 150, 400, 300, 40);
+        messageLabel.setHorizontalAlignment(JLabel.CENTER);
         imageContainer.setBounds(WINDOW_WIDTH / 2 - 150, 150, 300, 200);
         exitButton.setBounds(WINDOW_WIDTH / 2 - 75, 500, 150, 50);
         addComponents();
         exitButton.addActionListener(new exitGameHandller());
         setVisible(true);
         synchronized (exitButton){
-           try{
-               exitButton.wait();
-           }catch(InterruptedException e){
-               System.out.println("Interruped");
-           }
+            try{
+                exitButton.wait();
+            }catch(InterruptedException e){
+                System.out.println("Interruped");
+            }
         }
     }
 
     public void addComponents() {
-        add(errorLabel);
+        add(messageLabel);
         add(imageContainer);
         add(exitButton);
     }
     private class exitGameHandller implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-            synchronized (exitButton){
-                exitButton.notify();
-            }
+           synchronized (exitButton){
+               exitButton.notify();
+           }
             setVisible(false);
         }
     }

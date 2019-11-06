@@ -1,20 +1,33 @@
 package game_engine;
 
+import java.util.ArrayList;
+
 public class Player {
 
-    private static Player player_instance = null;
     private String username;
     private String password;
-    private int numberOfLivesRemaining;
+    private int id;
+    private ArrayList<Map> savedMaps;
+    private ArrayList<Game> savedGames;
+    private boolean isAuth;
 
 
-    public Player(){
+    public Player(int id,String username,String password){
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.savedMaps = new ArrayList<Map>();
+        this.savedGames = new ArrayList<Game>();
+
     }
-    public Player getInstance(){
-        if(player_instance==null) {
-            player_instance = new Player();
-            return player_instance;
-        }else return this.player_instance;
+
+    public String getUsername() {
+        return username;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public int getID() {    return id; }
 }

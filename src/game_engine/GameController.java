@@ -1,20 +1,22 @@
 package game_engine;
 
-import gui.ErrorPanel;
-import gui.MainMenuPanel;
+import gui.GamePanel;
+import gui.LoginPanel;
+import gui.RegisterPanel;
+import gui.Renderer;
 
 public class GameController implements GameConstants {
     //Game-objects on screen
 
-    private MainMenuPanel mainMenu;
-    private ErrorPanel errorPanel;
+    private Renderer renderer;
     private Game game;
     private Player player;
-
+    private Authentication auth;
     //Constructor
     public GameController() {
-        mainMenu = new MainMenuPanel();
-        Redirection rd = mainMenu.getDesiredPage();
+        renderer = Renderer.getInstance();
+        auth = Authentication.getInstance();
+        Redirection rd = renderer.getMainMenu().getDesiredPage();
         if (authenticated(redirectDesiredPage(rd))){
             playGame();
         }else{
@@ -22,27 +24,31 @@ public class GameController implements GameConstants {
         }
     }
 
-
     public boolean authenticated(Player player){
-        //TODO: We must add authentication information to this line of code.
+        if(player == null){return false;}
         return true;
     }
     public void playGame(){
-
+        renderer.getGamePanel();
     }
     public void showErrorPanel(){
-        errorPanel = new ErrorPanel();
+        renderer.getErrorPanel();
     }
 
     public Player redirectDesiredPage(Redirection rd) {
         if (rd == Redirection.gamePage) {
-            return null;
-        } else if (rd == Redirection.loginPage) {
-            Player dummyAutheticatedPlayer = new Player();
-            return dummyAutheticatedPlayer;
-        } else if (rd == Redirection.loginPage) {
-            Player dummyAutheticatedPlayer = new Player();
-            return dummyAutheticatedPlayer;
+            GamePanel gp = renderer.getGamePanel();
+            return player;
+        }
+        else if (rd == Redirection.loginPage) {
+            LoginPanel lp = renderer.getLoginPanel();
+            return auth.loginUser(lp.getUsername(),lp.getPassword());
+
+
+        }
+        else if (rd == Redirection.registerPage) {
+            RegisterPanel rp = renderer.getRegisterPanel();
+            return  auth.registerUser(rp.getUsername(),rp.getPassword());
         }
         return null;
     }
