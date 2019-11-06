@@ -113,13 +113,22 @@ public class RegisterPanel extends JFrame implements GameConstants {
                 JOptionPane.showMessageDialog(null, "My Goodness, you entered unmatching passwords!");
                 passwordField1.setText("");
                 passwordField2.setText("");
+
             }else{
                 password = password1;
+                synchronized (registerButton) {
+                    registerButton.notify();
+                }
+            }
             }
 
-            synchronized (registerButton) {
-                registerButton.notify();
-            }
+
+    }
+
+    private class exitButtonHandler implements ActionListener {
+        public void actionPerformed(ActionEvent event) {
+            // redirectPage(Redirection.registerPage);
+            setVisible(false);
         }
     }
 
