@@ -49,7 +49,7 @@ public class LoginPanel extends JFrame implements GameConstants {
         pack();
 
         imageContainer.setBounds(WINDOW_WIDTH / 2 - 150, 150, 300, 200);
-        loginButton.setBounds(WINDOW_WIDTH / 2 - 50, 500, 100, 55);
+        loginButton.setBounds(WINDOW_WIDTH / 2 - 75, 500, 150, 55);
   //      exitButton.setBounds(WINDOW_WIDTH / 2 + 50, 500, 100, 55);
         welcomeLabel = new JLabel("Login Page");
         usernameLabel = new JLabel("Username: ");
