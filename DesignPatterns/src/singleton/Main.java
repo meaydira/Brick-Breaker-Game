@@ -3,13 +3,16 @@ package singleton;
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("Hello world");
-        Singleton mySingleton1 = Singleton.getInstance();
-        Singleton mySingleton2 = Singleton.getInstance();
-        mySingleton1.doSmth();
+//
+        Controller mySingleton1 = Controller.getInstance(5);
+        mySingleton1.setNumber(3);
+
+        System.out.println(mySingleton1.getNumber());
+
+//      mySingleton1.doSmth();
 
         System.out.println(mySingleton1.hashCode());
-        System.out.println(mySingleton2.hashCode());
+        System.out.println(mySingleton1.hashCode());
     }
 
 }

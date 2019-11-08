@@ -2,28 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e71c7fd8-443f-4e2c-8f7d-b3667a9d01ca" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/adapter/FlyingVehicles/App.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/singleton/Controller.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Patterns/observer/GetTheStock.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Patterns/observer/GrabStocks.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Patterns/observer/Observer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Patterns/observer/StockGrabber.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Patterns/observer/StockObserver.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Patterns/observer/Subject.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Patterns/singleton/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Patterns/singleton/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Patterns/singleton/test.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/strategy/duckApplication/Duck.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/strategy/duckApplication/Duck.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/strategy/duckApplication/DuckSimulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/strategy/duckApplication/DuckSimulator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/strategy/duckApplication/FlyBehaviour.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/strategy/duckApplication/FlyBehaviour.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/strategy/duckApplication/FlyNoWay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/strategy/duckApplication/FlyNoWay.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/strategy/duckApplication/FlyWithWings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/strategy/duckApplication/FlyWithWings.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/strategy/duckApplication/MallardDuck.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/strategy/duckApplication/MallardDuck.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/strategy/duckApplication/ModelDuck.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/strategy/duckApplication/ModelDuck.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/strategy/duckApplication/MuteQuack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/strategy/duckApplication/MuteQuack.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/strategy/duckApplication/Quack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/strategy/duckApplication/Quack.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/strategy/duckApplication/QuackBehaviour.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/strategy/duckApplication/QuackBehaviour.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/strategy/duckApplication/Squeak.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/strategy/duckApplication/Squeak.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Generate_Map_Use_Case.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Patterns/singleton/Singleton.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adapter/adapter.iml" beforeDir="false" afterPath="$PROJECT_DIR$/src/adapter/adapter.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adapter/mediaApplication/MP3.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/adapter/MediaApplication/MP3.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adapter/mediaApplication/MP4.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/adapter/MediaApplication/MP4.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adapter/mediaApplication/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/adapter/MediaApplication/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adapter/mediaApplication/MediaFormatAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/adapter/MediaApplication/MediaFormatAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adapter/mediaApplication/MediaPackage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/adapter/MediaApplication/MediaPackage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adapter/mediaApplication/MediaPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/adapter/MediaApplication/MediaPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adapter/mediaApplication/VLC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/adapter/MediaApplication/VLC.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/singleton/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/singleton/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/singleton/Singleton.java" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -33,28 +27,6 @@
   </component>
   <component name="CodeStyleSettingsInfer">
     <option name="done" value="true" />
-  </component>
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/strategy/duckApplication/DuckSimulator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" selection-start-line="11" selection-end-line="11" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/strategy/duckApplication/Duck.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="22" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -67,63 +39,11 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/src/strategy/duckApplication/Duck.java" />
-        <option value="$PROJECT_DIR$/src/strategy/duckApplication/DuckSimulator.java" />
-        <option value="$PROJECT_DIR$/src/strategy/duckApplication/FlyNoWay.java" />
-        <option value="$PROJECT_DIR$/src/strategy/duckApplication/FlyBehaviour.java" />
-        <option value="$PROJECT_DIR$/src/strategy/duckApplication/FlyWithWings.java" />
-        <option value="$PROJECT_DIR$/src/strategy/duckApplication/MallardDuck.java" />
-        <option value="$PROJECT_DIR$/src/strategy/duckApplication/ModelDuck.java" />
-        <option value="$PROJECT_DIR$/src/strategy/duckApplication/MuteQuack.java" />
-        <option value="$PROJECT_DIR$/src/strategy/duckApplication/Quack.java" />
-        <option value="$PROJECT_DIR$/src/strategy/duckApplication/QuackBehaviour.java" />
-        <option value="$PROJECT_DIR$/src/strategy/duckApplication/Squeak.java" />
-      </list>
-    </option>
-  </component>
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="1" />
   </component>
-  <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="width" value="1440" />
-    <option name="height" value="900" />
-  </component>
   <component name="ProjectId" id="1RAONk9V0d8y9SEepOHn6MlX34R" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
-  <component name="ProjectView">
-    <navigator proportions="" version="1">
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="Scope" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="DesignPatterns" type="b2602c69:ProjectViewProjectNode" />
-              <item name="DesignPatterns" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="DesignPatterns" type="b2602c69:ProjectViewProjectNode" />
-              <item name="DesignPatterns" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="DesignPatterns" type="b2602c69:ProjectViewProjectNode" />
-              <item name="DesignPatterns" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="duckApplication" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="PackagesPane" />
-    </panes>
-  </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1571222309592" />
@@ -131,6 +51,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -144,7 +65,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.DuckSimulator">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="DuckSimulator" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="strategy.duckApplication.DuckSimulator" />
       <module name="Patterns" />
@@ -193,10 +114,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main" />
         <item itemvalue="Application.DuckSimulator" />
         <item itemvalue="Application.test" />
         <item itemvalue="Application.GrabStocks" />
-        <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
   </component>
@@ -224,49 +145,12 @@
     </task>
     <servers />
   </component>
-  <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <layout>
-      <window_info id="Designer" order="0" />
-      <window_info id="UI Designer" order="1" />
-      <window_info id="Capture Tool" order="2" />
-      <window_info id="Favorites" order="3" side_tool="true" />
-      <window_info id="Image Layers" order="4" />
-      <window_info active="true" content_ui="combo" id="Project" order="5" visible="true" weight="0.2532189" />
-      <window_info id="Structure" order="6" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="0" />
-      <window_info anchor="bottom" id="Event Log" order="1" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" order="2" />
-      <window_info anchor="bottom" id="Message" order="3" />
-      <window_info anchor="bottom" id="Find" order="4" />
-      <window_info anchor="bottom" id="Run" order="5" weight="0.32891566" />
-      <window_info anchor="bottom" id="Debug" order="6" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="7" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="8" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="9" />
-      <window_info anchor="bottom" id="Messages" order="10" />
-      <window_info anchor="right" id="Theme Preview" order="0" />
-      <window_info anchor="right" id="Capture Analysis" order="1" />
-      <window_info anchor="right" id="Palette&#9;" order="2" />
-      <window_info anchor="right" id="Maven" order="3" />
-      <window_info anchor="right" id="Palette" order="4" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="5" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="6" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="7" weight="0.25" />
-    </layout>
-  </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
             <State>
-              <option name="RECENTLY_FILTERED_USER_GROUPS">
-                <collection />
-              </option>
-              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
-                <collection />
-              </option>
               <option name="COLUMN_ORDER" />
             </State>
           </value>
@@ -294,90 +178,10 @@
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/observer/GetTheStock.java</url>
           <line>33</line>
-          <properties />
           <option name="timeStamp" value="15" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
-  </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/strategy/duckApplication/FlyNoWay.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/strategy/duckApplication/FlyWithWings.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="5" column="17" lean-forward="true" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/strategy/duckApplication/MallardDuck.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="33" selection-start-column="33" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/strategy/duckApplication/MuteQuack.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="33" selection-start-column="33" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/strategy/duckApplication/Quack.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="33" selection-start-column="33" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/strategy/duckApplication/QuackBehaviour.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="33" selection-start-column="33" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/strategy/duckApplication/Squeak.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="33" selection-start-column="33" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/strategy/duckApplication/ModelDuck.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/strategy/duckApplication/FlyBehaviour.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="33" selection-start-column="33" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/strategy/duckApplication/DuckSimulator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" selection-start-line="11" selection-end-line="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/strategy/duckApplication/Duck.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="22" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
   </component>
   <component name="masterDetails">
     <states>
