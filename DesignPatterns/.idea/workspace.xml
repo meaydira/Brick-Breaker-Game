@@ -2,22 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e71c7fd8-443f-4e2c-8f7d-b3667a9d01ca" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/adapter/FlyingVehicles/App.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/singleton/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/factory/Auto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/factory/Bus.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/factory/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/factory/Train.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/factory/Vehicle.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/factory/VehicleFactory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Patterns/singleton/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Patterns/singleton/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Patterns/singleton/Singleton.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/adapter/adapter.iml" beforeDir="false" afterPath="$PROJECT_DIR$/src/adapter/adapter.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/adapter/mediaApplication/MP3.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/adapter/MediaApplication/MP3.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/adapter/mediaApplication/MP4.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/adapter/MediaApplication/MP4.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/adapter/mediaApplication/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/adapter/MediaApplication/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/adapter/mediaApplication/MediaFormatAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/adapter/MediaApplication/MediaFormatAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/adapter/mediaApplication/MediaPackage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/adapter/MediaApplication/MediaPackage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/adapter/mediaApplication/MediaPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/adapter/MediaApplication/MediaPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/adapter/mediaApplication/VLC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/adapter/MediaApplication/VLC.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/singleton/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/singleton/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/singleton/Singleton.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Patterns/adapter/MediaApplication/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Patterns/adapter/MediaApplication/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adapter/MediaApplication/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/adapter/MediaApplication/Main.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -43,7 +36,9 @@
     <option name="version" value="1" />
   </component>
   <component name="ProjectId" id="1RAONk9V0d8y9SEepOHn6MlX34R" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1571222309592" />
@@ -65,7 +60,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Application.Main (2)">
     <configuration name="DuckSimulator" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="strategy.duckApplication.DuckSimulator" />
       <module name="Patterns" />
@@ -79,12 +74,25 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GrabStocks" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="observer.GrabStocks" />
+    <configuration name="Main (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="adapter.MediaApplication.Main" />
       <module name="Patterns" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="observer.*" />
+          <option name="PATTERN" value="adapter.MediaApplication.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main (2)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="factory.Main" />
+      <module name="Patterns" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="factory.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -114,10 +122,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main (2)" />
+        <item itemvalue="Application.Main (1)" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.DuckSimulator" />
         <item itemvalue="Application.test" />
-        <item itemvalue="Application.GrabStocks" />
       </list>
     </recent_temporary>
   </component>
@@ -179,6 +188,11 @@
           <url>file://$PROJECT_DIR$/src/observer/GetTheStock.java</url>
           <line>33</line>
           <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/factory/VehicleFactory.java</url>
+          <line>19</line>
+          <option name="timeStamp" value="20" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
