@@ -70,11 +70,11 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         g.drawString("" + score, 590, 30);
 
         // the paddle
-        g.setColor(Color.gray);
+        g.setColor(Color.yellow);
         g.fillRect(playerX, 550, PADDLE_WIDTH, 20);
 
         // the ball
-        g.setColor(Color.white);
+        g.setColor(Color.red);
         g.fillOval(ballposX, ballposY, 20, 20);
 
         // when you won the game

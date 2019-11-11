@@ -1,9 +1,5 @@
 package game_engine;
 
-import model.Map;
-import model.bricks.Brick;
-import model.bricks.SimpleBrick;
-
 import java.awt.*;
 
 public class MapGenerator implements GameConstants
@@ -49,7 +45,12 @@ public class MapGenerator implements GameConstants
 
     public Color getColor(int x){
 
-       return Color.white;
+        switch(x) {
+            case 0: return Color.RED;
+            case 1: return Color.GREEN;
+            case 2: return Color.BLUE;
+            default : return Color.YELLOW;
+        }
     }
 
     public void setBrickValue(int value, int row, int col)
