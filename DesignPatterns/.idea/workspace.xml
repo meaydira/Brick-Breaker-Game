@@ -2,15 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e71c7fd8-443f-4e2c-8f7d-b3667a9d01ca" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/factory/Auto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/factory/Bus.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/factory/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/factory/Train.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/factory/Vehicle.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/factory/VehicleFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/observer/BaseObserver/BinaryObserver.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/observer/BaseObserver/DecimalObserver.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/observer/BaseObserver/HexaObserver.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/observer/BaseObserver/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/observer/BaseObserver/Observer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/observer/BaseObserver/OctalObserver.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/observer/BaseObserver/Subject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Patterns/adapter/MediaApplication/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Patterns/adapter/MediaApplication/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/adapter/MediaApplication/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/adapter/MediaApplication/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Patterns/factory/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Patterns/factory/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Patterns/factory/VehicleFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Patterns/factory/VehicleFactory.class" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -41,6 +43,8 @@
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1571222309592" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
@@ -60,7 +64,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Main (2)">
+  <component name="RunManager" selected="Application.Main (3)">
     <configuration name="DuckSimulator" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="strategy.duckApplication.DuckSimulator" />
       <module name="Patterns" />
@@ -100,19 +104,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="singleton.Main" />
-      <module name="Patterns" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="singleton.test" />
+    <configuration name="Main (3)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="observer.BaseObserver.Main" />
       <module name="Patterns" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="singleton.*" />
+          <option name="PATTERN" value="observer.BaseObserver.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -120,13 +117,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="singleton.Main" />
+      <module name="Patterns" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main (3)" />
         <item itemvalue="Application.Main (2)" />
         <item itemvalue="Application.Main (1)" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.DuckSimulator" />
-        <item itemvalue="Application.test" />
       </list>
     </recent_temporary>
   </component>
@@ -151,8 +155,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1569106395452</updated>
+      <workItem from="1573218847673" duration="1801000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
