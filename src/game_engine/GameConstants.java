@@ -21,8 +21,11 @@ public interface GameConstants {
     public static final int BALL_WIDTH = 20;
     public static final int BALL_HEIGHT = 20;
     public static final int BALL_RIGHT_BOUND = 490;
+
     public static final int BALL_X_START = 120;
     public static final int BALL_Y_START = 350;
+
+
     public static final int BALL_X_DIRECTION = -1;
     public static final int BALL_Y_DIRECTION = -2;
     public static final Color BALL_COLOR = Color.yellow;

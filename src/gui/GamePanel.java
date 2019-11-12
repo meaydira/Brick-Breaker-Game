@@ -18,8 +18,8 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
     private static GamePanel game_instance = null;
     private Game currentGame;
     private Timer timer;
-    private MapGenerator map;
-    private int score = 0;
+
+
     private int delay = 8;
 
     private JButton pauseButton;
@@ -30,7 +30,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
             game_instance.currentGame = game;
 
             game_instance.setLayout(new GridLayout());
-            game_instance.map = new MapGenerator(6, 12);
+
             game_instance.addKeyListener(game_instance);
             game_instance.setFocusable(true);
             game_instance.setFocusTraversalKeysEnabled(false);
@@ -59,7 +59,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         g.setColor(Color.black);
         g.fillRect(1, 1, 692, 592);
 
-        map.draw((Graphics2D) g);
+        currentGame.getMap().draw((Graphics2D) g);
 
         g.setColor(Color.white);
         g.fillRect(0, 0, 3, 592);
@@ -69,7 +69,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         // the scores
         g.setColor(Color.white);
         g.setFont(new Font("serif", Font.BOLD, 25));
-        g.drawString("" + score, 590, 30);
+        g.drawString("" + currentGame.getScore(), 590, 30);
 
         // the paddle
         g.setColor(Color.yellow);
@@ -96,12 +96,13 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
 
             g.setColor(Color.white);
             g.setFont(new Font("serif", Font.BOLD, 30));
-            g.drawString("Game Over, Scores: " + score, 190, 300);
+            g.drawString("Game Over, Scores: " + currentGame.getScore(), 190, 300);
 
             g.setColor(Color.white);
             g.setFont(new Font("serif", Font.BOLD, 20));
             g.drawString("Press (Enter) to Restart", 230, 350);
         }
+
         g.dispose();
 
     }
@@ -119,18 +120,8 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 
             if (!currentGame.isRunning()) {
+                currentGame.reinitialize();
 
-                currentGame.setRunning(true);
-                currentGame.getBall().setX(120);
-                currentGame.getBall().setY(530);
-
-                currentGame.getBall().setXDir(-1);
-                currentGame.getBall().setYDir(-2);
-
-                currentGame.getPaddle().setXpos(310);
-                score = 0;
-                currentGame.setTotalBricks(21);
-                map = new MapGenerator(6, 12);
 
                 repaint();
             } else switchMode();
@@ -153,46 +144,14 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
 
 
     public void actionPerformed(ActionEvent e) {
+
         timer.start();
 
         if (currentGame.isRunning()) {
             // check map collision with the ball
-            A:
-            for (int i = 0; i < map.map.length; i++) {
-                for (int j = 0; j < map.map[0].length; j++) {
-                    if (map.map[i][j] > 0) {
-                        //scores++;
-                        int brickX = j * map.brickWidth + 70;
-                        int brickY = i * map.brickHeight + 50;
-                        int brickWidth = map.brickWidth;
-                        int brickHeight = map.brickHeight;
-
-                        Rectangle rect = new Rectangle(brickX, brickY, brickWidth, brickHeight);
-                        Rectangle ballRect = new Rectangle(currentGame.getBall().getX(), currentGame.getBall().getY(), 20, 20);
-                        Rectangle brickRect = rect;
-
-                        if (ballRect.intersects(brickRect)) {
-                            map.setBrickValue(0, i, j);
-                            score += 5;
-                            currentGame.setTotalBricks(currentGame.getTotalBricks() - 1);
-                            // when ball hit right or left of brick
-                            if (currentGame.getBall().getX() + 19 <= brickRect.x || currentGame.getBall().getX() + 1 >= brickRect.x + brickRect.width) {
-                                currentGame.getBall().setXDir(-currentGame.getBall().getXDir());
-                            }
-                            // when ball hits top or bottom of brick
-                            else {
-                                currentGame.getBall().setYDir(-currentGame.getBall().getYDir());
-                            }
-                            break A;
-                        }
-                    }
-                }
-            }
-
-
-
-            repaint();
+            currentGame.runPhysics();
         }
+        repaint();
     }
 
 }
