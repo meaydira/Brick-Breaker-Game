@@ -1,5 +1,8 @@
 package gui;
 
+import game_engine.Board;
+import game_engine.Game;
+
 import javax.swing.*;
 
 public class Renderer {
@@ -8,7 +11,6 @@ public class Renderer {
     private LoginPanel loginPanel;
     private RegisterPanel registerPanel;
     private GamePanel gamePanel;
-    JFrame obj ;
     private static Renderer renderer_instance = null;
 
     public static Renderer getInstance(){
@@ -35,16 +37,9 @@ public class Renderer {
         return loginPanel;
     }
 
-    public GamePanel getGamePanel(){
-        this.gamePanel = GamePanel.getInstance();
-        obj =new JFrame();
-        obj.setBounds(10, 10, 700, 600);
-        obj.setTitle("Bricking Bad");
-        obj.setResizable(false);
-        obj.setVisible(true);
-        obj.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        obj.add(this.gamePanel);
-        obj.setVisible(true);
+    public GamePanel getGamePanel(Game game){
+        this.gamePanel = GamePanel.getInstance(game);
+        Board gameBoard = Board.getInstance(gamePanel);
         return gamePanel;
     }
 

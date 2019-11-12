@@ -1,5 +1,6 @@
 package gui;
 
+import game_engine.Game;
 import game_engine.GameConstants;
 import game_engine.MapGenerator;
 
@@ -12,34 +13,39 @@ import java.awt.event.KeyListener;
 
 public class GamePanel extends JPanel implements GameConstants, KeyListener, ActionListener {
 
+
     private static GamePanel game_instance = null;
+    private Game currentGame;
     private Timer timer;
     private MapGenerator map;
     private boolean play = false;
     private int score = 0;
-    private int totalBricks = 48;
     private int delay = 8;
     private int playerX = 310;
     private int ballposX = 120;
     private int ballposY = 350;
-    private int ballXdir = -1;
     private int ballYdir = -2;
+    private int ballXdir = -1;
+    private JButton pauseButton;
 
-    public static GamePanel getInstance() {
+    public static GamePanel getInstance(Game game) {
         if (game_instance == null) {
             game_instance = new GamePanel();
-            game_instance.setLayout(null);
+            game_instance.currentGame = game;
+            game_instance.setLayout(new GridLayout());
             game_instance.map = new MapGenerator(6, 12);
             game_instance.addKeyListener(game_instance);
             game_instance.setFocusable(true);
             game_instance.setFocusTraversalKeysEnabled(false);
             game_instance.timer = new Timer(game_instance.delay, game_instance);
             game_instance.timer.start();
+2
             return game_instance;
         } else {
             return game_instance;
         }
     }
+
 
 
     @Override
@@ -78,7 +84,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         g.fillOval(ballposX, ballposY, 20, 20);
 
         // when you won the game
-        if (totalBricks <= 0) {
+        if (currentGame.getTotalBricks() <= 0) {
             play = false;
             ballXdir = 0;
             ballYdir = 0;
@@ -104,6 +110,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
             g.setFont(new Font("serif", Font.BOLD, 20));
             g.drawString("Press (Enter) to Restart", 230, 350);
         }
+
         g.dispose();
 
     }
@@ -135,7 +142,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
                 ballYdir = -2;
                 playerX = 310;
                 score = 0;
-                totalBricks = 21;
+                currentGame.setTotalBricks(21);
                 map = new MapGenerator(6, 12);
 
                 repaint();
@@ -169,6 +176,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
 
     public void actionPerformed(ActionEvent e) {
         timer.start();
+
         if (play) {
             if (new Rectangle(ballposX, ballposY, 20, 20).intersects(new Rectangle(playerX, 550, 30, 8))) {
                 ballYdir = -ballYdir;
@@ -203,7 +211,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
                         if (ballRect.intersects(brickRect)) {
                             map.setBrickValue(0, i, j);
                             score += 5;
-                            totalBricks--;
+                            currentGame.setTotalBricks(currentGame.getTotalBricks()-1);
                             // when ball hit right or left of brick
                             if (ballposX + 19 <= brickRect.x || ballposX + 1 >= brickRect.x + brickRect.width) {
                                 ballXdir = -ballXdir;

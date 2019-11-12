@@ -36,11 +36,13 @@ public class GameController implements GameConstants {
     public boolean authenticated(Player player){
      //   if(player == null){return false;}
         //TODO: Authentication will be implemented.
+        this.player = player;
         return true;
     }
     public void playGame(){
         //TODO: Normally we will call game here. That object will be responsible from every third party in the game.
-        renderer.getGamePanel();
+        Game game = new Game(this.player);
+        renderer.getGamePanel(game);
     }
     public void showErrorPanel(){
         renderer.getErrorPanel();
