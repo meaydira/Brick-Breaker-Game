@@ -151,6 +151,8 @@ public class Game implements Runnable, GameConstants {
             if (getPaddle().getXpos() >= 520) {
                 getPaddle().setXpos(520);
             }
+
+
             //squashes with the paddle
             if (new Rectangle(getBall().getX(), getBall().getY(), 20, 20).intersects(new Rectangle(getPaddle().getXpos(), PADDLE_Y_START, 30, 8))) {
                 getBall().setYDir(-getBall().getYDir());
@@ -179,9 +181,10 @@ public class Game implements Runnable, GameConstants {
             }
 
             //move the ball
-            getBall().setX(getBall().getX() + getBall().getXDir());
-            getBall().setY(getBall().getY() + getBall().getYDir());
-
+            if(isRunning()) {
+                getBall().setX(getBall().getX() + getBall().getXDir());
+                getBall().setY(getBall().getY() + getBall().getYDir());
+            }
 
             //Makes sure speed doesnt get too fast/slow
 //            if (Math.abs(xSpeed) > 1) {

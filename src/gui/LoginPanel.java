@@ -101,6 +101,7 @@ public class LoginPanel extends JFrame implements GameConstants {
         public void actionPerformed(ActionEvent event) {
            username = usernameField.getText();
            password = passwordField.getText();
+
             releaseLock();
             setVisible(false);
         }
