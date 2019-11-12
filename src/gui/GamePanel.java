@@ -21,7 +21,6 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
     private MapGenerator map;
     private int score = 0;
     private int delay = 8;
-    private int paddleXCoordinate = 310;
 
     private JButton pauseButton;
 
@@ -157,22 +156,6 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         timer.start();
 
         if (currentGame.isRunning()) {
-            if (new Rectangle(currentGame.getBall().getX(), currentGame.getBall().getY(), 20, 20).intersects(new Rectangle(currentGame.getPaddle().getXpos(), PADDLE_Y_START, 30, 8))) {
-                currentGame.getBall().setYDir(-currentGame.getBall().getYDir());
-                currentGame.getBall().setYDir(-2);
-            } else if (new Rectangle(currentGame.getBall().getX(), currentGame.getBall().getY(), 20, 20).intersects(new Rectangle(currentGame.getPaddle().getXpos() + 120, PADDLE_Y_START, 30, 10))) {
-                currentGame.getBall().setYDir(-currentGame.getBall().getYDir());
-                currentGame.getBall().setYDir(+2);
-            } else if (new Rectangle(currentGame.getBall().getX(), currentGame.getBall().getY(), 20, 20).intersects(new Rectangle(currentGame.getPaddle().getXpos() + 30, PADDLE_Y_START, 30, 10))) {
-                currentGame.getBall().setYDir(-currentGame.getBall().getYDir());
-                currentGame.getBall().setXDir(currentGame.getBall().getXDir() - 1);
-            } else if (new Rectangle(currentGame.getBall().getX(), currentGame.getBall().getY(), 20, 20).intersects(new Rectangle(currentGame.getPaddle().getXpos() + 90, PADDLE_Y_START, 30, 10))) {
-                currentGame.getBall().setYDir(-currentGame.getBall().getYDir());
-                currentGame.getBall().setXDir(currentGame.getBall().getXDir() + 1);
-            } else if (new Rectangle(currentGame.getBall().getX(), currentGame.getBall().getY(), 20, 20).intersects(new Rectangle(currentGame.getPaddle().getXpos() + 60, PADDLE_Y_START, 30, 10))) {
-                currentGame.getBall().setYDir(-currentGame.getBall().getYDir());
-            }
-
             // check map collision with the ball
             A:
             for (int i = 0; i < map.map.length; i++) {
@@ -187,6 +170,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
                         Rectangle rect = new Rectangle(brickX, brickY, brickWidth, brickHeight);
                         Rectangle ballRect = new Rectangle(currentGame.getBall().getX(), currentGame.getBall().getY(), 20, 20);
                         Rectangle brickRect = rect;
+
                         if (ballRect.intersects(brickRect)) {
                             map.setBrickValue(0, i, j);
                             score += 5;
@@ -204,18 +188,8 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
                     }
                 }
             }
-            currentGame.getBall().setX(currentGame.getBall().getX() + currentGame.getBall().getXDir());
-            currentGame.getBall().setY(currentGame.getBall().getY() + currentGame.getBall().getYDir());
 
-            if (currentGame.getBall().getX() < 0) {
-                currentGame.getBall().setXDir(-currentGame.getBall().getXDir());
-            }
-            if (currentGame.getBall().getY() < 0) {
-                currentGame.getBall().setYDir(-currentGame.getBall().getYDir());
-            }
-            if (currentGame.getBall().getX() > 670) {
-                currentGame.getBall().setXDir(-currentGame.getBall().getXDir());
-            }
+
 
             repaint();
         }

@@ -1,6 +1,5 @@
 package game_engine;
 
-import com.sun.prism.Graphics;
 import factories.AlienFactory;
 import factories.Brickfactory;
 import gui.MainMenuPanel;
@@ -15,9 +14,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.sun.java.accessibility.util.AWTEventMonitor.addKeyListener;
 import static game_engine.GameConstants.*;
-
-
-
 
 public class Game implements Runnable, GameConstants {
 
@@ -35,7 +31,7 @@ public class Game implements Runnable, GameConstants {
     private Brickfactory brickFactory;
     private AlienFactory alienFactory;
     private Map gameMap;
-    private int score = 0, lives = MAX_LIVES, bricksLeft = MAX_BRICKS, waitTime = 1000, xSpeed, withSound, level = 1;
+    private int score = 0, lives = MAX_LIVES, bricksLeft = MAX_BRICKS, waitTime = 10, xSpeed, withSound, level = 1;
     //  private String playerName;
     private AtomicBoolean isPaused = new AtomicBoolean(true);
     private Board gameBoard;
@@ -49,7 +45,6 @@ public class Game implements Runnable, GameConstants {
         playerName = JOptionPane.showInputDialog("Please enter your name:", "Brick Breaker, Corporate Slaves");
         ball = new Ball();
         paddle = new Paddle();
-
 
         //TODO: addKeyListener
         //addKeyListener(new BoardObserver());
@@ -153,9 +148,41 @@ public class Game implements Runnable, GameConstants {
                 getPaddle().setXpos(10);
             }
 
-            if (getPaddle().getXpos() >= 600) {
-                getPaddle().setXpos(600);
+            if (getPaddle().getXpos() >= 520) {
+                getPaddle().setXpos(520);
             }
+            //squashes with the paddle
+            if (new Rectangle(getBall().getX(), getBall().getY(), 20, 20).intersects(new Rectangle(getPaddle().getXpos(), PADDLE_Y_START, 30, 8))) {
+                getBall().setYDir(-getBall().getYDir());
+                getBall().setYDir(-2);
+            } else if (new Rectangle(getBall().getX(), getBall().getY(), 20, 20).intersects(new Rectangle(getPaddle().getXpos() + 120, PADDLE_Y_START, 30, 8))) {
+                getBall().setYDir(-getBall().getYDir());
+                getBall().setXDir(+2);
+            } else if (new Rectangle(getBall().getX(), getBall().getY(), 20, 20).intersects(new Rectangle(getPaddle().getXpos() + 30, PADDLE_Y_START, 30, 8))) {
+                getBall().setYDir(-getBall().getYDir());
+                getBall().setXDir(getBall().getXDir() - 1);
+            } else if (new Rectangle(getBall().getX(), getBall().getY(), 20, 20).intersects(new Rectangle(getPaddle().getXpos() + 90, PADDLE_Y_START, 30, 8))) {
+                getBall().setYDir(-getBall().getYDir());
+                getBall().setXDir(getBall().getXDir() + 1);
+            } else if (new Rectangle(getBall().getX(), getBall().getY(), 20, 20).intersects(new Rectangle(getPaddle().getXpos() + 60, PADDLE_Y_START, 30, 8))) {
+                getBall().setYDir(-getBall().getYDir());
+            }
+            //squashes with the wall
+            if (getBall().getX() < 0) {
+                getBall().setXDir(-getBall().getXDir());
+            }
+            if (getBall().getY() < 0) {
+                getBall().setYDir(-getBall().getYDir());
+            }
+            if (getBall().getX() > 670) {
+                getBall().setXDir(-getBall().getXDir());
+            }
+
+            //move the ball
+            getBall().setX(getBall().getX() + getBall().getXDir());
+            getBall().setY(getBall().getY() + getBall().getYDir());
+
+
             //Makes sure speed doesnt get too fast/slow
 //            if (Math.abs(xSpeed) > 1) {
 //                if (xSpeed > 1) {
