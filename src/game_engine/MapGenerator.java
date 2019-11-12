@@ -1,56 +1,44 @@
 package game_engine;
 
-import model.Map;
-import model.bricks.Brick;
-import model.bricks.SimpleBrick;
-
 import java.awt.*;
 
 public class MapGenerator implements GameConstants
 {
-    public Map map;
-    public int row;
-    public int col;
-
+    public int map[][];
+    public int brickWidth;
+    public int brickHeight;
 
     public MapGenerator (int row, int col)
     {
-        map = new Map();
-        this.row = row;
-        this.col = col;
-
-    }
-
-
-
-    public void initializeMap() {
-        for(int i = 0; i<row; i++)
+        map = new int[row][col];
+        for(int i = 0; i<map.length; i++)
         {
-            for(int j =0; j<col; j++)
+            for(int j =0; j<map[0].length; j++)
             {
-                map.addBrick(new SimpleBrick(j * BRICK_WIDTH + 80, i * BRICK_HEIGHT + 50, BRICK_WIDTH, BRICK_HEIGHT,this.getColor(i+j)));
+                map[i][j] = 1;
             }
         }
 
-        //brickWidth = 540/col;
-        //brickHeight = 150/row;
+        brickWidth = 540/col;
+        brickHeight = 150/row;
     }
 
     public void draw(Graphics2D g)
     {
-        for(int i = 0; i<row; i++)
+        for(int i = 0; i<map.length; i++)
         {
-            for(int j =0; j<col; j++)
+            for(int j =0; j<map[0].length; j++)
             {
+                if(map[i][j] > 0)
+                {
+                    g.setColor(getColor(Math.floorMod(i+j, 4)));
+                    g.fillRect(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight);
 
-                g.setColor(getColor(Math.floorMod(i+j, 4)));
-                g.fillRect(j * BRICK_WIDTH + 80, i * BRICK_HEIGHT + 50, BRICK_WIDTH, BRICK_HEIGHT);
-
-
-                g.setStroke(new BasicStroke(3));
-                g.setColor(Color.black);
-                g.drawRect(j * BRICK_WIDTH + 80, i * BRICK_HEIGHT + 50, BRICK_WIDTH, BRICK_HEIGHT);
-
+                    // this is just to show separate brick, game can still run without it
+                    g.setStroke(new BasicStroke(3));
+                    g.setColor(Color.black);
+                    g.drawRect(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight);
+                }
             }
         }
     }
@@ -65,8 +53,8 @@ public class MapGenerator implements GameConstants
         }
     }
 
-	public boolean setBrickPosition(Brick b,int x, int y)
-	{     //TODO: implement setBrickPosition, returns true if the brick's position is successfully changed to x,y
-         return false;
-	}
+    public void setBrickValue(int value, int row, int col)
+    {
+        map[row][col] = value;
+    }
 }

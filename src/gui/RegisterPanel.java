@@ -52,7 +52,7 @@ public class RegisterPanel extends JFrame implements GameConstants {
         pack();
 
         imageContainer.setBounds(WINDOW_WIDTH / 2 - 150, 150, 300, 200);
-        registerButton.setBounds(WINDOW_WIDTH / 2 - 50, 500, 100, 55);
+        registerButton.setBounds(WINDOW_WIDTH / 2 - 75, 500, 150, 55);
         welcomeLabel = new JLabel("Register Page");
         usernameLabel = new JLabel("Username: ");
         passwordLabel1 = new JLabel("Password: ");
@@ -119,6 +119,7 @@ public class RegisterPanel extends JFrame implements GameConstants {
                 synchronized (registerButton) {
                     registerButton.notify();
                 }
+                setVisible(false);
             }
             }
 

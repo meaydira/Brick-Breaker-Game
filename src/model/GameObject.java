@@ -18,9 +18,6 @@ public abstract class GameObject {
         setColor(color);
     }
 
-    public abstract void draw(Graphics g);
-
-
     public void setX(int x) {
         this.x_coordinate = x;
     }

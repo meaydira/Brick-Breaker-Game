@@ -1,41 +1,42 @@
 package game_engine;
 
-import javax.swing.*;
+import gui.GamePanel;
 
-public class Board extends JPanel implements GameConstants{
+import javax.swing.*;
+import java.awt.*;
+
+public class Board extends JFrame implements GameConstants {
 
     private static Board board_instance = null;
+    private JButton pauseButton;
 
     //The board is singleton.
-    public Board() {
-        super.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+    private Board() {
+
         //Leave the Constructor empty so that it does not initialize a field during board_instanceect creation.
     }
-    public static Board getInstance() {
+
+    public static Board getInstance(GamePanel panel) {
         if (board_instance == null) {
             board_instance = new Board();
+            board_instance.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            board_instance.setBounds(10, 10, 900, 600);
 
-           /* super.setSize(width, height);
-            board_instance.setBounds(30, 30, 900, 700);
             board_instance.setTitle("Bricking Bad");
             board_instance.setResizable(false);
             board_instance.setVisible(true);
             board_instance.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            board_instance.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); */
+            board_instance.add(panel);
+            return board_instance;
 
+        } else {
             return board_instance;
         }
-        else {
-            return board_instance;
-        }
     }
 
 
-    public String askInput(String message, String title){
-        return JOptionPane.showInputDialog(null, message, title, JOptionPane.QUESTION_MESSAGE);
-    }
 
-    public void showMessage(String message, String title){
-        JOptionPane.showInputDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
-    }
 }
+
+
+

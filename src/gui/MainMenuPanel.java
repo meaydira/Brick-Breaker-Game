@@ -54,9 +54,9 @@ public class MainMenuPanel extends JFrame implements GameConstants {
         pack();
 
         imageContainer.setBounds(WINDOW_WIDTH / 2 - 150, 150, 300, 200);
-        playGameButton.setBounds(WINDOW_WIDTH / 2 - 230, 400, 100, 55);
-        loginButton.setBounds(WINDOW_WIDTH / 2 - 50, 400, 100, 55);
-        registerButton.setBounds(WINDOW_WIDTH / 2 + 120, 400, 100, 55);
+        playGameButton.setBounds(WINDOW_WIDTH / 2 - 255, 400, 150, 55);
+        loginButton.setBounds(WINDOW_WIDTH / 2 - 75, 400, 150, 55);
+        registerButton.setBounds(WINDOW_WIDTH / 2 + 95, 400, 150, 55);
         welcomeLabel = new JLabel("Welcome to Bricking Bad");
         clickLabel = new JLabel("Login Or Register To Save Score");
         welcomeLabel.setBounds(WINDOW_WIDTH / 2 - 150, 100, 300, 40);

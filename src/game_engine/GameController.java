@@ -7,29 +7,45 @@ import gui.Renderer;
 
 public class GameController implements GameConstants {
     //Game-objects on screen
-
+    private static GameController controller_instance = null;
     private Renderer renderer;
     private Game game;
     private Player player;
     private Authentication auth;
     //Constructor
     public GameController() {
-        renderer = Renderer.getInstance();
-        auth = Authentication.getInstance();
-        Redirection rd = renderer.getMainMenu().getDesiredPage();
-        if (authenticated(redirectDesiredPage(rd))){
-            playGame();
+
+    }
+    public static GameController getInstance(){
+        if(controller_instance == null){
+            controller_instance = new GameController();
+            controller_instance.renderer = Renderer.getInstance();
+            controller_instance.auth = Authentication.getInstance();
+            Redirection rd = controller_instance.renderer.getMainMenu().getDesiredPage();
+            if (controller_instance.authenticated(controller_instance.redirectDesiredPage(rd))){
+                controller_instance.playGame();
+            }else{
+                controller_instance.showErrorPanel();
+            }
+            return controller_instance;
         }else{
-            showErrorPanel();
+            return controller_instance;
         }
     }
 
     public boolean authenticated(Player player){
-        if(player == null){return false;}
+     //   if(player == null){return false;}
+        //TODO: Authentication will be implemented.
+        this.player = player;
         return true;
     }
     public void playGame(){
-        renderer.getGamePanel();
+        //TODO: Normally we will call game here. That object will be responsible from every third party in the game.
+        Game game = new Game(this.player);
+        renderer.getGamePanel(game);
+        Thread thread = new Thread(game);
+        thread.run();
+
     }
     public void showErrorPanel(){
         renderer.getErrorPanel();
@@ -37,18 +53,18 @@ public class GameController implements GameConstants {
 
     public Player redirectDesiredPage(Redirection rd) {
         if (rd == Redirection.gamePage) {
-            GamePanel gp = renderer.getGamePanel();
+        //    GamePanel gp = renderer.getGamePanel();
             return player;
         }
         else if (rd == Redirection.loginPage) {
             LoginPanel lp = renderer.getLoginPanel();
-            return auth.loginUser(lp.getUsername(),lp.getPassword());
-
-
+            //auth.loginUser(lp.getUsername(),lp.getPassword());
+            return player;
         }
+
         else if (rd == Redirection.registerPage) {
             RegisterPanel rp = renderer.getRegisterPanel();
-            return  auth.registerUser(rp.getUsername(),rp.getPassword());
+            return auth.registerUser(rp.getUsername(),rp.getPassword());
         }
         return null;
     }

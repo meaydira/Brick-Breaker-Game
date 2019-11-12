@@ -1,5 +1,10 @@
 package gui;
 
+import game_engine.Board;
+import game_engine.Game;
+
+import javax.swing.*;
+
 public class Renderer {
     private MainMenuPanel mainMenu;
     private ErrorPanel errorPanel;
@@ -32,8 +37,9 @@ public class Renderer {
         return loginPanel;
     }
 
-    public GamePanel getGamePanel(){
-        this.gamePanel = GamePanel.getInstance();
+    public GamePanel getGamePanel(Game game){
+        this.gamePanel = GamePanel.getInstance(game);
+        Board gameBoard = Board.getInstance(gamePanel);
         return gamePanel;
     }
 

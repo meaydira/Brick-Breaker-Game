@@ -6,17 +6,10 @@ import java.awt.*;
 
 public class Ball extends GameObject implements GameConstants{
 
-    private int xDir = 1, yDir = -1;
+    private int xDir = BALL_X_DIRECTION, yDir = BALL_Y_DIRECTION;
 
-    public Ball(int x_coordianate, int y_coordinate, int width, int height, Color color) {
-        super(x_coordianate, y_coordinate, width, height, color);
-    }
-
-    //Draw the ball
-    @Override
-    public void draw(Graphics g) {
-        g.setColor(color);
-        g.fillOval(x_coordinate, y_coordinate, width, height);
+    public Ball() {
+        super(BALL_X_START, BALL_Y_START, BALL_WIDTH, BALL_HEIGHT, BALL_COLOR);
     }
 
     //Moves the ball
@@ -42,6 +35,13 @@ public class Ball extends GameObject implements GameConstants{
         this.yDir = yDir;
     }
 
+    public void setX(int xCoordinate){
+        super.x_coordinate = xCoordinate;
+    }
+    public void setY(int yCoordinate){
+        super.y_coordinate = yCoordinate;
+    }
+
     //Accessor methods
     public int getXDir() {
         return xDir;
@@ -49,6 +49,13 @@ public class Ball extends GameObject implements GameConstants{
 
     public int getYDir() {
         return yDir;
+    }
+
+    public int getX(){
+        return super.x_coordinate;
+    }
+    public int getY(){
+        return super.y_coordinate;
     }
 
 }
