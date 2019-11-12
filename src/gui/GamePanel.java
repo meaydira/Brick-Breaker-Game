@@ -17,19 +17,18 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
     private static GamePanel game_instance = null;
     private Game currentGame;
     private Timer timer;
-
-
     private MapGenerator map;
     private boolean play = false;
     private int score = 0;
     private int delay = 8;
     private int playerX = 310;
 
+    private JButton pauseButton;
+
     public static GamePanel getInstance(Game game) {
         if (game_instance == null) {
             game_instance = new GamePanel();
             game_instance.currentGame = game;
-            //ui staff
             game_instance.setLayout(new GridLayout());
             game_instance.map = new MapGenerator(6, 12);
             game_instance.addKeyListener(game_instance);
