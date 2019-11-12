@@ -7,6 +7,7 @@ import model2.Paddle;
 import model.balls.Ball;
 import model.balls.SimpleBall;
 import game_engine.MapGenerator;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -41,7 +42,6 @@ public class Game implements Runnable, GameConstants {
     private MapGenerator map;
 
 
-
     private int score = 0, lives = MAX_LIVES, bricksLeft = MAX_BRICKS, waitTime = 10, xSpeed, withSound, level = 1;
     //  private String playerName;
     private AtomicBoolean isPaused = new AtomicBoolean(true);
@@ -56,7 +56,7 @@ public class Game implements Runnable, GameConstants {
         playerName = JOptionPane.showInputDialog("Please enter your name:", "Brick Breaker, Corporate Slaves");
         ball = new Ball();
         paddle = new Paddle();
-        map= new MapGenerator(6, 12);
+        map = new MapGenerator(6, 12);
         //TODO: addKeyListener
         //addKeyListener(new BoardObserver());
         //this.balls = new ArrayList<Ball>();
@@ -65,8 +65,9 @@ public class Game implements Runnable, GameConstants {
         //Get the player's name
 
     }
-    public void reinitialize(){
-        if(status == GameStatus.Lost){
+
+    public void reinitialize() {
+        if (status == GameStatus.Lost) {
             status = GameStatus.Undecided;
         }
         setRunning(true);
@@ -85,10 +86,7 @@ public class Game implements Runnable, GameConstants {
 
     }
 
-    public void runPhysics(){
-
-
-
+    public void runPhysics() {
 
 
         A:
@@ -107,7 +105,7 @@ public class Game implements Runnable, GameConstants {
 
                     if (ballRect.intersects(brickRect)) {
                         map.setBrickValue(0, i, j);
-                        setScore(getScore()+5);
+                        setScore(getScore() + 5);
                         setTotalBricks(getTotalBricks() - 1);
                         // when ball hit right or left of brick
                         if (getBall().getX() + 19 <= brickRect.x || getBall().getX() + 1 >= brickRect.x + brickRect.width) {
@@ -122,16 +120,6 @@ public class Game implements Runnable, GameConstants {
                 }
             }
         }
-
-
-
-
-
-
-
-
-
-
 
 
     }
@@ -152,6 +140,7 @@ public class Game implements Runnable, GameConstants {
     public boolean isRunning() {
         return running;
     }
+
     public int getScore() {
         return score;
     }
@@ -159,6 +148,7 @@ public class Game implements Runnable, GameConstants {
     public void setScore(int score) {
         this.score = score;
     }
+
     //Mutator methods
 //    public void setBallY(int y_coord) {
 //        this.ball.setY(y_coord);
@@ -202,13 +192,13 @@ public class Game implements Runnable, GameConstants {
         return status;
     }
 
-    public void moveRight(){
-        running =true;
+    public void moveRight() {
+        running = true;
         getPaddle().moveRight();
     }
 
-    public void moveLeft(){
-        running =true;
+    public void moveLeft() {
+        running = true;
         getPaddle().moveLeft();
     }
 
@@ -269,19 +259,12 @@ public class Game implements Runnable, GameConstants {
             }
 
             //move the ball
-<<<<<<< HEAD
-            if(isRunning()) {
-                getBall().setX(getBall().getX() + getBall().getXDir());
-                getBall().setY(getBall().getY() + getBall().getYDir());
-            }
-=======
-            if(isRunning()){
+
+            if (isRunning()) {
                 getBall().setX(getBall().getX() + getBall().getXDir());
                 getBall().setY(getBall().getY() + getBall().getYDir());
             }
 
-
->>>>>>> migrated map physics
 
             //Makes sure speed doesnt get too fast/slow
 //            if (Math.abs(xSpeed) > 1) {
