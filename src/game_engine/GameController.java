@@ -43,6 +43,9 @@ public class GameController implements GameConstants {
         //TODO: Normally we will call game here. That object will be responsible from every third party in the game.
         Game game = new Game(this.player);
         renderer.getGamePanel(game);
+        Thread thread = new Thread(game);
+        thread.run();
+
     }
     public void showErrorPanel(){
         renderer.getErrorPanel();

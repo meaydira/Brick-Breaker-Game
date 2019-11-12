@@ -17,21 +17,19 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
     private static GamePanel game_instance = null;
     private Game currentGame;
     private Timer timer;
+
+
     private MapGenerator map;
     private boolean play = false;
     private int score = 0;
     private int delay = 8;
     private int playerX = 310;
-    private int ballposX = 120;
-    private int ballposY = 350;
-    private int ballYdir = -2;
-    private int ballXdir = -1;
-    private JButton pauseButton;
 
     public static GamePanel getInstance(Game game) {
         if (game_instance == null) {
             game_instance = new GamePanel();
             game_instance.currentGame = game;
+            //ui staff
             game_instance.setLayout(new GridLayout());
             game_instance.map = new MapGenerator(6, 12);
             game_instance.addKeyListener(game_instance);
@@ -39,7 +37,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
             game_instance.setFocusTraversalKeysEnabled(false);
             game_instance.timer = new Timer(game_instance.delay, game_instance);
             game_instance.timer.start();
-2
+
             return game_instance;
         } else {
             return game_instance;
@@ -80,14 +78,14 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         g.fillRect(playerX, 550, PADDLE_WIDTH, 20);
 
         // the ball
-        g.setColor(Color.red);
-        g.fillOval(ballposX, ballposY, 20, 20);
+        g.setColor(currentGame.getBall().getColor());
+        g.fillOval(currentGame.getBall().getX(),currentGame.getBall().getY(),BALL_WIDTH,BALL_HEIGHT);
 
         // when you won the game
         if (currentGame.getTotalBricks() <= 0) {
             play = false;
-            ballXdir = 0;
-            ballYdir = 0;
+            currentGame.getBall().setXDir(0);
+            currentGame.getBall().setYDir(0);
             g.setColor(Color.white);
             g.setFont(new Font("serif", Font.BOLD, 30));
             g.drawString("You Won", 260, 300);
@@ -98,10 +96,10 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         }
 
         // when you lose the game
-        if (ballposY > 570) {
+        if (currentGame.getBall().getY() > 570) {
             play = false;
-            ballXdir = 0;
-            ballYdir = 0;
+            currentGame.getBall().setXDir(0);
+            currentGame.getBall().setYDir(0);
             g.setColor(Color.white);
             g.setFont(new Font("serif", Font.BOLD, 30));
             g.drawString("Game Over, Scores: " + score, 190, 300);
@@ -136,10 +134,12 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
             if (!play) {
 
                 play = true;
-                ballposX = 120;
-                ballposY = 530;
-                ballXdir = -1;
-                ballYdir = -2;
+                currentGame.getBall().setX(120) ;
+                currentGame.getBall().setY(530) ;
+
+                currentGame.getBall().setXDir(-1);
+                currentGame.getBall().setYDir(-2);
+
                 playerX = 310;
                 score = 0;
                 currentGame.setTotalBricks(21);
@@ -178,20 +178,20 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         timer.start();
 
         if (play) {
-            if (new Rectangle(ballposX, ballposY, 20, 20).intersects(new Rectangle(playerX, 550, 30, 8))) {
-                ballYdir = -ballYdir;
-                ballXdir = -2;
-            } else if (new Rectangle(ballposX, ballposY, 20, 20).intersects(new Rectangle(playerX + 120, 550, 30, 8))) {
-                ballYdir = -ballYdir;
-                ballXdir = +2;
-            } else if (new Rectangle(ballposX, ballposY, 20, 20).intersects(new Rectangle(playerX + 30, 550, 30, 8))) {
-                ballYdir = -ballYdir;
-                ballXdir = ballXdir-1;
-            } else if (new Rectangle(ballposX, ballposY, 20, 20).intersects(new Rectangle(playerX + 90, 550, 30, 8))) {
-                ballYdir = -ballYdir;
-                ballXdir = ballXdir+1;
-            } else if (new Rectangle(ballposX, ballposY, 20, 20).intersects(new Rectangle(playerX + 60, 550, 30, 8))) {
-                ballYdir = -ballYdir;
+            if (new Rectangle(currentGame.getBall().getX(), currentGame.getBall().getY(), 20, 20).intersects(new Rectangle(playerX, 550, 30, 8))) {
+                currentGame.getBall().setYDir(-currentGame.getBall().getYDir());
+                currentGame.getBall().setYDir(-2);
+            } else if (new Rectangle(currentGame.getBall().getX(), currentGame.getBall().getY(), 20, 20).intersects(new Rectangle(playerX + 120, 550, 30, 8))) {
+                currentGame.getBall().setYDir(-currentGame.getBall().getYDir());
+                currentGame.getBall().setYDir(+2);
+            } else if (new Rectangle(currentGame.getBall().getX(), currentGame.getBall().getY(), 20, 20).intersects(new Rectangle(playerX + 30, 550, 30, 8))) {
+                currentGame.getBall().setYDir(-currentGame.getBall().getYDir());
+                currentGame.getBall().setXDir(currentGame.getBall().getXDir()-1);
+            } else if (new Rectangle(currentGame.getBall().getX(), currentGame.getBall().getY(), 20, 20).intersects(new Rectangle(playerX + 90, 550, 30, 8))) {
+                currentGame.getBall().setYDir(-currentGame.getBall().getYDir());
+                currentGame.getBall().setXDir(currentGame.getBall().getXDir()+1);
+            } else if (new Rectangle(currentGame.getBall().getX(), currentGame.getBall().getY(), 20, 20).intersects(new Rectangle(playerX + 60, 550, 30, 8))) {
+                currentGame.getBall().setYDir(-currentGame.getBall().getYDir());
             }
 
             // check map collision with the ball
@@ -206,37 +206,36 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
                         int brickHeight = map.brickHeight;
 
                         Rectangle rect = new Rectangle(brickX, brickY, brickWidth, brickHeight);
-                        Rectangle ballRect = new Rectangle(ballposX, ballposY, 20, 20);
+                        Rectangle ballRect = new Rectangle(currentGame.getBall().getX(), currentGame.getBall().getY(), 20, 20);
                         Rectangle brickRect = rect;
                         if (ballRect.intersects(brickRect)) {
                             map.setBrickValue(0, i, j);
                             score += 5;
                             currentGame.setTotalBricks(currentGame.getTotalBricks()-1);
                             // when ball hit right or left of brick
-                            if (ballposX + 19 <= brickRect.x || ballposX + 1 >= brickRect.x + brickRect.width) {
-                                ballXdir = -ballXdir;
+                            if (currentGame.getBall().getX() + 19 <= brickRect.x || currentGame.getBall().getX() + 1 >= brickRect.x + brickRect.width) {
+                                currentGame.getBall().setXDir(-currentGame.getBall().getXDir());
                             }
                             // when ball hits top or bottom of brick
                             else {
-                                ballYdir = -ballYdir;
+                                currentGame.getBall().setYDir(-currentGame.getBall().getYDir());
                             }
                             break A;
                         }
                     }
                 }
             }
+            currentGame.getBall().setX(currentGame.getBall().getX()+currentGame.getBall().getXDir());
+            currentGame.getBall().setY(currentGame.getBall().getY()+currentGame.getBall().getYDir());
 
-            ballposX += ballXdir;
-            ballposY += ballYdir;
-
-            if (ballposX < 0) {
-                ballXdir = -ballXdir;
+            if (currentGame.getBall().getX() < 0) {
+                currentGame.getBall().setXDir(-currentGame.getBall().getXDir());
             }
-            if (ballposY < 0) {
-                ballYdir = -ballYdir;
+            if (currentGame.getBall().getY() < 0) {
+                currentGame.getBall().setYDir(-currentGame.getBall().getYDir());
             }
-            if (ballposX > 670) {
-                ballXdir = -ballXdir;
+            if (currentGame.getBall().getX() > 670) {
+                currentGame.getBall().setXDir(-currentGame.getBall().getXDir());
             }
 
             repaint();
