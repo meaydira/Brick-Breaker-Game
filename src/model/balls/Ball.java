@@ -12,13 +12,6 @@ public class Ball extends GameObject implements GameConstants{
         super(BALL_X_START, BALL_Y_START, BALL_WIDTH, BALL_HEIGHT, BALL_COLOR);
     }
 
-    //Draw the ball
-    @Override
-    public void draw(Graphics g) {
-        g.setColor(color);
-        g.fillOval(super.x_coordinate, super.y_coordinate, super.width, super.height);
-    }
-
     //Moves the ball
     public void move() {
         x_coordinate += xDir;

@@ -3,19 +3,16 @@ package model2;
 public class Paddle {
 
 
-    private int size;
+    private int width;
     private int speed;
     private int Xpos;
     private int Ypos;  //may be unneccessary
 
-
-    public int getSize() {
-        return size;
+    public int getWidth() {
+        return width;
     }
 
-    public void setSize(int size) {
-        this.size = size;
-    }
+    public void setWidth(int width) { this.width = width; }
 
     public int getSpeed() {
         return speed;
@@ -48,11 +45,20 @@ public class Paddle {
     public void setAngle(int angle) {
         this.angle = angle;
     }
+    public void moveRight(){
+        this.Xpos+=20;
+    }
+    public void moveLeft(){
+        this.Xpos-=20;
+    }
 
     private int angle;
 
     public Paddle(){
-
+        this.Xpos = 310;
+        this.Ypos = 570;
+        this.width = 150;
+        this.angle = 0;
     }
 
 

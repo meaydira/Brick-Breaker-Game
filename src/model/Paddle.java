@@ -9,9 +9,4 @@ public class Paddle extends GameObject{
 
     }
 
-    @Override
-    public void draw(Graphics g) {
-                g.setColor(super.color);
-                g.fillRect(super.x_coordinate, super.y_coordinate, super.width, super.height);
-    }
 }
