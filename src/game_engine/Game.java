@@ -21,14 +21,10 @@ public class Game implements Runnable, GameConstants {
     private int totalBricks = 48;
     private Ball ball;
 
-
     private Paddle paddle;
     private GameStatus status;
     private boolean running = false;
 
-
-    private Board board;
-    private MainMenuPanel initiater;
     private Brickfactory brickFactory;
     private AlienFactory alienFactory;
 
@@ -36,10 +32,10 @@ public class Game implements Runnable, GameConstants {
 
 
     private int score = 0, lives = MAX_LIVES, bricksLeft = MAX_BRICKS, waitTime = 10, xSpeed, withSound, level = 1;
+
     //  private String playerName;
     private AtomicBoolean isPaused = new AtomicBoolean(true);
     private Board gameBoard;
-
 
     public Game(Player player) {
 
@@ -117,6 +113,10 @@ public class Game implements Runnable, GameConstants {
         return playerName;
     }
 
+    public MapGenerator getMap() {
+        return map;
+    }
+
     public Ball getBall() {
         return this.ball;
     }
@@ -137,19 +137,6 @@ public class Game implements Runnable, GameConstants {
         this.score = score;
     }
 
-    //Mutator methods
-//    public void setBallY(int y_coord) {
-//        this.ball.setY(y_coord);
-//    }
-//    public void setBallX(int x_coord) {
-//        this.ball.setX(x_coord);
-//    }
-//    public void setBallXDir(int xDir) {
-//        this.ball.setXDir(xDir);
-//    }
-//    public void setBallYDir(int yDir) {
-//        this.ball.setYDir(yDir);
-//    }
     public int getTotalBricks() {
         return totalBricks;
     }
@@ -188,6 +175,13 @@ public class Game implements Runnable, GameConstants {
     public void moveLeft() {
         running = true;
         getPaddle().moveLeft();
+    }
+
+    public void changePaddleAnglePositively(){
+//        getPaddle().rotatePositive();
+    }
+    public void changePaddleAngleNegatively(){
+//        getPaddle().rotateNegtive();
     }
 
     public void switchMode() {
@@ -252,8 +246,8 @@ public class Game implements Runnable, GameConstants {
             //move the ball
 
             if (isRunning()) {
-                getBall().setX(getBall().getX() + getBall().getXDir());
-                getBall().setY(getBall().getY() + getBall().getYDir());
+                getBall().setX(getBallX() + getBallXDir());
+                getBall().setY(getBallY() + getBallYDir());
             }
 
 

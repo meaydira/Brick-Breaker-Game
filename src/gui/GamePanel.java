@@ -19,19 +19,14 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
     private static GamePanel game_instance = null;
     private Game currentGame;
     private Timer timer;
-
-
     private int delay = 8;
-
     private JButton pauseButton;
 
     public static GamePanel getInstance(Game game) {
         if (game_instance == null) {
             game_instance = new GamePanel();
             game_instance.currentGame = game;
-
             game_instance.setLayout(new GridLayout());
-
             game_instance.addKeyListener(game_instance);
             game_instance.setFocusable(true);
             game_instance.setFocusTraversalKeysEnabled(false);
@@ -57,8 +52,8 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         screenSize.getHeight();
         screenSize.getWidth();
 
-        g.setColor(Color.black);
-        g.fillRect(1, 1, 692, 592);
+        fillGameBackground(g);
+        fillGamePanelBackground(g);
 
         // drawing map
 
@@ -86,44 +81,73 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         g.fillRect(691, 0, 3, 592);
 
         // the scores
-        g.setColor(Color.white);
-        g.setFont(new Font("serif", Font.BOLD, 25));
-        g.drawString("" + currentGame.getScore(), 590, 30);
+        drawScores(g, 25, "Score : ", 700, 30, Color.BLACK);
+
+        //help sign
+        String action = (currentGame.isRunning()) ? "Pause" : "Continue";
+        drawText(g, 14, "Press Enter to " + action, 700, PADDLE_Y_START, Color.BLACK);
 
         // the paddle
-        g.setColor(Color.yellow);
-        g.fillRect(currentGame.getPaddle().getXpos(), PADDLE_Y_START, currentGame.getPaddle().getWidth(), PADDLE_HEIGHT);
+        drawPaddle(g);
 
         // the ball
-        g.setColor(currentGame.getBall().getColor());
-        g.fillOval(currentGame.getBall().getX(), currentGame.getBall().getY(), BALL_WIDTH, BALL_HEIGHT);
+        drawBall(g);
 
         // when you won the game
         if (currentGame.getStatus() == GameStatus.Won) {
-
-            g.setColor(Color.white);
-            g.setFont(new Font("serif", Font.BOLD, 30));
-            g.drawString("You Won", 260, 300);
-
-            g.setColor(Color.white);
-            g.setFont(new Font("serif", Font.BOLD, 20));
-            g.drawString("Press (Enter) to Restart", 230, 350);
+            drawText(g, 30, "You Won", 260, 300, Color.white);
+            drawText(g, 20, "Press (Enter) to Restart", 230, 380, Color.white);
         }
 
         // when you lose the game
         if (currentGame.getStatus() == GameStatus.Lost) {
-
-            g.setColor(Color.white);
-            g.setFont(new Font("serif", Font.BOLD, 30));
-            g.drawString("Game Over, Scores: " + currentGame.getScore(), 190, 300);
-
-            g.setColor(Color.white);
-            g.setFont(new Font("serif", Font.BOLD, 20));
-            g.drawString("Press (Enter) to Restart", 230, 350);
+            showGameOverSign(g);
+            drawText(g, 20, "Press (Enter) to Restart", 230, 380, Color.white);
         }
 
         g.dispose();
 
+    }
+
+    private void drawText(Graphics g, int fontSize, String s, int x, int y, Color color) {
+        g.setColor(color);
+        g.setFont(new Font("serif", Font.BOLD, fontSize));
+        g.drawString(s, x, y);
+    }
+
+    private void fillGameBackground(Graphics g) {
+        g.setColor(Color.black);
+        g.fillRect(1, 1, 692, 592);
+    }
+
+    private void fillGamePanelBackground(Graphics g) {
+        g.setColor(Color.white);
+        g.fillRect(693, 1, 899, 592);
+    }
+
+    private void drawScores(Graphics g, int fontsize, String text, int x, int y, Color color) {
+        drawText(g, fontsize, text + currentGame.getScore(), x, y, color);
+    }
+
+    private void showGameOverSign(Graphics g) {
+        drawText(g, 25, "Game Over", 290, 350, Color.white);
+    }
+
+    private void drawPaddle(Graphics g) {
+        g.setColor(Color.yellow);
+        g.fillRect(currentGame.getPaddle().getXpos(), PADDLE_Y_START, currentGame.getPaddle().getWidth(), PADDLE_HEIGHT);
+    }
+
+    private void drawBall(Graphics g) {
+        g.setColor(currentGame.getBall().getColor());
+        g.fillOval(currentGame.getBall().getX(), currentGame.getBall().getY(), BALL_WIDTH, BALL_HEIGHT);
+    }
+
+    private void drawBrickBackground(Graphics g) {
+        g.setColor(Color.white);
+        g.fillRect(0, 0, 3, 592);
+        g.fillRect(0, 0, 692, 3);
+        g.fillRect(691, 0, 3, 592);
     }
 
     public void keyPressed(KeyEvent e) {
@@ -143,9 +167,14 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
                 currentGame.switchMode();
             }
         }
+        if (e.getKeyCode() == KeyEvent.VK_A) {
+            //change paddle angle negatively
+        }
+        if (e.getKeyCode() == KeyEvent.VK_D) {
+            //change paddle angle positively
+        }
+
     }
-
-
 
 
     public void keyReleased(KeyEvent e) {
@@ -153,7 +182,6 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
 
     public void keyTyped(KeyEvent e) {
     }
-
 
     public void actionPerformed(ActionEvent e) {
 
