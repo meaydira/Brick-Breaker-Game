@@ -143,6 +143,13 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
                 currentGame.switchMode();
             }
         }
+        if (e.getKeyCode() == KeyEvent.VK_A) {
+            //change paddle angle negatively
+        }
+        if (e.getKeyCode() == KeyEvent.VK_D) {
+            //change paddle angle positively
+        }
+
     }
 
 

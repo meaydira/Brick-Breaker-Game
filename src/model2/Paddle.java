@@ -4,22 +4,13 @@ public class Paddle {
 
 
     private int width;
-    private int speed;
     private int Xpos;
     private int Ypos;  //may be unneccessary
+    private int angle;
+
 
     public int getWidth() {
         return width;
-    }
-
-    public void setWidth(int width) { this.width = width; }
-
-    public int getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
     }
 
     public int getXpos() {
@@ -30,14 +21,6 @@ public class Paddle {
         Xpos = xpos;
     }
 
-    public int getYpos() {
-        return Ypos;
-    }
-
-    public void setYpos(int ypos) {
-        Ypos = ypos;
-    }
-
     public int getAngle() {
         return angle;
     }
@@ -45,16 +28,16 @@ public class Paddle {
     public void setAngle(int angle) {
         this.angle = angle;
     }
-    public void moveRight(){
-        this.Xpos+=20;
-    }
-    public void moveLeft(){
-        this.Xpos-=20;
+
+    public void moveRight() {
+        this.Xpos += 20;
     }
 
-    private int angle;
+    public void moveLeft() {
+        this.Xpos -= 20;
+    }
 
-    public Paddle(){
+    public Paddle() {
         this.Xpos = 310;
         this.Ypos = 570;
         this.width = 150;

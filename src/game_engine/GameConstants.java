@@ -35,7 +35,7 @@ public interface GameConstants {
     public static final int PADDLE_HEIGHT = 20;
     public static final int PADDLE_RIGHT_BOUND = 430;
     public static final int PADDLE_X_START = 225;
-    public static final int PADDLE_Y_START = 550;
+    public static final int PADDLE_Y_START = 510;
     public static final int PADDLE_MIN = 35;
     public static final int PADDLE_MAX = 140;
 
