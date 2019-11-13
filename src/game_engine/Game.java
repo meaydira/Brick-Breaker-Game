@@ -3,22 +3,19 @@ package game_engine;
 import factories.AlienFactory;
 import factories.Brickfactory;
 import gui.MainMenuPanel;
+import model.bricks.Brick;
 import model2.Paddle;
 import model.balls.Ball;
-import model.balls.SimpleBall;
-import game_engine.MapGenerator;
 
 import java.awt.*;
 import javax.swing.*;
+import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static com.sun.java.accessibility.util.AWTEventMonitor.addKeyListener;
-import static game_engine.GameConstants.*;
-
 public class Game implements Runnable, GameConstants {
 
-
+    private  int i = 0;
     private String playerName = "Enes";
     private Player player;
     private int totalBricks = 48;
@@ -35,11 +32,7 @@ public class Game implements Runnable, GameConstants {
     private Brickfactory brickFactory;
     private AlienFactory alienFactory;
 
-    public MapGenerator getMap() {
-        return map;
-    }
-
-    private MapGenerator map;
+    private Map map;
 
 
     private int score = 0, lives = MAX_LIVES, bricksLeft = MAX_BRICKS, waitTime = 10, xSpeed, withSound, level = 1;
@@ -56,7 +49,7 @@ public class Game implements Runnable, GameConstants {
         playerName = JOptionPane.showInputDialog("Please enter your name:", "Brick Breaker, Corporate Slaves");
         ball = new Ball();
         paddle = new Paddle();
-        map = new MapGenerator(6, 12);
+        map = new MapGenerator().generateMap(6,12);
         //TODO: addKeyListener
         //addKeyListener(new BoardObserver());
         //this.balls = new ArrayList<Ball>();
@@ -78,7 +71,7 @@ public class Game implements Runnable, GameConstants {
             getPaddle().setXpos(310);
             setScore(0);
             setTotalBricks(21);
-            map = new MapGenerator(6, 12);
+            map = new MapGenerator().generateMap(6,12);
         }
         running = true;
 
@@ -88,25 +81,22 @@ public class Game implements Runnable, GameConstants {
 
         //If the innner loop needs to break due to collusion, it will break to this point
         outher_escape:
-        for (int i = 0; i < map.map.length; i++) {   //TODO :
-            for (int j = 0; j < map.map[0].length; j++) {
-                if (map.map[i][j] > 0) {
-                    //scores++;
-                    int brickX = j * map.brickWidth + 70;
-                    int brickY = i * map.brickHeight + 50;
-                    int brickWidth = map.brickWidth;
-                    int brickHeight = map.brickHeight;
+      for(Brick b : map.getBricks()) {
 
-                    Rectangle rect = new Rectangle(brickX, brickY, brickWidth, brickHeight);
-                    Rectangle ballRect = new Rectangle(ball.getX(), ball.getY(), 20, 20);
-                    Rectangle brickRect = rect;
 
-                    if (ballRect.intersects(brickRect)) {
-                        map.setBrickValue(0, i, j);
+
+
+                    Ellipse2D ball = new Ellipse2D.Double(this.ball.getX(), this.ball.getY(), 20, 20);
+                    Rectangle brickRect = new Rectangle(b.getX(), b.getY(), b.getWidth(),b.getHeight());
+
+                    if (!b.isDestroyed()&&ball.intersects(brickRect)) {
+                        System.out.println("intersection detected "+(++i));
+                        b.setDestroyed(true);
+
                         setScore(getScore() + 5);
-                        setTotalBricks(getTotalBricks() - 1);
+                        totalBricks--;
                         // when ball hit right or left of brick
-                        if (getBall().getX() + 19 <= brickRect.x || getBall().getX() + 1 >= brickRect.x + brickRect.width) {
+                        if (getBall().getX() + 19 <= brickRect.getX() || getBall().getX() + 1 >= brickRect.getX()+ brickRect.getWidth()) {
                             getBall().setXDir(-getBall().getXDir());
                         }
                         // when ball hits top or bottom of brick
@@ -117,10 +107,10 @@ public class Game implements Runnable, GameConstants {
                     }
                 }
             }
-        }
 
 
-    }
+
+
 
 
     public String getPlayerName() {
@@ -202,6 +192,10 @@ public class Game implements Runnable, GameConstants {
 
     public void switchMode() {
         running = false;
+    }
+
+    public Map getMap(){
+        return this.map;
     }
     @Override
     public void run() {
@@ -294,6 +288,8 @@ public class Game implements Runnable, GameConstants {
 
 
 }
+
+
 
 
 //        if (playerName.toUpperCase().equals("WARRIS") || playerName.toUpperCase().equals("WARRIS GILL") || playerName.toUpperCase().equals("ATİLLA") || playerName.toUpperCase().equals("ATİLLA GÜRSOY")) {

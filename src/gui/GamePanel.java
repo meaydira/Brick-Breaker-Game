@@ -4,6 +4,7 @@ import game_engine.Game;
 import game_engine.GameConstants;
 import game_engine.GameStatus;
 import game_engine.MapGenerator;
+import model.bricks.Brick;
 
 import javax.swing.*;
 import java.awt.*;
@@ -59,7 +60,25 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         g.setColor(Color.black);
         g.fillRect(1, 1, 692, 592);
 
-        currentGame.getMap().draw((Graphics2D) g);
+        // drawing map
+
+        for(Brick b : currentGame.getMap().getBricks())
+        {
+
+                if(!b.isDestroyed()){
+                    g.setColor(b.getColor());
+                    g.fillRect(b.getX(), b.getY(), b.getWidth(), b.getHeight());
+                }
+
+
+                // this is just to show separate brick, game can still run without it
+
+        //    g.setStroke(new BasicStroke(3));
+         //   g.setColor(Color.black);
+         //   g.drawRect(b.getX(), b.getY(), b.getWidth(), b.getHeight());
+
+
+        }
 
         g.setColor(Color.white);
         g.fillRect(0, 0, 3, 592);
