@@ -8,8 +8,8 @@ import model.balls.Ball;
 import model.balls.SimpleBall;
 import game_engine.MapGenerator;
 
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -69,28 +69,26 @@ public class Game implements Runnable, GameConstants {
     public void reinitialize() {
         if (status == GameStatus.Lost) {
             status = GameStatus.Undecided;
+            getBall().setX(120);
+            getBall().setY(530);
+
+            getBall().setXDir(-1);
+            getBall().setYDir(-2);
+
+            getPaddle().setXpos(310);
+            setScore(0);
+            setTotalBricks(21);
+            map = new MapGenerator(6, 12);
         }
-        setRunning(true);
-        getBall().setX(120);
-
-        getBall().setY(530);
-
-
-        getBall().setXDir(-1);
-        getBall().setYDir(-2);
-
-        getPaddle().setXpos(310);
-        setScore(0);
-        setTotalBricks(21);
-        map = new MapGenerator(6, 12);
+        running = true;
 
     }
 
     public void runPhysics() {
 
-
-        A:
-        for (int i = 0; i < map.map.length; i++) {
+        //If the innner loop needs to break due to collusion, it will break to this point
+        outher_escape:
+        for (int i = 0; i < map.map.length; i++) {   //TODO :
             for (int j = 0; j < map.map[0].length; j++) {
                 if (map.map[i][j] > 0) {
                     //scores++;
@@ -115,7 +113,7 @@ public class Game implements Runnable, GameConstants {
                         else {
                             getBall().setYDir(-getBall().getYDir());
                         }
-                        break A;
+                        break outher_escape;
                     }
                 }
             }
@@ -202,10 +200,9 @@ public class Game implements Runnable, GameConstants {
         getPaddle().moveLeft();
     }
 
-    public void setRunning(boolean running) {
-        this.running = running;
+    public void switchMode() {
+        running = false;
     }
-
     @Override
     public void run() {
 
@@ -234,7 +231,7 @@ public class Game implements Runnable, GameConstants {
             //squashes with the paddle
             if (new Rectangle(getBall().getX(), getBall().getY(), 20, 20).intersects(new Rectangle(getPaddle().getXpos(), PADDLE_Y_START, 30, 8))) {
                 getBall().setYDir(-getBall().getYDir());
-                getBall().setYDir(-2);
+                getBall().setXDir(-2);
             } else if (new Rectangle(getBall().getX(), getBall().getY(), 20, 20).intersects(new Rectangle(getPaddle().getXpos() + 120, PADDLE_Y_START, 30, 8))) {
                 getBall().setYDir(-getBall().getYDir());
                 getBall().setXDir(+2);

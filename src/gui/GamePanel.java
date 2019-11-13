@@ -114,26 +114,19 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
 
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             currentGame.moveLeft();
-
         }
 
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-
             if (!currentGame.isRunning()) {
                 currentGame.reinitialize();
-
-
                 repaint();
-            } else switchMode();
+            } else {
+                currentGame.switchMode();
+            }
         }
     }
 
 
-    public void switchMode() {
-        if (timer.isRunning()) {
-            timer.stop();
-        } else timer.start();
-    }
 
 
     public void keyReleased(KeyEvent e) {
@@ -146,7 +139,6 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
     public void actionPerformed(ActionEvent e) {
 
         timer.start();
-
         if (currentGame.isRunning()) {
             // check map collision with the ball
             currentGame.runPhysics();
