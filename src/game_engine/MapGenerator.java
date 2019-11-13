@@ -15,8 +15,6 @@ public class MapGenerator implements GameConstants
     {
 
     }
-
-
     public Map generateMap(int row, int col){
 
         this.col = col;
@@ -29,8 +27,8 @@ public class MapGenerator implements GameConstants
         {
             for(int j =0; j< col; j++)
             {
-                int brickX = j * brickWidth + 70;
-                int brickY = i * brickHeight + 50;
+                int brickX = j * (brickWidth+10) + 20;
+                int brickY = i * (brickHeight+10) + 50;
                 map.addBrick(new SimpleBrick(brickX,brickY, brickWidth,brickHeight,getColor(Math.floorMod(i+j, 4))));
             }
         }

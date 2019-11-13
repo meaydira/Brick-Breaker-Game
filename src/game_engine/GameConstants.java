@@ -22,7 +22,7 @@ public interface GameConstants {
     public static final int BALL_HEIGHT = 20;
     public static final int BALL_RIGHT_BOUND = 490;
 
-    public static final int BALL_X_START = 120;
+    public static final int BALL_X_START = 150;
     public static final int BALL_Y_START = 350;
 
 
@@ -40,8 +40,6 @@ public interface GameConstants {
     public static final int PADDLE_MAX = 140;
 
     //Bricks
-    public static final int BRICK_WIDTH = 50;
-    public static final int BRICK_HEIGHT = 25;
     public static final int MAX_BRICKS = 50;
     public static final int NO_BRICKS = 0;
 

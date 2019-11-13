@@ -10,12 +10,13 @@ import model.balls.Ball;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Game implements Runnable, GameConstants {
 
-    private  int i = 0;
+    private int i = 0;
     private String playerName = "Enes";
     private Player player;
     private int totalBricks = 48;
@@ -28,6 +29,8 @@ public class Game implements Runnable, GameConstants {
     private Brickfactory brickFactory;
     private AlienFactory alienFactory;
 
+    private long verticalDirectionChangeLock =0 ;
+    private long horizontalDirectionChangeLock =0 ;
     private Map map;
 
 
@@ -45,7 +48,7 @@ public class Game implements Runnable, GameConstants {
         playerName = JOptionPane.showInputDialog("Please enter your name:", "Brick Breaker, Corporate Slaves");
         ball = new Ball();
         paddle = new Paddle();
-        map = new MapGenerator().generateMap(6,12);
+        map = new MapGenerator().generateMap(6, 12);
         //TODO: addKeyListener
         //addKeyListener(new BoardObserver());
         //this.balls = new ArrayList<Ball>();
@@ -67,7 +70,7 @@ public class Game implements Runnable, GameConstants {
             getPaddle().setXpos(310);
             setScore(0);
             setTotalBricks(21);
-            map = new MapGenerator().generateMap(6,12);
+            map = new MapGenerator().generateMap(6, 12);
         }
         running = true;
 
@@ -76,45 +79,40 @@ public class Game implements Runnable, GameConstants {
     public void runPhysics() {
 
         //If the innner loop needs to break due to collusion, it will break to this point
+
+        Rectangle2D ball;
+        Rectangle brickRect;
         outher_escape:
-      for(Brick b : map.getBricks()) {
+        for (Brick b : map.getBricks()) {
+            ball = new Rectangle2D.Double(this.ball.getX(), this.ball.getY(), 20, 20);
+            brickRect = new Rectangle(b.getX(), b.getY(), b.getWidth(), b.getHeight());
 
+            if (!b.isDestroyed() && ball.intersects(brickRect)) {
+                b.setDestroyed(true);
 
-
-
-                    Ellipse2D ball = new Ellipse2D.Double(this.ball.getX(), this.ball.getY(), 20, 20);
-                    Rectangle brickRect = new Rectangle(b.getX(), b.getY(), b.getWidth(),b.getHeight());
-
-                    if (!b.isDestroyed()&&ball.intersects(brickRect)) {
-                        System.out.println("intersection detected "+(++i));
-                        b.setDestroyed(true);
-
-                        setScore(getScore() + 5);
-                        totalBricks--;
-                        // when ball hit right or left of brick
-                        if (getBall().getX() + 19 <= brickRect.getX() || getBall().getX() + 1 >= brickRect.getX()+ brickRect.getWidth()) {
-                            getBall().setXDir(-getBall().getXDir());
-                        }
-                        // when ball hits top or bottom of brick
-                        else {
-                            getBall().setYDir(-getBall().getYDir());
-                        }
-                        break outher_escape;
-                    }
+                setScore(getScore() + 5);
+                totalBricks--;
+                // when ball hit right or left of brick
+                if (getBall().getX() + 19 <= brickRect.getX() || getBall().getX() + 1 >= brickRect.getX() + brickRect.getWidth()) {
+                    if(System.currentTimeMillis()>horizontalDirectionChangeLock + 100) //This lock prevent the ball from oscillating
+                    {getBall().setXDir(-getBall().getXDir());
+                    horizontalDirectionChangeLock =System.currentTimeMillis();}
                 }
+                // when ball hits top or bottom of brick
+                else {
+                    if(System.currentTimeMillis()>horizontalDirectionChangeLock + 100)  //This lock prevent the ball from oscillating
+                    {getBall().setYDir(-getBall().getYDir());
+                    horizontalDirectionChangeLock = System.currentTimeMillis();}
+
+                }
+                break outher_escape;
             }
-
-
-
-
+        }
+    }
 
 
     public String getPlayerName() {
         return playerName;
-    }
-
-    public MapGenerator getMap() {
-        return map;
     }
 
     public Ball getBall() {
@@ -177,10 +175,11 @@ public class Game implements Runnable, GameConstants {
         getPaddle().moveLeft();
     }
 
-    public void changePaddleAnglePositively(){
+    public void changePaddleAnglePositively() {
 //        getPaddle().rotatePositive();
     }
-    public void changePaddleAngleNegatively(){
+
+    public void changePaddleAngleNegatively() {
 //        getPaddle().rotateNegtive();
     }
 
@@ -188,9 +187,10 @@ public class Game implements Runnable, GameConstants {
         running = false;
     }
 
-    public Map getMap(){
+    public Map getMap() {
         return this.map;
     }
+
     @Override
     public void run() {
 
@@ -282,8 +282,6 @@ public class Game implements Runnable, GameConstants {
 
 
 }
-
-
 
 
 //        if (playerName.toUpperCase().equals("WARRIS") || playerName.toUpperCase().equals("WARRIS GILL") || playerName.toUpperCase().equals("ATİLLA") || playerName.toUpperCase().equals("ATİLLA GÜRSOY")) {

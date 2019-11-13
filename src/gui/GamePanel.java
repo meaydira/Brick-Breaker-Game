@@ -19,7 +19,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
     private static GamePanel game_instance = null;
     private Game currentGame;
     private Timer timer;
-    private int delay = 8;
+    private int delay = 2;
     private JButton pauseButton;
 
     public static GamePanel getInstance(Game game) {
@@ -57,20 +57,17 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
 
         // drawing map
 
-        for(Brick b : currentGame.getMap().getBricks())
-        {
+        for (Brick b : currentGame.getMap().getBricks()) {
 
-                if(!b.isDestroyed()){
-                    g.setColor(b.getColor());
-                    g.fillRect(b.getX(), b.getY(), b.getWidth(), b.getHeight());
-                }
+            if (!b.isDestroyed()) {
+                g.setColor(b.getColor());
+                g.fillRect(b.getX(), b.getY(), b.getWidth(), b.getHeight());
+            }
+            // this is just to show separate brick, game can still run without it
 
-
-                // this is just to show separate brick, game can still run without it
-
-        //    g.setStroke(new BasicStroke(3));
-         //   g.setColor(Color.black);
-         //   g.drawRect(b.getX(), b.getY(), b.getWidth(), b.getHeight());
+//               g.setStroke(new BasicStroke(3));
+               g.setColor(Color.black);
+               g.drawRect(b.getX(), b.getY(), b.getWidth(), b.getHeight());
 
 
         }
@@ -186,6 +183,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
     public void actionPerformed(ActionEvent e) {
 
         timer.start();
+        boolean directionLock =false;
         if (currentGame.isRunning()) {
             // check map collision with the ball
             currentGame.runPhysics();
