@@ -10,6 +10,7 @@ public abstract class Brick  extends GameObject {
     boolean isVisible;
     private int lives;
     private int hits;
+    private boolean isDestroyed;
 
     public Brick(int xCoordinate, int yCoordinate, int brick_width, int brick_height, Color brick_color){
         super(xCoordinate, yCoordinate, brick_width,brick_height,brick_color);
@@ -34,6 +35,14 @@ public abstract class Brick  extends GameObject {
         if(hits == lives){
             this.setVisible(false);
         }
+    }
+
+    public boolean isDestroyed() {
+        return isDestroyed;
+    }
+
+    public void setDestroyed(boolean destroyed) {
+        isDestroyed = destroyed;
     }
 
     public int getLives() {

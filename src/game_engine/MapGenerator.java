@@ -1,46 +1,45 @@
 package game_engine;
 
+import model.bricks.SimpleBrick;
+
 import java.awt.*;
 
 public class MapGenerator implements GameConstants
 {
-    public int map[][];
-    public int brickWidth;
-    public int brickHeight;
+    private int col;
+    private int row;
 
-    public MapGenerator (int row, int col)
+
+
+    public MapGenerator ()
     {
-        map = new int[row][col];
-        for(int i = 0; i<map.length; i++)
+
+    }
+
+
+    public Map generateMap(int row, int col){
+
+        this.col = col;
+        this.row = row;
+
+        int brickWidth = 540/col;
+        int brickHeight = 150/row;
+        Map  map= new Map();
+        for(int i = 0; i<row; i++)
         {
-            for(int j =0; j<map[0].length; j++)
+            for(int j =0; j< col; j++)
             {
-                map[i][j] = 1;
+                int brickX = j * brickWidth + 70;
+                int brickY = i * brickHeight + 50;
+                map.addBrick(new SimpleBrick(brickX,brickY, brickWidth,brickHeight,getColor(Math.floorMod(i+j, 4))));
             }
         }
-
-        brickWidth = 540/col;
-        brickHeight = 150/row;
+        return map;
     }
 
     public void draw(Graphics2D g)
     {
-        for(int i = 0; i<map.length; i++)
-        {
-            for(int j =0; j<map[0].length; j++)
-            {
-                if(map[i][j] > 0)
-                {
-                    g.setColor(getColor(Math.floorMod(i+j, 4)));
-                    g.fillRect(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight);
 
-                    // this is just to show separate brick, game can still run without it
-                    g.setStroke(new BasicStroke(3));
-                    g.setColor(Color.black);
-                    g.drawRect(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight);
-                }
-            }
-        }
     }
 
     public Color getColor(int x){
@@ -53,8 +52,5 @@ public class MapGenerator implements GameConstants
         }
     }
 
-    public void setBrickValue(int value, int row, int col)
-    {
-        map[row][col] = value;
+
     }
-}
