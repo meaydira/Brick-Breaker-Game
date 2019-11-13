@@ -26,7 +26,7 @@ public abstract class Brick  extends GameObject {
             g.fillRect(x_coordinate, y_coordinate, width, height);
         }
     }
-
+    //TODO : We need to implement an isDestroyed boolean.
 
     public void hasBeenHit(){
 

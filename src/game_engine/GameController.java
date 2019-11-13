@@ -22,10 +22,14 @@ public class GameController implements GameConstants {
             controller_instance.renderer = Renderer.getInstance();
             controller_instance.auth = Authentication.getInstance();
             Redirection rd = controller_instance.renderer.getMainMenu().getDesiredPage();
-            if (controller_instance.authenticated(controller_instance.redirectDesiredPage(rd))){
+            Player player_to_authenticate =  controller_instance.redirectDesiredPage(rd);
+
+            boolean authentication_succesfull =controller_instance.authenticated(player_to_authenticate);
+            if (authentication_succesfull){
                 controller_instance.playGame();
             }else{
                 controller_instance.showErrorPanel();
+                System.exit(0);
             }
             return controller_instance;
         }else{

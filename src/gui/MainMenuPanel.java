@@ -14,7 +14,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 
-
 public class MainMenuPanel extends JFrame implements GameConstants {
 
     private Redirection desiredPage;
@@ -26,8 +25,8 @@ public class MainMenuPanel extends JFrame implements GameConstants {
     JLabel imageContainer;
     private static MainMenuPanel mainmenu_instance = null;
 
-    public static MainMenuPanel getInstance(){
-        if(mainmenu_instance == null){
+    public static MainMenuPanel getInstance() {
+        if (mainmenu_instance == null) {
             mainmenu_instance = new MainMenuPanel();
             mainmenu_instance.setTitle("Bricking Bad");
             mainmenu_instance.setLayout(null);
@@ -36,7 +35,7 @@ public class MainMenuPanel extends JFrame implements GameConstants {
             mainmenu_instance.registerButton = new JButton("Register Game");
             mainmenu_instance.initializeMenu();
             return mainmenu_instance;
-        }else{
+        } else {
             return mainmenu_instance;
         }
 
@@ -98,7 +97,8 @@ public class MainMenuPanel extends JFrame implements GameConstants {
 
 
     }
-    public void addListeners(){
+
+    public void addListeners() {
         playGameButton.addActionListener(new playGameButtonHandler());
         registerButton.addActionListener(new registerGameButtonHandler());
         loginButton.addActionListener(new loginGameButtonHandler());

@@ -6,9 +6,10 @@ import gui.MainMenuPanel;
 import model2.Paddle;
 import model.balls.Ball;
 import model.balls.SimpleBall;
+import game_engine.MapGenerator;
 
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -17,10 +18,13 @@ import static game_engine.GameConstants.*;
 
 public class Game implements Runnable, GameConstants {
 
+
     private String playerName = "Enes";
     private Player player;
     private int totalBricks = 48;
     private Ball ball;
+
+
     private Paddle paddle;
     private GameStatus status;
     private boolean running = false;
@@ -30,7 +34,14 @@ public class Game implements Runnable, GameConstants {
     private MainMenuPanel initiater;
     private Brickfactory brickFactory;
     private AlienFactory alienFactory;
-    private Map gameMap;
+
+    public MapGenerator getMap() {
+        return map;
+    }
+
+    private MapGenerator map;
+
+
     private int score = 0, lives = MAX_LIVES, bricksLeft = MAX_BRICKS, waitTime = 10, xSpeed, withSound, level = 1;
     //  private String playerName;
     private AtomicBoolean isPaused = new AtomicBoolean(true);
@@ -45,7 +56,7 @@ public class Game implements Runnable, GameConstants {
         playerName = JOptionPane.showInputDialog("Please enter your name:", "Brick Breaker, Corporate Slaves");
         ball = new Ball();
         paddle = new Paddle();
-
+        map = new MapGenerator(6, 12);
         //TODO: addKeyListener
         //addKeyListener(new BoardObserver());
         //this.balls = new ArrayList<Ball>();
@@ -54,6 +65,63 @@ public class Game implements Runnable, GameConstants {
         //Get the player's name
 
     }
+
+    public void reinitialize() {
+        if (status == GameStatus.Lost) {
+            status = GameStatus.Undecided;
+            getBall().setX(120);
+            getBall().setY(530);
+
+            getBall().setXDir(-1);
+            getBall().setYDir(-2);
+
+            getPaddle().setXpos(310);
+            setScore(0);
+            setTotalBricks(21);
+            map = new MapGenerator(6, 12);
+        }
+        running = true;
+
+    }
+
+    public void runPhysics() {
+
+        //If the innner loop needs to break due to collusion, it will break to this point
+        outher_escape:
+        for (int i = 0; i < map.map.length; i++) {   //TODO :
+            for (int j = 0; j < map.map[0].length; j++) {
+                if (map.map[i][j] > 0) {
+                    //scores++;
+                    int brickX = j * map.brickWidth + 70;
+                    int brickY = i * map.brickHeight + 50;
+                    int brickWidth = map.brickWidth;
+                    int brickHeight = map.brickHeight;
+
+                    Rectangle rect = new Rectangle(brickX, brickY, brickWidth, brickHeight);
+                    Rectangle ballRect = new Rectangle(ball.getX(), ball.getY(), 20, 20);
+                    Rectangle brickRect = rect;
+
+                    if (ballRect.intersects(brickRect)) {
+                        map.setBrickValue(0, i, j);
+                        setScore(getScore() + 5);
+                        setTotalBricks(getTotalBricks() - 1);
+                        // when ball hit right or left of brick
+                        if (getBall().getX() + 19 <= brickRect.x || getBall().getX() + 1 >= brickRect.x + brickRect.width) {
+                            getBall().setXDir(-getBall().getXDir());
+                        }
+                        // when ball hits top or bottom of brick
+                        else {
+                            getBall().setYDir(-getBall().getYDir());
+                        }
+                        break outher_escape;
+                    }
+                }
+            }
+        }
+
+
+    }
+
 
     public String getPlayerName() {
         return playerName;
@@ -69,6 +137,14 @@ public class Game implements Runnable, GameConstants {
 
     public boolean isRunning() {
         return running;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
     //Mutator methods
@@ -114,20 +190,19 @@ public class Game implements Runnable, GameConstants {
         return status;
     }
 
-    public void moveRight(){
-        running =true;
+    public void moveRight() {
+        running = true;
         getPaddle().moveRight();
     }
 
-    public void moveLeft(){
-        running =true;
+    public void moveLeft() {
+        running = true;
         getPaddle().moveLeft();
     }
 
-    public void setRunning(boolean running) {
-        this.running = running;
+    public void switchMode() {
+        running = false;
     }
-
     @Override
     public void run() {
 
@@ -156,7 +231,7 @@ public class Game implements Runnable, GameConstants {
             //squashes with the paddle
             if (new Rectangle(getBall().getX(), getBall().getY(), 20, 20).intersects(new Rectangle(getPaddle().getXpos(), PADDLE_Y_START, 30, 8))) {
                 getBall().setYDir(-getBall().getYDir());
-                getBall().setYDir(-2);
+                getBall().setXDir(-2);
             } else if (new Rectangle(getBall().getX(), getBall().getY(), 20, 20).intersects(new Rectangle(getPaddle().getXpos() + 120, PADDLE_Y_START, 30, 8))) {
                 getBall().setYDir(-getBall().getYDir());
                 getBall().setXDir(+2);
@@ -181,10 +256,12 @@ public class Game implements Runnable, GameConstants {
             }
 
             //move the ball
-            if(isRunning()) {
+
+            if (isRunning()) {
                 getBall().setX(getBall().getX() + getBall().getXDir());
                 getBall().setY(getBall().getY() + getBall().getYDir());
             }
+
 
             //Makes sure speed doesnt get too fast/slow
 //            if (Math.abs(xSpeed) > 1) {
