@@ -12,6 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Path2D;
 
 public class GamePanel extends JPanel implements GameConstants, KeyListener, ActionListener {
 
@@ -51,100 +53,107 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         screenSize.getHeight();
         screenSize.getWidth();
-
-        fillGameBackground(g);
-        fillGamePanelBackground(g);
+        Graphics2D g2d = (Graphics2D) g;
+        fillGameBackground(g2d);
+        fillGamePanelBackground(g2d);
 
         // drawing map
 
         for (Brick b : currentGame.getMap().getBricks()) {
 
             if (!b.isDestroyed()) {
-                g.setColor(b.getColor());
-                g.fillRect(b.getX(), b.getY(), b.getWidth(), b.getHeight());
+                g2d.setColor(b.getColor());
+                g2d.fillRect(b.getX(), b.getY(), b.getWidth(), b.getHeight());
             }
-            // this is just to show separate brick, game can still run without it
+//          this is just to show separate brick, game can still run without it
 
-//               g.setStroke(new BasicStroke(3));
-               g.setColor(Color.black);
-               g.drawRect(b.getX(), b.getY(), b.getWidth(), b.getHeight());
+            g2d.setColor(Color.black);
+            g2d.drawRect(b.getX(), b.getY(), b.getWidth(), b.getHeight());
 
 
         }
 
         g.setColor(Color.white);
-        g.fillRect(0, 0, 3, 592);
-        g.fillRect(0, 0, 692, 3);
-        g.fillRect(691, 0, 3, 592);
+        g2d.fillRect(0, 0, 3, 592);
+        g2d.fillRect(0, 0, 692, 3);
+        g2d.fillRect(691, 0, 3, 592);
 
         // the scores
-        drawScores(g, 25, "Score : ", 700, 30, Color.BLACK);
+        drawScores(g2d, 25, "Score : ", 700, 30, Color.BLACK);
 
         //help sign
         String action = (currentGame.isRunning()) ? "Pause" : "Continue";
-        drawText(g, 14, "Press Enter to " + action, 700, PADDLE_Y_START, Color.BLACK);
+        drawText(g2d, 14, "Press Enter to " + action, 700, PADDLE_Y_START, Color.BLACK);
 
         // the paddle
-        drawPaddle(g);
+        drawPaddle(g2d);
 
         // the ball
-        drawBall(g);
+        drawBall(g2d);
 
         // when you won the game
         if (currentGame.getStatus() == GameStatus.Won) {
-            drawText(g, 30, "You Won", 260, 300, Color.white);
-            drawText(g, 20, "Press (Enter) to Restart", 230, 380, Color.white);
+            drawText(g2d, 30, "You Won", 260, 300, Color.white);
+            drawText(g2d, 20, "Press (Enter) to Restart", 230, 380, Color.white);
         }
 
         // when you lose the game
         if (currentGame.getStatus() == GameStatus.Lost) {
-            showGameOverSign(g);
-            drawText(g, 20, "Press (Enter) to Restart", 230, 380, Color.white);
+            showGameOverSign(g2d);
+            drawText(g2d, 20, "Press (Enter) to Restart", 230, 380, Color.white);
         }
 
         g.dispose();
 
     }
 
-    private void drawText(Graphics g, int fontSize, String s, int x, int y, Color color) {
-        g.setColor(color);
-        g.setFont(new Font("serif", Font.BOLD, fontSize));
-        g.drawString(s, x, y);
+    private void drawText(Graphics2D g2d, int fontSize, String s, int x, int y, Color color) {
+        g2d.setColor(color);
+        g2d.setFont(new Font("serif", Font.BOLD, fontSize));
+        g2d.drawString(s, x, y);
     }
 
-    private void fillGameBackground(Graphics g) {
-        g.setColor(Color.black);
-        g.fillRect(1, 1, 692, 592);
+    private void fillGameBackground(Graphics2D g2d) {
+        g2d.setColor(Color.black);
+        g2d.fill(new Rectangle(1, 1, 692, 592));
     }
 
-    private void fillGamePanelBackground(Graphics g) {
-        g.setColor(Color.white);
-        g.fillRect(693, 1, 899, 592);
+    private void fillGamePanelBackground(Graphics2D g2d) {
+        g2d.setColor(Color.white);
+        g2d.fillRect(693, 1, 899, 592);
     }
 
-    private void drawScores(Graphics g, int fontsize, String text, int x, int y, Color color) {
-        drawText(g, fontsize, text + currentGame.getScore(), x, y, color);
+    private void drawScores(Graphics2D g2d, int fontsize, String text, int x, int y, Color color) {
+        drawText(g2d, fontsize, text + currentGame.getScore(), x, y, color);
     }
 
-    private void showGameOverSign(Graphics g) {
-        drawText(g, 25, "Game Over", 290, 350, Color.white);
+    private void showGameOverSign(Graphics2D g2d) {
+        drawText(g2d, 25, "Game Over", 290, 350, Color.white);
     }
 
-    private void drawPaddle(Graphics g) {
-        g.setColor(Color.yellow);
-        g.fillRect(currentGame.getPaddle().getXpos(), PADDLE_Y_START, currentGame.getPaddle().getWidth(), PADDLE_HEIGHT);
+    private void drawPaddle(Graphics2D g2d) {
+
+        g2d.setColor(Color.yellow);
+        Rectangle paddleRechtangle = new Rectangle(currentGame.getPaddle().getXpos(), PADDLE_Y_START, currentGame.getPaddle().getWidth(), PADDLE_HEIGHT);
+
+        AffineTransform tx = new AffineTransform();
+        Double radianAngle = Math.toRadians(currentGame.getPaddle().getAngle());
+        int rotationCenter = (currentGame.getPaddle().getAngle() < 0) ? (currentGame.getPaddle().getXpos()) : (currentGame.getPaddle().getXpos() + currentGame.getPaddle().getWidth());
+        tx.rotate(radianAngle, rotationCenter, PADDLE_Y_START);
+        Shape rotatedVersion = tx.createTransformedShape(paddleRechtangle);
+        g2d.fill(rotatedVersion);
     }
 
-    private void drawBall(Graphics g) {
-        g.setColor(currentGame.getBall().getColor());
-        g.fillOval(currentGame.getBall().getX(), currentGame.getBall().getY(), BALL_WIDTH, BALL_HEIGHT);
+    private void drawBall(Graphics2D g2d) {
+        g2d.setColor(currentGame.getBall().getColor());
+        g2d.fillOval(currentGame.getBall().getX(), currentGame.getBall().getY(), BALL_WIDTH, BALL_HEIGHT);
     }
 
-    private void drawBrickBackground(Graphics g) {
-        g.setColor(Color.white);
-        g.fillRect(0, 0, 3, 592);
-        g.fillRect(0, 0, 692, 3);
-        g.fillRect(691, 0, 3, 592);
+    private void drawBrickBackground(Graphics2D g2d) {
+        g2d.setColor(Color.white);
+        g2d.fillRect(0, 0, 3, 592);
+        g2d.fillRect(0, 0, 692, 3);
+        g2d.fillRect(691, 0, 3, 592);
     }
 
     public void keyPressed(KeyEvent e) {
@@ -165,10 +174,10 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
             }
         }
         if (e.getKeyCode() == KeyEvent.VK_A) {
-            //change paddle angle negatively
+            currentGame.getPaddle().rotateNegative();
         }
         if (e.getKeyCode() == KeyEvent.VK_D) {
-            //change paddle angle positively
+            currentGame.getPaddle().rotatePositive();
         }
 
     }
@@ -183,7 +192,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
     public void actionPerformed(ActionEvent e) {
 
         timer.start();
-        boolean directionLock =false;
+        boolean directionLock = false;
         if (currentGame.isRunning()) {
             // check map collision with the ball
             currentGame.runPhysics();

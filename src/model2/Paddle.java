@@ -30,12 +30,12 @@ public class Paddle {
     }
 
     public void rotatePositive() {
-        if (this.angle <= 45)
+        if (this.angle < 45)
             this.angle += 5;
     }
 
     public void rotateNegative() {
-        if (this.angle >= -45)
+        if (this.angle > -45)
             this.angle -= 5;
     }
 
