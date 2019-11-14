@@ -92,13 +92,13 @@ public class Game implements Runnable, GameConstants {
 
                 setScore(getScore() + 5);
                 totalBricks--;
-                // when ball hit right or left of brick
+                // when ball hits top or bottom of brick
                 if (getBall().getY() + 20 <= brickRect.getY() + 2 || getBall().getY() >= brickRect.getY() + brickRect.getHeight()-2 ) {
                     if(System.currentTimeMillis()>verticalDirectionChangeLock + 50)  //This lock prevent the ball from oscillating
                     {getBall().setYDir(-getBall().getYDir());
                         verticalDirectionChangeLock = System.currentTimeMillis();}
                 }
-                // when ball hits top or bottom of brick
+                // when ball hit right or left of brick
                 else {
                     if(System.currentTimeMillis()>horizontalDirectionChangeLock + 50) //This lock prevent the ball from oscillating
                     {getBall().setXDir(-getBall().getXDir());
