@@ -6,7 +6,7 @@ public class Paddle {
     private int width;
     private int Xpos;
     private int Ypos;  //may be unneccessary
-    private int angle;
+    private double angle;
 
 
     public int getWidth() {
@@ -21,12 +21,22 @@ public class Paddle {
         Xpos = xpos;
     }
 
-    public int getAngle() {
+    public double getAngle() {
         return angle;
     }
 
     public void setAngle(int angle) {
         this.angle = angle;
+    }
+
+    public void rotatePositive() {
+        if (this.angle < 45)
+            this.angle += 5;
+    }
+
+    public void rotateNegative() {
+        if (this.angle > -45)
+            this.angle -= 5;
     }
 
     public void moveRight() {

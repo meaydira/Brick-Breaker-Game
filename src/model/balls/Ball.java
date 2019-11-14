@@ -8,6 +8,7 @@ public class Ball extends GameObject implements GameConstants{
 
     private int xDir = BALL_X_DIRECTION, yDir = BALL_Y_DIRECTION;
 
+
     public Ball() {
         super(BALL_X_START, BALL_Y_START, BALL_WIDTH, BALL_HEIGHT, BALL_COLOR);
     }
@@ -58,4 +59,7 @@ public class Ball extends GameObject implements GameConstants{
         return super.y_coordinate;
     }
 
+    public double getAngle(){
+        return Math.atan((double)yDir/xDir);
+    }
 }
