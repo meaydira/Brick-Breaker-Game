@@ -34,7 +34,7 @@ public class Game implements Runnable, GameConstants {
     private Map map;
 
 
-    private int score = 0, lives = MAX_LIVES, bricksLeft = MAX_BRICKS, waitTime = 10, xSpeed, withSound, level = 1;
+    private int score = 0, lives = MAX_LIVES, bricksLeft = MAX_BRICKS, waitTime = 20, xSpeed, withSound, level = 1;
 
     //  private String playerName;
     private AtomicBoolean isPaused = new AtomicBoolean(true);
@@ -92,18 +92,17 @@ public class Game implements Runnable, GameConstants {
 
                 setScore(getScore() + 5);
                 totalBricks--;
-                // when ball hit right or left of brick
-                if (getBall().getX() + 19 <= brickRect.getX() || getBall().getX() + 1 >= brickRect.getX() + brickRect.getWidth()) {
-                    if(System.currentTimeMillis()>horizontalDirectionChangeLock + 100) //This lock prevent the ball from oscillating
-                    {getBall().setXDir(-getBall().getXDir());
-                    horizontalDirectionChangeLock =System.currentTimeMillis();}
-                }
                 // when ball hits top or bottom of brick
-                else {
-                    if(System.currentTimeMillis()>horizontalDirectionChangeLock + 100)  //This lock prevent the ball from oscillating
+                if (getBall().getY() + 20 <= brickRect.getY() + 2 || getBall().getY() >= brickRect.getY() + brickRect.getHeight()-2 ) {
+                    if(System.currentTimeMillis()>verticalDirectionChangeLock + 50)  //This lock prevent the ball from oscillating
                     {getBall().setYDir(-getBall().getYDir());
-                    horizontalDirectionChangeLock = System.currentTimeMillis();}
-
+                        verticalDirectionChangeLock = System.currentTimeMillis();}
+                }
+                // when ball hit right or left of brick
+                else {
+                    if(System.currentTimeMillis()>horizontalDirectionChangeLock + 50) //This lock prevent the ball from oscillating
+                    {getBall().setXDir(-getBall().getXDir());
+                        horizontalDirectionChangeLock =System.currentTimeMillis();}
                 }
                 break outher_escape;
             }
