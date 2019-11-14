@@ -175,11 +175,11 @@ public class Game implements Runnable, GameConstants {
     }
 
     public void changePaddleAnglePositively() {
-//        getPaddle().rotatePositive();
+        getPaddle().rotatePositive();
     }
 
     public void changePaddleAngleNegatively() {
-//        getPaddle().rotateNegtive();
+        getPaddle().rotateNegative();
     }
 
     public void switchMode() {

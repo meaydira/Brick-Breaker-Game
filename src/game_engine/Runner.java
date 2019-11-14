@@ -9,6 +9,7 @@ public class Runner{
         GameController gameController = GameController.getInstance();
         //System.exit(0);
         //TODO: We must enable the above line when we need to finish the game with a button.
+
     }
 
 }
