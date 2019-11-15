@@ -38,8 +38,9 @@ public class GameController implements GameConstants {
     }
 
     public boolean authenticated(Player player){
-     //   if(player == null){return false;}
+        if(player == null){return false;}
         //TODO: Authentication will be implemented.
+
         this.player = player;
         return true;
     }
@@ -62,8 +63,8 @@ public class GameController implements GameConstants {
         }
         else if (rd == Redirection.loginPage) {
             LoginPanel lp = renderer.getLoginPanel();
-            //auth.loginUser(lp.getUsername(),lp.getPassword());
-            return player;
+            return auth.loginUser(lp.getUsername(),lp.getPassword());
+
         }
 
         else if (rd == Redirection.registerPage) {
