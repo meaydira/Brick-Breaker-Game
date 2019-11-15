@@ -5,6 +5,7 @@ import game_engine.GameConstants;
 import game_engine.GameStatus;
 import game_engine.MapGenerator;
 import model.bricks.Brick;
+import model.bricks.MineBrick;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +14,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Path2D;
 
 public class GamePanel extends JPanel implements GameConstants, KeyListener, ActionListener {
 
@@ -60,23 +60,18 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         // drawing map
 
         for (Brick b : currentGame.getMap().getBricks()) {
-
             if (!b.isDestroyed()) {
-                g2d.setColor(b.getColor());
-                g2d.fillRect(b.getX(), b.getY(), b.getWidth(), b.getHeight());
+                if (b.getClass().getName() == "model.bricks.MineBrick") {
+                    drawMineBrick(g2d, b.getColor(), b.getX(), b.getY(), b.getWidth(), b.getHeight());
+                } else if (b.getClass().getName() == "model.bricks.HalfMetalBrick") {
+                    drawHalfMetal(g2d, b.getColor(), b.getX(), b.getY(), b.getWidth(), b.getHeight());
+                } else {
+                    drawSimpleBrick(g2d, b.getColor(), b.getX(), b.getY(), b.getWidth(), b.getHeight());
+                }
             }
-//          this is just to show separate brick, game can still run without it
-
-            g2d.setColor(Color.black);
-            g2d.drawRect(b.getX(), b.getY(), b.getWidth(), b.getHeight());
-
-
         }
 
-        g.setColor(Color.white);
-        g2d.fillRect(0, 0, 3, 592);
-        g2d.fillRect(0, 0, 692, 3);
-        g2d.fillRect(691, 0, 3, 592);
+        drawBorder(g2d);
 
         // the scores
         drawScores(g2d, 25, "Score : ", 700, 30, Color.BLACK);
@@ -105,6 +100,30 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
 
         g.dispose();
 
+    }
+
+    private void drawSimpleBrick(Graphics2D g2d, Color color, int x, int y, int width, int height) {
+        g2d.setColor(color);
+        g2d.fillRect(x, y, width, height);
+    }
+
+    private void drawMineBrick(Graphics2D g2d, Color color, int x, int y, int width, int height) {
+        g2d.setColor(color);
+        g2d.fillOval(x, y, width, height);
+    }
+
+    private void drawHalfMetal(Graphics2D g2d, Color color, int x, int y, int width, int height) {
+        g2d.setColor(color);
+        g2d.fillRect(x, y, width, height - 5);
+        g2d.setColor(Color.darkGray);
+        g2d.fillRect(x , y+ height - 8, width, 5);
+    }
+
+    private void drawBorder(Graphics2D g2d) {
+        Stroke dashed = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
+        g2d.setColor(Color.white);
+        g2d.setStroke(dashed);
+        g2d.drawLine(0, 340, 692, 340);
     }
 
     private void drawText(Graphics2D g2d, int fontSize, String s, int x, int y, Color color) {
@@ -147,13 +166,6 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
     private void drawBall(Graphics2D g2d) {
         g2d.setColor(currentGame.getBall().getColor());
         g2d.fillOval(currentGame.getBall().getX(), currentGame.getBall().getY(), BALL_WIDTH, BALL_HEIGHT);
-    }
-
-    private void drawBrickBackground(Graphics2D g2d) {
-        g2d.setColor(Color.white);
-        g2d.fillRect(0, 0, 3, 592);
-        g2d.fillRect(0, 0, 692, 3);
-        g2d.fillRect(691, 0, 3, 592);
     }
 
     public void keyPressed(KeyEvent e) {
