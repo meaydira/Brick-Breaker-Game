@@ -2,33 +2,29 @@ package game_engine;
 
 import factories.AlienFactory;
 import factories.Brickfactory;
-import gui.MainMenuPanel;
 import javafx.scene.shape.Circle;
+import model.balls.Ball;
 import model.bricks.Brick;
 import model2.Paddle;
-import model.balls.Ball;
 
-import java.awt.*;
 import javax.swing.*;
-import java.awt.geom.Ellipse2D;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Game implements Runnable, GameConstants {
 
     private int i = 0;
-    private String playerName = "Enes";
+    private String playerName = "John Doe";
     private Player player;
-    private int totalBricks = 48;
+    private int totalBricks = 48;  //TODO: should be initialized by building mode
     private Ball ball;
 
     private Paddle paddle;
     private GameStatus status;
     private boolean running = false;
 
-    private Brickfactory brickFactory;
-    private AlienFactory alienFactory;
+    private Brickfactory brickFactory;  //unused ?  //TODO: implement or delete
+    private AlienFactory alienFactory;  //these should be  //TODO: implement or delete
 
     private long verticalDirectionChangeLock = 0;
     private long horizontalDirectionChangeLock = 0;
@@ -36,28 +32,23 @@ public class Game implements Runnable, GameConstants {
     private Map map;
 
 
-    private int score = 0, lives = MAX_LIVES, bricksLeft = MAX_BRICKS, waitTime = 10, xSpeed, withSound, level = 1;
+    private int score = 0, lives = MAX_LIVES, bricksLeft = MAX_BRICKS, waitTime = 10;
 
-    //  private String playerName;
-    private AtomicBoolean isPaused = new AtomicBoolean(true);
-    private Board gameBoard;
+    private Board gameBoard;  // TODO: implement or delete
 
     public Game(Player player) {
+ playerName = JOptionPane.showInputDialog("Please enter your name:", "Brick Breaker, Corporate Slaves");
+ //if (playerName.toUpperCase().equals("WARRIS") || playerName.toUpperCase().equals("WARRIS GILL") || playerName.toUpperCase().equals("ATİLLA") || playerName.toUpperCase().equals("ATİLLA GÜRSOY")) {
+ //score += 1000;
+ //gameP.showMessage("What a nice nime ! You unlocked the secret 1,000 point bonus! Have fun!", "1,000 Points"); }
 
 
-        //TODO:initialize Map
-
-        playerName = JOptionPane.showInputDialog("Please enter your name:", "Brick Breaker, Corporate Slaves");
+ this.player = player;
         ball = new Ball();
         paddle = new Paddle();
         map = new MapGenerator().generateMap(6, 12);
         hitLock = System.currentTimeMillis();
-        //TODO: addKeyListener
-        //addKeyListener(new BoardObserver());
-        //this.balls = new ArrayList<Ball>();
-        //added main ball to screen
-        //balls.add(new SimpleBall(BALL_X_START, BALL_Y_START, BALL_WIDTH, BALL_HEIGHT, Color.BLACK));
-        //Get the player's name
+
 
     }
 
@@ -268,29 +259,6 @@ public class Game implements Runnable, GameConstants {
                 getBall().setX(getBallX() + getBallXDir());
                 getBall().setY(getBallY() + getBallYDir());
             }
-
-
-            //Makes sure speed doesnt get too fast/slow
-//            if (Math.abs(xSpeed) > 1) {
-//                if (xSpeed > 1) {
-//                    xSpeed--;
-//                }
-//                if (xSpeed < 1) {
-//                    xSpeed++;
-//                }
-//            }
-//
-//            //TODO: implement below functions
-//            //checkPaddleCollusion(balls);
-//            //checkWallCollusion(balls);
-//            //checkBrickCollusion(balls);
-//            //checkLives();
-//            //checkIfOut(y1);
-//            //ball.move();
-//            //dropItems();
-//            // checkItemList();
-//            // repaint();
-
             try {
                 Thread.sleep(waitTime);
             } catch (InterruptedException ie) {
@@ -303,8 +271,5 @@ public class Game implements Runnable, GameConstants {
 }
 
 
-//        if (playerName.toUpperCase().equals("WARRIS") || playerName.toUpperCase().equals("WARRIS GILL") || playerName.toUpperCase().equals("ATİLLA") || playerName.toUpperCase().equals("ATİLLA GÜRSOY")) {
-//            score += 1000;
-//            gameBoard.showMessage("What a nice nime ! You unlocked the secret 1,000 point bonus! Have fun!", "1,000 Points");
-//        }
+
 
