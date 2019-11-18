@@ -2,17 +2,18 @@ package Database;
 
 import game_engine.Player;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Database {
 
-    private ArrayList<Player> players_DB;
-    private static int count = 0;
+    //private ArrayList<Player> players_DB;
+    private DataBaseAdapter db_version= new FileManager();
     private static Database db_instance = null;
 
-    public Database(){
-        players_DB = new ArrayList<Player>();
+    public Database() {
+        //players_DB = new ArrayList<Player>();
     }
 
     public static Database getInstance(){
@@ -25,40 +26,22 @@ public class Database {
 
     }
 
-    public Player getPlayer(int id){
-        Player player = null;
-         for(Player p : players_DB){
-             if(p.getID() == id){
-                 player = p;
-             }
-         }
-
-         return player;
+    public Player getPlayer(int id)  {
+        return db_version.getPlayer(id);
     }
 
     public Player getPlayer(String username){
-        Player player = null;
-        for(Player p : players_DB){
-            if(p.getUsername() == username){
-                player = p;
-            }
-        }
-
-        return player;
+        return db_version.getPlayer(username);
     }
 
     public Player addNewPlayer(String username, String password){
-        for(Player p : players_DB){
-            if(p.getUsername().equals(username))return null;
-        }
-        Player p = new Player( count++, username,password);
-        players_DB.add(p);
-        return p;
+            return db_version.addNewPlayer(username,password);
     }
-
+    /*
     public List<Player> getPlayers(){
         return players_DB;
     }
+    */
 
 
 }
