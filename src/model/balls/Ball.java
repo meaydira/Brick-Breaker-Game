@@ -6,8 +6,21 @@ import java.awt.*;
 
 public class Ball extends GameObject implements GameConstants{
 
-    private int xDir = BALL_X_DIRECTION, yDir = BALL_Y_DIRECTION;
+    private double xDir = BALL_X_DIRECTION, yDir = BALL_Y_DIRECTION;
 
+    public double getVectorLength() {
+        return vectorLength;
+    }
+
+    private double vectorLength=Math.sqrt(xDir*xDir+yDir*yDir);
+
+    public void setAngle(double angle) {
+        this.angle = angle;
+
+        System.out.println("angle changed to: "+angle);
+    }
+
+    private double angle=Math.toDegrees(Math.atan( - (yDir/xDir)));
 
     public Ball() {
         super(BALL_X_START, BALL_Y_START, BALL_WIDTH, BALL_HEIGHT, BALL_COLOR);
@@ -17,6 +30,7 @@ public class Ball extends GameObject implements GameConstants{
     public void move() {
         x_coordinate += xDir;
         y_coordinate += yDir;
+
     }
 
     //Resets the ball to original position at center of screen
@@ -25,16 +39,33 @@ public class Ball extends GameObject implements GameConstants{
         y_coordinate = BALL_Y_START;
         xDir = 1;
         yDir = -1;
+        vectorLength=Math.sqrt(xDir*xDir+yDir*yDir);
     }
 
     //Mutator methods
-    public void setXDir(int xDir) {
+    public void setXDir(double xDir) {
         this.xDir = xDir;
+        setAngle(Math.toDegrees(Math.atan((double) -(yDir/xDir))));
+
     }
 
-    public void setYDir(int yDir) {
+    public void setYDir(double yDir) {
         this.yDir = yDir;
+        setAngle(Math.toDegrees(Math.atan((double) -(yDir/xDir))));
+
     }
+
+    public void setXDirSpecial(double xDir) {
+        this.xDir = xDir;
+
+
+    }
+    public void setYDirSpecial(double yDir) {
+        this.yDir = yDir;
+
+
+    }
+
 
     public void setX(int xCoordinate){
         super.x_coordinate = xCoordinate;
@@ -44,22 +75,31 @@ public class Ball extends GameObject implements GameConstants{
     }
 
     //Accessor methods
-    public int getXDir() {
+    public double getXDir() {
         return xDir;
     }
 
-    public int getYDir() {
+    public double getYDir() {
         return yDir;
     }
 
-    public int getX(){
+    public double getX(){
         return super.x_coordinate;
     }
-    public int getY(){
+    public double getY(){
         return super.y_coordinate;
     }
 
     public double getAngle(){
-        return Math.atan((double)yDir/xDir);
+        return this.angle;
+    }
+    public void setDirByAngle(double angle){
+        this.angle=angle;
+        xDir=vectorLength*Math.cos(Math.toRadians(angle));
+        yDir=- vectorLength*Math.sin(Math.toRadians(angle));
+
+    }
+    public void setAngleByDir(double xx,double yy){
+        setAngle(Math.toDegrees(Math.atan((double) -yy/xx)));
     }
 }
