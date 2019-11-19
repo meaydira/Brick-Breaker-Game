@@ -34,6 +34,7 @@ public class Game implements Runnable, GameConstants {
     private long verticalDirectionChangeLock = 0;
     private long horizontalDirectionChangeLock = 0;
     private long hitLock = 0;
+    private long Lock;
     private Map map;
 
 
@@ -89,7 +90,7 @@ public class Game implements Runnable, GameConstants {
         outher_escape:
         for (Brick b : map.getBricks()) {
             ball = new Rectangle2D.Double(this.ball.getX(), this.ball.getY(), 20, 20);
-            brickRect = new Rectangle(b.getX(), b.getY(), b.getWidth(), b.getHeight());
+            brickRect = new Rectangle((int) b.getX(),(int) b.getY(), b.getWidth(), b.getHeight());
 
             if (!b.isDestroyed() && ball.intersects(brickRect)) {
 
@@ -108,7 +109,7 @@ public class Game implements Runnable, GameConstants {
                         getBall().setYDir(-getBall().getYDir());
                         verticalDirectionChangeLock = System.currentTimeMillis();
                         if (b.getClass().getName() == "model.bricks.MineBrick") {
-                            Circle explosionRange = new Circle(b.getX(), b.getY(), PADDLE_WIDTH/2);
+                            Circle explosionRange = new Circle(b.getX(), b.getY(), getPaddle().getWidth()/2);
                             for (Brick brick_to_explode : map.getBricks()) {
                                 if (!brick_to_explode.isDestroyed() && explosionRange.contains(brick_to_explode.getX(), brick_to_explode.getY())) {
                                     brick_to_explode.destroyBrick();
@@ -164,19 +165,19 @@ public class Game implements Runnable, GameConstants {
     }
 
     //Accessor methods
-    public int getBallXDir() {
+    public double getBallXDir() {
         return this.ball.getXDir();
     }
 
-    public int getBallYDir() {
+    public double getBallYDir() {
         return this.ball.getYDir();
     }
 
-    public int getBallX() {
+    public double getBallX() {
         return ball.getX();
     }
 
-    public int getBallY() {
+    public double getBallY() {
         return ball.getY();
     }
 
