@@ -29,6 +29,7 @@ public class Game implements Runnable, GameConstants {
     private long verticalDirectionChangeLock = 0;
     private long horizontalDirectionChangeLock = 0;
     private long hitLock = 0;
+    private long Lock;
     private Map map;
 
 
@@ -79,7 +80,7 @@ public class Game implements Runnable, GameConstants {
         outher_escape:
         for (Brick b : map.getBricks()) {
             ball = new Rectangle2D.Double(this.ball.getX(), this.ball.getY(), 20, 20);
-            brickRect = new Rectangle(b.getX(), b.getY(), b.getWidth(), b.getHeight());
+            brickRect = new Rectangle((int) b.getX(),(int) b.getY(), b.getWidth(), b.getHeight());
 
             if (!b.isDestroyed() && ball.intersects(brickRect)) {
 
@@ -98,7 +99,7 @@ public class Game implements Runnable, GameConstants {
                         getBall().setYDir(-getBall().getYDir());
                         verticalDirectionChangeLock = System.currentTimeMillis();
                         if (b.getClass().getName() == "model.bricks.MineBrick") {
-                            Circle explosionRange = new Circle(b.getX(), b.getY(), PADDLE_WIDTH/2);
+                            Circle explosionRange = new Circle(b.getX(), b.getY(), getPaddle().getWidth()/2);
                             for (Brick brick_to_explode : map.getBricks()) {
                                 if (!brick_to_explode.isDestroyed() && explosionRange.contains(brick_to_explode.getX(), brick_to_explode.getY())) {
                                     brick_to_explode.destroyBrick();
@@ -154,19 +155,19 @@ public class Game implements Runnable, GameConstants {
     }
 
     //Accessor methods
-    public int getBallXDir() {
+    public double getBallXDir() {
         return this.ball.getXDir();
     }
 
-    public int getBallYDir() {
+    public double getBallYDir() {
         return this.ball.getYDir();
     }
 
-    public int getBallX() {
+    public double getBallX() {
         return ball.getX();
     }
 
-    public int getBallY() {
+    public double getBallY() {
         return ball.getY();
     }
 
@@ -224,24 +225,77 @@ public class Game implements Runnable, GameConstants {
             if (getPaddle().getXpos() >= 520) {
                 getPaddle().setXpos(520);
             }
+            //squashes with the paddle
+            if(getPaddle().getAngle()<0){
+                if (new Rectangle2D.Double(  (getBall().getX()), (getBall().getY()), 20, 20).intersectsLine(new Line2D.Double(
+                        getPaddle().getVirtualX(),
+                        getPaddle().getVirtualY(),
+                        getPaddle().getVirtualX()+(getPaddle().getWidth())*(Math.cos(Math.toRadians(-getPaddle().getAngle()))),
+                        getPaddle().getVirtualY()-(getPaddle().getWidth())*(Math.sin(Math.toRadians(-getPaddle().getAngle()))))))
+                {
+                    if(System.currentTimeMillis()>Lock + 100) {
+//                        System.out.println();
+//                        System.out.println("COLLISION NUMBER: "+count++);
+//
+//                        System.out.println("paddle angle while collision <0 : "+getPaddle().getAngle());
+//                        System.out.println("ball input angle "+getBall().getAngle());
+                        getBall().setAngle((180- 2 * getPaddle().getAngle() - getBall().getAngle()));
+//                        System.out.println("ball angle set to 180-2paddle-ball == "+getBall().getAngle());
+                        getBall().setYDirSpecial(-Math.abs(Math.sin(Math.toRadians(getBall().getAngle()))*getBall().getVectorLength()));
+                        getBall().setXDirSpecial(Math.cos(Math.toRadians(getBall().getAngle()))*getBall().getVectorLength());
+                        getBall().setAngleByDir(getBall().getXDir(),getBall().getYDir());
+//                        System.out.println("ball output directions: "+getBall().getXDir()+", "+getBall().getYDir());
+//                        System.out.println("ball output angle "+getBall().getAngle());
+                        Lock=System.currentTimeMillis();
+                    }
+                    //System.out.println("HIIIIT!!! angle negative");
 
+                }
+            }else if(getPaddle().getAngle()>=0){
+                if( (new Rectangle2D.Double(  (getBall().getX()),  (getBall().getY()), 20, 20))
+                        .intersectsLine(new Line2D.Double(
+                                getPaddle().getXpos()+getPaddle().getWidth()-(getPaddle().getWidth())*(Math.cos(Math.toRadians(getPaddle().getAngle()))),
+                                getPaddle().getYpos()-(getPaddle().getWidth())*(Math.sin(Math.toRadians(getPaddle().getAngle()))),
+                                getPaddle().getXpos()+(getPaddle().getWidth()),
+                                getPaddle().getYpos()  )))
+                {
+                    if(System.currentTimeMillis()>Lock + 100) {
+//                        System.out.println();
+//                        System.out.println("COLLISION NUMBER: "+count++);
+//                        System.out.println("ball input directions: "+getBall().getXDir()+", "+getBall().getYDir());
+//                        System.out.println("paddle angle while collision >=0 : "+getPaddle().getAngle());
+//                        System.out.println("ball input angle "+getBall().getAngle());
+                        getBall().setAngle((360-2 * getPaddle().getAngle() - getBall().getAngle()));
+                        getBall().setYDirSpecial(-Math.abs(Math.sin(Math.toRadians(getBall().getAngle()))*getBall().getVectorLength()));
+                        getBall().setXDirSpecial(Math.cos(Math.toRadians(getBall().getAngle()))*getBall().getVectorLength());
+                        getBall().setAngleByDir(getBall().getXDir(),getBall().getYDir());
+//                        System.out.println("ball angle set to 360-2paddle-ball == "+getBall().getAngle());
+//
+//                        System.out.println("ball output directions: "+getBall().getXDir()+", "+getBall().getYDir());
+//                        System.out.println("ball output angle "+getBall().getAngle());
+                        Lock=System.currentTimeMillis();
+                        // System.out.println("HIIIIT!!! angle positive");
+                    }
+                }
+            }
+            //end of squashes with paddle
 
             //squashes with the paddle
-            if (new Rectangle(getBall().getX(), getBall().getY(), 20, 20).intersects(new Rectangle(getPaddle().getXpos(), PADDLE_Y_START, 30, 8))) {
-                getBall().setYDir(-getBall().getYDir());
-                getBall().setXDir(-2);
-            } else if (new Rectangle(getBall().getX(), getBall().getY(), 20, 20).intersects(new Rectangle(getPaddle().getXpos() + 120, PADDLE_Y_START, 30, 8))) {
-                getBall().setYDir(-getBall().getYDir());
-                getBall().setXDir(+2);
-            } else if (new Rectangle(getBall().getX(), getBall().getY(), 20, 20).intersects(new Rectangle(getPaddle().getXpos() + 30, PADDLE_Y_START, 30, 8))) {
-                getBall().setYDir(-getBall().getYDir());
-                getBall().setXDir(getBall().getXDir() - 1);
-            } else if (new Rectangle(getBall().getX(), getBall().getY(), 20, 20).intersects(new Rectangle(getPaddle().getXpos() + 90, PADDLE_Y_START, 30, 8))) {
-                getBall().setYDir(-getBall().getYDir());
-                getBall().setXDir(getBall().getXDir() + 1);
-            } else if (new Rectangle(getBall().getX(), getBall().getY(), 20, 20).intersects(new Rectangle(getPaddle().getXpos() + 60, PADDLE_Y_START, 30, 8))) {
-                getBall().setYDir(-getBall().getYDir());
-            }
+//            if (new Rectangle(getBall().getX(), getBall().getY(), 20, 20).intersects(new Rectangle(getPaddle().getXpos(), PADDLE_Y_START, 30, 8))) {
+//                getBall().setYDir(-getBall().getYDir());
+//                getBall().setXDir(-2);
+//            } else if (new Rectangle(getBall().getX(), getBall().getY(), 20, 20).intersects(new Rectangle(getPaddle().getXpos() + 120, PADDLE_Y_START, 30, 8))) {
+//                getBall().setYDir(-getBall().getYDir());
+//                getBall().setXDir(+2);
+//            } else if (new Rectangle(getBall().getX(), getBall().getY(), 20, 20).intersects(new Rectangle(getPaddle().getXpos() + 30, PADDLE_Y_START, 30, 8))) {
+//                getBall().setYDir(-getBall().getYDir());
+//                getBall().setXDir(getBall().getXDir() - 1);
+//            } else if (new Rectangle(getBall().getX(), getBall().getY(), 20, 20).intersects(new Rectangle(getPaddle().getXpos() + 90, PADDLE_Y_START, 30, 8))) {
+//                getBall().setYDir(-getBall().getYDir());
+//                getBall().setXDir(getBall().getXDir() + 1);
+//            } else if (new Rectangle(getBall().getX(), getBall().getY(), 20, 20).intersects(new Rectangle(getPaddle().getXpos() + 60, PADDLE_Y_START, 30, 8))) {
+//                getBall().setYDir(-getBall().getYDir());
+//            }
             //squashes with the wall
             if (getBall().getX() < 0) {
                 getBall().setXDir(-getBall().getXDir());

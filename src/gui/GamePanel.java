@@ -11,7 +11,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.geom.AffineTransform;
+import java.awt.geom.*;
+import java.awt.*;
+import javax.swing.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+
 
 public class GamePanel extends JPanel implements GameConstants, KeyListener, ActionListener {
 
@@ -94,21 +103,22 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
 
     }
 
-    private void drawSimpleBrick(Graphics2D g2d, Color color, int x, int y, int width, int height) {
+    private void drawSimpleBrick(Graphics2D g2d, Color color, double x, double y, int width, int height) {
         g2d.setColor(color);
-        g2d.fillRect(x, y, width, height);
+        g2d.fill(new Rectangle2D.Double(x, y, width, height));
     }
 
-    private void drawMineBrick(Graphics2D g2d, Color color, int x, int y, int width, int height) {
+    private void drawMineBrick(Graphics2D g2d, Color color, double x, double y, int width, int height) {
         g2d.setColor(color);
-        g2d.fillOval(x, y, width, height);
+        g2d.fill(new Ellipse2D.Double(x, y, width, height));
     }
 
-    private void drawHalfMetal(Graphics2D g2d, Color color, int x, int y, int width, int height) {
+    private void drawHalfMetal(Graphics2D g2d, Color color, double x, double y, int width, int height) {
         g2d.setColor(color);
-        g2d.fillRect(x, y, width, height - 5);
+        g2d.fill(new Rectangle2D.Double(x, y, width, height - 5));
         g2d.setColor(Color.darkGray);
-        g2d.fillRect(x , y+ height - 8, width, 5);
+        g2d.fill(new Rectangle2D.Double(x , y+ height - 8, width, 5));
+
     }
 
     private void drawBorder(Graphics2D g2d) {
@@ -145,19 +155,21 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
     private void drawPaddle(Graphics2D g2d) {
 
         g2d.setColor(Color.yellow);
-        Rectangle paddleRechtangle = new Rectangle(currentGame.getPaddle().getXpos(), PADDLE_Y_START, currentGame.getPaddle().getWidth(), PADDLE_HEIGHT);
+        Rectangle2D paddleRechtangle =new Rectangle2D.Double(currentGame.getPaddle().getXpos(), PADDLE_Y_START, currentGame.getPaddle().getWidth(), PADDLE_HEIGHT);
 
         AffineTransform tx = new AffineTransform();
         Double radianAngle = Math.toRadians(currentGame.getPaddle().getAngle());
-        int rotationCenter = (currentGame.getPaddle().getAngle() < 0) ? (currentGame.getPaddle().getXpos()) : (currentGame.getPaddle().getXpos() + currentGame.getPaddle().getWidth());
+        double rotationCenter =  (currentGame.getPaddle().getAngle() < 0) ? (currentGame.getPaddle().getXpos()) : ( currentGame.getPaddle().getXpos() + currentGame.getPaddle().getWidth());
         tx.rotate(radianAngle, rotationCenter, PADDLE_Y_START);
         Shape rotatedVersion = tx.createTransformedShape(paddleRechtangle);
         g2d.fill(rotatedVersion);
     }
 
     private void drawBall(Graphics2D g2d) {
+
+        Ellipse2D.Double shape = new Ellipse2D.Double( currentGame.getBall().getX(), currentGame.getBall().getY(), BALL_WIDTH, BALL_HEIGHT);
         g2d.setColor(currentGame.getBall().getColor());
-        g2d.fillOval(currentGame.getBall().getX(), currentGame.getBall().getY(), BALL_WIDTH, BALL_HEIGHT);
+        g2d.fill(shape);
     }
 
     public void keyPressed(KeyEvent e) {
