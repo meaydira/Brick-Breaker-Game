@@ -3,9 +3,7 @@ package gui;
 import game_engine.Game;
 import game_engine.GameConstants;
 import game_engine.GameStatus;
-import game_engine.MapGenerator;
 import model.bricks.Brick;
-import model.bricks.MineBrick;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,7 +29,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
     private Game currentGame;
     private Timer timer;
     private int delay = 2;
-    private JButton pauseButton;
+    private JButton pauseButton;  // TODO: Implement pause button
 
     public static GamePanel getInstance(Game game) {
         if (game_instance == null) {
@@ -50,12 +48,6 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
     }
 
 
-    @Override
-    protected void paintComponent(Graphics g) {
-//        Image img = Toolkit.getDefaultToolkit().getImage("background.jpg");
-//        super.paintComponent(g);
-//        g.drawImage(img, 0, 0, null);
-    }
 
     public void paint(Graphics g) {
 //      paintComponent(g);
@@ -198,10 +190,10 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
             }
         }
         if (e.getKeyCode() == KeyEvent.VK_A) {
-            currentGame.getPaddle().rotateNegative();
+            currentGame.changePaddleAngleNegatively();
         }
         if (e.getKeyCode() == KeyEvent.VK_D) {
-            currentGame.getPaddle().rotatePositive();
+            currentGame.changePaddleAnglePositively();
         }
 
     }
@@ -216,9 +208,8 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
     public void actionPerformed(ActionEvent e) {
 
         timer.start();
-        boolean directionLock = false;
+        boolean directionLock = false;  // TODO: this is not used.
         if (currentGame.isRunning()) {
-            // check map collision with the ball
             currentGame.runPhysics();
         }
         repaint();
