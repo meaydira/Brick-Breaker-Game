@@ -21,7 +21,7 @@ public class Intersect {
                     if(paramBrickRect.intersects(brickRect))
                         return true;
                 }else{
-                    Ellipse2D mineBrickCircle= new Ellipse2D.Double((b.getX(),b.getY(),b.getHeight()/2);
+                    Ellipse2D mineBrickCircle= new Ellipse2D.Double(b.getX(),b.getY(),b.getWidth()/2,b.getHeight()/2);
                     if(mineBrickCircle.intersects(brick.getX(),brick.getY(), brick.getWidth(),brick.getHeight())){
                         return true;
                     }
