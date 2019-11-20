@@ -37,6 +37,19 @@ public class Database {
     public Player addNewPlayer(String username, String password){
             return db_version.addNewPlayer(username,password);
     }
+    
+    public GameState save(GameState G) throws IOException {
+    	return db_version.save(G);
+
+	}
+
+	public GameState load(int gameid, int playerid) throws IOException,ClassNotFoundException{
+		return db_version.load(gameid,playerid);
+	}
+    
+    
+    
+    
     /*
     public List<Player> getPlayers(){
         return players_DB;

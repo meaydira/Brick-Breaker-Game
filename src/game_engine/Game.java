@@ -202,6 +202,12 @@ public class Game implements Runnable, GameConstants {
     public Map getMap() {
         return this.map;
     }
+    public Player getPlayer() {
+    	return this.player;
+    }
+    public int getlives() {
+    	return this.lives;
+    }
 
     private void collisionBallPaddle(){
         //squashes with the paddle

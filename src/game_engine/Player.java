@@ -3,13 +3,15 @@ package game_engine;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import Database.GameState;
+
 public class Player implements Serializable {
 
     private String username;
     private String password;
     private int id;
     private ArrayList<Map> savedMaps;
-    private ArrayList<Game> savedGames;
+    private ArrayList<GameState> savedGames;
     private boolean isAuth;
 
     public Player(int id,String username,String password){
@@ -17,7 +19,7 @@ public class Player implements Serializable {
         this.username = username;
         this.password = password;
         this.savedMaps = new ArrayList<Map>();
-        this.savedGames = new ArrayList<Game>();
+        this.savedGames = new ArrayList<GameState>();
 
     }
 
@@ -30,4 +32,15 @@ public class Player implements Serializable {
     }
 
     public int getID() {    return id; }
+
+	public ArrayList<GameState> getSavedGames() {
+		return savedGames;
+	}
+
+	public ArrayList<Map> getSavedMaps() {
+		return savedMaps;
+	}
+    
+	
+    
 }
