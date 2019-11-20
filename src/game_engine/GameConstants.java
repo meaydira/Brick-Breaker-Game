@@ -12,6 +12,9 @@ public interface GameConstants {
     public static final int frame_x = (screenSize.width - WINDOW_HEIGHT) / 4;
     public static final int frame_y = (screenSize.width - WINDOW_HEIGHT) / 4;
 
+    public static final int BRICK_WIDTH= WINDOW_WIDTH/20;
+    public static final int BRICK_HEIGHT= BRICK_WIDTH/2;
+
 
     //Lives
     public static final int MAX_LIVES = 5;
