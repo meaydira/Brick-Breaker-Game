@@ -9,6 +9,7 @@ import model2.Paddle;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
 public class Game implements Runnable, GameConstants {
@@ -200,6 +201,12 @@ public class Game implements Runnable, GameConstants {
 
     public Map getMap() {
         return this.map;
+    }
+    public Player getPlayer() {
+    	return this.player;
+    }
+    public int getlives() {
+    	return this.lives;
     }
 
     @Override
