@@ -7,10 +7,7 @@ import model.bricks.Brick;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.awt.geom.*;
 import java.awt.*;
 import javax.swing.*;
@@ -22,7 +19,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 
 
-public class GamePanel extends JPanel implements GameConstants, KeyListener, ActionListener {
+public class GamePanel extends JPanel implements GameConstants, KeyListener, ActionListener,MouseListener {
 
 
     private static GamePanel game_instance = null;
@@ -37,6 +34,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
             game_instance.currentGame = game;
             game_instance.setLayout(new GridLayout());
             game_instance.addKeyListener(game_instance);
+            game_instance.addMouseListener(game_instance);
             game_instance.setFocusable(true);
             game_instance.setFocusTraversalKeysEnabled(false);
             game_instance.timer = new Timer(game_instance.delay, game_instance);
@@ -83,6 +81,9 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
 
         // the paddle
         drawPaddle(g2d);
+
+        // building mode text
+        if(currentGame.isBuilding()==true)drawBM(g2d);
 
         // the ball
         drawBall(g2d);
@@ -147,6 +148,12 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
     private void drawScores(Graphics2D g2d, int fontsize, String text, int x, int y, Color color) {
         drawText(g2d, fontsize, text + currentGame.getScore(), x, y, color);
     }
+    private void drawBM(Graphics2D g2d){
+        //building mode
+        drawText(g2d, 15, "BUILDING MODE",320,30,Color.YELLOW);
+
+    }
+
 
     private void showGameOverSign(Graphics2D g2d) {
         drawText(g2d, 25, "Game Over", 290, 350, Color.white);
@@ -172,19 +179,53 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         g2d.fill(shape);
     }
 
+
+    public void mouseClicked(MouseEvent e) {
+        int x=e.getX();
+        int y=e.getY();
+        if(currentGame.isBuilding()==true){
+            currentGame.buildingModeBrickChanger(x,y);
+            repaint();
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             currentGame.moveRight();
+            currentGame.setBuilding(false);
         }
 
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             currentGame.moveLeft();
+            currentGame.setBuilding(false);
         }
 
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            currentGame.setBuilding(false);
             if (!currentGame.isRunning()) {
                 currentGame.reinitialize();
                 repaint();
+
             } else {
                 currentGame.switchMode();
             }

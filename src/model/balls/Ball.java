@@ -17,7 +17,7 @@ public class Ball extends GameObject implements GameConstants{
     public void setAngle(double angle) {
         this.angle = angle;
 
-        System.out.println("angle changed to: "+angle);
+       // System.out.println("angle changed to: "+angle);
     }
 
     private double angle=Math.toDegrees(Math.atan( - (yDir/xDir)));
