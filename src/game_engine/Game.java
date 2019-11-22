@@ -44,6 +44,8 @@ public class Game implements Runnable, GameConstants {
         this.player = player;
         ball = new Ball();
         paddle = new Paddle();
+        getBall().setX(310+getPaddle().getWidth()/2);
+        getBall().setY(getPaddle().getYpos()-1);
         map = new MapGenerator().generateMap(6, 12);
         totalBricks = 48;
         hitLock = System.currentTimeMillis(); }
@@ -63,8 +65,8 @@ public class Game implements Runnable, GameConstants {
     public void reinitialize() {
         if (status == GameStatus.Lost) {
             status = GameStatus.Undecided;
-            getBall().setX(120);
-            getBall().setY(530);
+            getBall().setX(385);
+            getBall().setY(519-30);
 
             getBall().setXDir(-1);
             getBall().setYDir(-2);
@@ -74,7 +76,7 @@ public class Game implements Runnable, GameConstants {
             setTotalBricks(21);
             map = initialMap;
         }
-        running = true;
+        //running = true;
 
     }
 
@@ -161,13 +163,24 @@ public class Game implements Runnable, GameConstants {
     }
 
     public void moveRight() {
-        running = true;
+        //running = true;
         getPaddle().moveRight();
+        if(!isRunning()) {
+            getBall().setX(getPaddle().getXpos() + getPaddle().getWidth() / 2 - BALL_WIDTH / 2);
+        }
     }
 
     public void moveLeft() {
-        running = true;
+        //running = true;
         getPaddle().moveLeft();
+        if(!isRunning()){
+            getBall().setX(getPaddle().getXpos() + getPaddle().getWidth() / 2 - BALL_WIDTH / 2);
+        }
+         // getBall().setX(getBall().getX()-20);
+    }
+    public void tPressed(){
+        running=true;
+
     }
 
     public void changePaddleAnglePositively() {

@@ -24,7 +24,7 @@ public class Ball extends GameObject implements GameConstants, Serializable{
     private double angle=Math.toDegrees(Math.atan( - (yDir/xDir)));
 
     public Ball() {
-        super(BALL_X_START, BALL_Y_START, BALL_WIDTH, BALL_HEIGHT, BALL_COLOR);
+        super(385, 519-30, BALL_WIDTH, BALL_HEIGHT, BALL_COLOR);
     }
 
     //Moves the ball
@@ -38,6 +38,9 @@ public class Ball extends GameObject implements GameConstants, Serializable{
     public void reset() {
         x_coordinate = BALL_X_START;
         y_coordinate = BALL_Y_START;
+
+        x_coordinate=385;
+        y_coordinate=519;
         xDir = 1;
         yDir = -1;
         vectorLength=Math.sqrt(xDir*xDir+yDir*yDir);
@@ -68,10 +71,10 @@ public class Ball extends GameObject implements GameConstants, Serializable{
     }
 
 
-    public void setX(int xCoordinate){
+    public void setX(double xCoordinate){
         super.x_coordinate = xCoordinate;
     }
-    public void setY(int yCoordinate){
+    public void setY(double yCoordinate){
         super.y_coordinate = yCoordinate;
     }
 

@@ -196,6 +196,9 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
             System.out.println("S key is pressed.");
             currentGame.saveCurrent();
         }
+        if(e.getKeyCode()==KeyEvent.VK_T){
+            currentGame.tPressed();
+        }
 
         if (e.getKeyCode() == KeyEvent.VK_L) {
             try {
