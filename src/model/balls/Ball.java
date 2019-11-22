@@ -1,10 +1,11 @@
 package model.balls;
+
 import game_engine.GameConstants;
 import model.GameObject;
 
-import java.awt.*;
+import java.io.Serializable;
 
-public class Ball extends GameObject implements GameConstants{
+public class Ball extends GameObject implements GameConstants, Serializable{
 
     private double xDir = BALL_X_DIRECTION, yDir = BALL_Y_DIRECTION;
 
@@ -19,7 +20,7 @@ public class Ball extends GameObject implements GameConstants{
 
        // System.out.println("angle changed to: "+angle);
     }
-
+    private static final long serialVersionUID = 1L;
     private double angle=Math.toDegrees(Math.atan( - (yDir/xDir)));
 
     public Ball() {

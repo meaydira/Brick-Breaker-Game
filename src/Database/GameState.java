@@ -1,13 +1,13 @@
 package Database;
 
-import java.io.Serializable;
-
 import game_engine.Map;
-
-import static game_engine.GameConstants.*;
-
+import game_engine.Player;
 import model.balls.Ball;
 import model2.Paddle;
+
+import java.io.Serializable;
+
+import static game_engine.GameConstants.MAX_LIVES;
 
 public class GameState implements Serializable {
 	public int score;
@@ -17,15 +17,17 @@ public class GameState implements Serializable {
 	public int time; //GAME DOESN'T HAVE TIME, GONNA BE IMPLEMENTED WHEN IT DOES ONE.
 	public Map mapState;
 	public int playerid;
+	public Player player;
+	private static final long serialVersionUID = 12L;
 
-	public GameState(int score, int lives, int time, Paddle p, Ball b, Map m,int playerid) {
+	public GameState(int score, int lives, int time, Paddle p, Ball b, Map m,Player player) {
 		this.score=score;
 		this.paddleState= p;
 		this.ballState= b;
 		this.lives=lives;
 		this.time=time;
 		this.mapState= m;
-		this.playerid = playerid;
+		this.player = player;
 	}
 	public GameState(Paddle p, Ball b, Map m) {
 		this.score=0;
@@ -35,7 +37,7 @@ public class GameState implements Serializable {
 		this.time=500; //JUST AN ARBITRARY NUMBER. GONNA CHANGE WHEN TIME IMPLEMENTED.
 		this.mapState= m;
 	}
-	
+
 	public int getScore() {
 		return score;
 	}
@@ -83,15 +85,13 @@ public class GameState implements Serializable {
 	public void setMapState(Map mapState) {
 		this.mapState = mapState;
 	}
-	public int getPlayerid() {
-		return playerid;
+	public Player getPlayer() {
+		return this.player;
 	}
-	public void setPlayerid(int playerid) {
-		this.playerid = playerid;
-	}
-	
-	
 
-	
+
+
+
+
 
 }

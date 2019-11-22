@@ -2,9 +2,7 @@ package Database;
 
 import game_engine.Player;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
 
 public class Database {
 
@@ -43,8 +41,8 @@ public class Database {
 
 	}
 
-	public GameState load(int gameid, int playerid) throws IOException,ClassNotFoundException{
-		return db_version.load(gameid,playerid);
+	public GameState load(Player player) throws IOException,ClassNotFoundException{
+		return db_version.load(player);
 	}
     
     

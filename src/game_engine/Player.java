@@ -1,9 +1,9 @@
 package game_engine;
 
+import Database.GameState;
+
 import java.io.Serializable;
 import java.util.ArrayList;
-
-import Database.GameState;
 
 public class Player implements Serializable {
 
@@ -13,7 +13,7 @@ public class Player implements Serializable {
     private ArrayList<Map> savedMaps;
     private ArrayList<GameState> savedGames;
     private boolean isAuth;
-
+    private static final long serialVersionUID = 9L;
     public Player(int id,String username,String password){
         this.id = id;
         this.username = username;

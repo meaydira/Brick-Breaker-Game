@@ -1,6 +1,7 @@
 package game_engine;
 
 
+import Database.GameState;
 import javafx.scene.shape.Circle;
 import model.balls.Ball;
 import model.bricks.Brick;
@@ -10,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.io.IOException;
 
 public class Game implements Runnable, GameConstants {
 
@@ -28,6 +30,7 @@ public class Game implements Runnable, GameConstants {
     private long Lock;
     private Map initialMap;
     private Map map;
+    SaveLoadManager SLM = SaveLoadManager.getInstance();
 
 
     private int score = 0, lives = MAX_LIVES, bricksLeft = MAX_BRICKS, waitTime = 10;
@@ -239,6 +242,26 @@ public class Game implements Runnable, GameConstants {
         }
 
     }
+
+    public void saveCurrent() {
+        if(running==false) {
+            SLM.saveGame(this);
+        }
+
+    }
+
+    public void loadCurrent() throws ClassNotFoundException, IOException {
+        if(running==false) {
+            GameState Load=SLM.loadGame(player);
+            this.setScore(Load.getScore());
+            this.paddle=Load.getPaddleState();
+            this.ball=Load.getBallState();
+            this.map=Load.getMapState();
+            this.lives=Load.getLives();
+        }
+    }
+
+
     @Override
     public void run() {
 

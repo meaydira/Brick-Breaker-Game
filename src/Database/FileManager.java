@@ -1,6 +1,5 @@
 package Database;
 
-import game_engine.Game;
 import game_engine.Player;
 
 import java.io.*;
@@ -43,7 +42,7 @@ public class FileManager implements DataBaseAdapter {
 		//I know we would have to read players again when we have to get one in the future
 		//But this seemed more natural, since other databases don't read and store at first as well.
 		//Open to discussion though :)
-		ArrayList<Player> players_DB =new ArrayList<>();
+		ArrayList<Player> players_DB =new ArrayList<Player>();
 
 		players_DB= getPlayerList();
 
@@ -99,12 +98,12 @@ public class FileManager implements DataBaseAdapter {
 
 		return p;
 	}
-	
-	public ArrayList<GameState> getSavedGames(int playerid) {
+
+	public ArrayList<GameState> getSavedGames(Player player) {
 		ArrayList<GameState> states_DB =new ArrayList<>();
 
 		try{
-			File f = new File(playerid+"_savedgames.txt");
+			File f = new File("berk"+"_savedgames.txt");
 			FileInputStream fis = new FileInputStream(f);
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			states_DB=(ArrayList<GameState>)ois.readObject();
@@ -126,32 +125,32 @@ public class FileManager implements DataBaseAdapter {
 
 		return states_DB;
 	}
-	
 
-	public GameState save(GameState G) throws IOException {
 
-		int playerid= G.getPlayerid();
-		ArrayList<GameState> gameList = getSavedGames(playerid);
-		gameList.add(G);
-		
-		File f= new File(G.getPlayerid()+"_savedgames.txt"); //Name includes Player's name & index.
+	public GameState save(GameState GS) throws IOException {
+
+
+		String filename = GS.getPlayer().getUsername()+"_savedgames.txt";
+		File f= new File(filename); //Name includes Player's name & index.
+		System.out.println("Save file "+ filename+"created.");
 		FileOutputStream fos= new FileOutputStream(f);
 		ObjectOutputStream oos= new ObjectOutputStream(fos);
-		oos.writeObject(gameList);
-		
-		
-		return G;
+		oos.writeObject(GS);
+
+
+		return GS;
 
 	}
 
-	public GameState load(int gameid, int playerid) throws IOException,ClassNotFoundException{
 
-		File f= new File(playerid+"_savedgames.txt");
+	@Override
+	public GameState load(Player player) throws IOException,ClassNotFoundException{
+
+		File f= new File(player.getUsername()+"_savedgames.txt");
 		FileInputStream fis= new FileInputStream(f);
 		ObjectInputStream ois= new ObjectInputStream(fis);
 
-		ArrayList<GameState> gameList = (ArrayList<GameState>) ois.readObject();
-		GameState gameToLoad= gameList.get(gameid);
+		GameState gameToLoad = (GameState) ois.readObject();
 		return gameToLoad;
 	}
 

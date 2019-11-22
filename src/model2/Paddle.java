@@ -2,9 +2,11 @@ package model2;
 
 import game_engine.GameConstants;
 
-public class Paddle implements GameConstants {
+import java.io.Serializable;
 
+public class Paddle implements GameConstants, Serializable{
 
+    private static final long serialVersionUID = 6L;
     private int width;
     private double Xpos;
     private double Ypos;  //may be unnecessary
