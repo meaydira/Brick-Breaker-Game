@@ -66,17 +66,6 @@ public class GameController implements GameConstants {
 
         BuildingMode buildingMode = new BuildingMode(this.player);
         BuildingModePanel panel = renderer.getBuildingModePanel(buildingMode);
-     /*   JFrame frame = new JFrame();
-        frame.setSize(900,600);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-        frame.setResizable(false);
-        frame.setVisible(true);
-        frame.add(panel);
-        frame.setContentPane(panel);
-        frame.setVisible(true);  */
-        //renderer.getBuildingModePanel(buildingMode);
-
         Thread thread = new Thread(buildingMode);
         thread.run();
         controller_instance.playGame(buildingMode.getCurrentMap());
@@ -89,7 +78,6 @@ public class GameController implements GameConstants {
 
     public Player redirectDesiredPage(Redirection rd) {
         if (rd == Redirection.gamePage) {
-        //    GamePanel gp = renderer.getGamePanel();
             return player;
         }
         else if (rd == Redirection.loginPage) {

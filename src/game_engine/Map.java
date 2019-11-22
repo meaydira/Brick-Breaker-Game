@@ -14,10 +14,10 @@ public class Map {
     }
 
 
-    //TODO: implement SetBrickPosition
+
 
     public void SetBrickPosition(){
-
+        //TODO: implement SetBrickPosition
     }
 
     public int totalBricks(){

@@ -45,7 +45,6 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
 
 
     public void paint(Graphics g) {
-//      paintComponent(g);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         screenSize.getHeight();
         screenSize.getWidth();
@@ -56,14 +55,12 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         // drawing map
 
         for (Brick b : currentGame.getMap().getBricks()) {
-            if (!b.isDestroyed()) {
-                if (b.getClass().getName() == "model.bricks.MineBrick") {
-                    drawMineBrick(g2d, b.getColor(), b.getX(), b.getY(), b.getWidth(), b.getHeight());
-                } else if (b.getClass().getName() == "model.bricks.HalfMetalBrick") {
-                    drawHalfMetal(g2d, b.getColor(), b.getX(), b.getY(), b.getWidth(), b.getHeight());
-                } else {
-                    drawSimpleBrick(g2d, b.getColor(), b.getX(), b.getY(), b.getWidth(), b.getHeight());
-                }
+            if (!b.isDestroyed()) if (b.getClass().getName().equals("model.bricks.MineBrick")) {
+                drawMineBrick(g2d, b.getColor(), b.getX(), b.getY(), b.getWidth(), b.getHeight());
+            } else if (b.getClass().getName().equals("model.bricks.HalfMetalBrick")) {
+                drawHalfMetal(g2d, b.getColor(), b.getX(), b.getY(), b.getWidth(), b.getHeight());
+            } else {
+                drawSimpleBrick(g2d, b.getColor(), b.getX(), b.getY(), b.getWidth(), b.getHeight());
             }
         }
 
@@ -78,9 +75,6 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
 
         // the paddle
         drawPaddle(g2d);
-
-        // building mode text
-        if(currentGame.isBuilding()==true)drawBM(g2d);
 
         // the ball
         drawBall(g2d);
@@ -145,12 +139,6 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
     private void drawScores(Graphics2D g2d, int fontsize, String text, int x, int y, Color color) {
         drawText(g2d, fontsize, text + currentGame.getScore(), x, y, color);
     }
-    private void drawBM(Graphics2D g2d){
-        //building mode
-        drawText(g2d, 15, "BUILDING MODE",320,30,Color.YELLOW);
-
-    }
-
 
     private void showGameOverSign(Graphics2D g2d) {
         drawText(g2d, 25, "Game Over", 290, 350, Color.white);
@@ -182,16 +170,13 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             currentGame.moveRight();
-            currentGame.setBuilding(false);
         }
 
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             currentGame.moveLeft();
-            currentGame.setBuilding(false);
         }
 
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            currentGame.setBuilding(false);
             if (!currentGame.isRunning()) {
                 currentGame.reinitialize();
                 repaint();
@@ -219,7 +204,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
     public void actionPerformed(ActionEvent e) {
 
         timer.start();
-        boolean directionLock = false;  // TODO: this is not used.
+       //TODO: Implement  boolean directionLock = false;
         if (currentGame.isRunning()) {
             currentGame.runPhysics();
         }

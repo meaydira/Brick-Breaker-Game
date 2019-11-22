@@ -9,9 +9,9 @@ import java.awt.event.ActionListener;
 
 public class ErrorPanel extends JFrame implements GameConstants {
 
-    JLabel errorLabel;
-    JLabel imageContainer;
-    JButton exitButton;
+    private JLabel errorLabel;
+    private JLabel imageContainer;
+    private JButton exitButton;
     private static ErrorPanel errorpanel_instance = null;
 
 

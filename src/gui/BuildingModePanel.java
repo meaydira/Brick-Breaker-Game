@@ -39,7 +39,6 @@ public class BuildingModePanel  extends JPanel implements GameConstants, KeyList
 
 
     public void paintComponent(Graphics g) {
-//      paintComponent(g);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         screenSize.getHeight();
         screenSize.getWidth();
@@ -54,32 +53,25 @@ public class BuildingModePanel  extends JPanel implements GameConstants, KeyList
 
         drawText(g2d, 14, "PRESS 'G' FOR A RANDOM MAP." , 700, PADDLE_Y_START, Color.BLACK);
 
-        drawBrickType(g2d, 25, "Brick Type: ", 700, 30, Color.BLACK);
+        drawBrickType(g2d, "Brick Type: ", 700, 30, Color.BLACK);
 
         // the paddle
         drawPaddle(g2d);
 
         // building mode text
         drawBM(g2d);
-
-        // the ball
-     //   drawBall(g2d);
-
-
         g.dispose();
 
     }
 
     private void drawMap(Graphics2D g2d){
         for (Brick b : buildingMode.getCurrentMap().getBricks()) {
-            if (!b.isDestroyed()) {
-                if (b.getClass().getName() == "model.bricks.MineBrick") {
-                    drawMineBrick(g2d, b.getColor(), b.getX(), b.getY(), b.getWidth(), b.getHeight());
-                } else if (b.getClass().getName() == "model.bricks.HalfMetalBrick") {
-                    drawHalfMetal(g2d, b.getColor(), b.getX(), b.getY(), b.getWidth(), b.getHeight());
-                } else {
-                    drawSimpleBrick(g2d, b.getColor(), b.getX(), b.getY(), b.getWidth(), b.getHeight());
-                }
+            if (!b.isDestroyed()) if (b.getClass().getName().equals("model.bricks.MineBrick")) {
+                drawMineBrick(g2d, b.getColor(), b.getX(), b.getY(), b.getWidth(), b.getHeight());
+            } else if (b.getClass().getName().equals("model.bricks.HalfMetalBrick")) {
+                drawHalfMetal(g2d, b.getColor(), b.getX(), b.getY(), b.getWidth(), b.getHeight());
+            } else {
+                drawSimpleBrick(g2d, b.getColor(), b.getX(), b.getY(), b.getWidth(), b.getHeight());
             }
         }
     }
@@ -133,10 +125,6 @@ public class BuildingModePanel  extends JPanel implements GameConstants, KeyList
     }
 
 
-    private void showGameOverSign(Graphics2D g2d) {
-        drawText(g2d, 25, "Game Over", 290, 350, Color.white);
-    }
-
     private void drawPaddle(Graphics2D g2d) {
 
         g2d.setColor(Color.yellow);
@@ -150,16 +138,10 @@ public class BuildingModePanel  extends JPanel implements GameConstants, KeyList
         g2d.fill(rotatedVersion);
     }
 
-    private void drawBall(Graphics2D g2d) {
 
-        Ellipse2D.Double shape = new Ellipse2D.Double( buildingMode.getBall().getX(), buildingMode.getBall().getY(), BALL_WIDTH, BALL_HEIGHT);
-        g2d.setColor(buildingMode.getBall().getColor());
-        g2d.fill(shape);
-    }
-
-    private void drawBrickType(Graphics2D g2d, int fontsize, String text, int x, int y, Color color) {
-        drawText(g2d, fontsize, text , x, y, color);
-        drawText(g2d, fontsize, buildingMode.getCurrentBrick(), x, y + 30, color);
+    private void drawBrickType(Graphics2D g2d, String text, int x, int y, Color color) {
+        drawText(g2d, 25, text , x, y, color);
+        drawText(g2d, 25, buildingMode.getCurrentBrick(), x, y + 30, color);
     }
 
 
