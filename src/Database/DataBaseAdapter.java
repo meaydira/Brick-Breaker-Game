@@ -1,13 +1,8 @@
 package Database;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-
 import game_engine.Player;
+
+import java.io.IOException;
 
 public interface DataBaseAdapter {
     public Player getPlayer(int id);
@@ -17,7 +12,7 @@ public interface DataBaseAdapter {
     public GameState save(GameState G) throws IOException;
 
 
-	public GameState load(int gameid, int playerid) throws IOException,ClassNotFoundException;
+	public GameState load(Player player) throws IOException,ClassNotFoundException;
 
 
 

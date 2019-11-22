@@ -3,8 +3,9 @@ package model.bricks;
 import model.GameObject;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public abstract class Brick  extends GameObject {
+public abstract class Brick  extends GameObject implements Serializable{
     private int x_coordinate;
     private int y_coordinate;
     private int lives;
@@ -15,7 +16,7 @@ public abstract class Brick  extends GameObject {
     }
 
     private boolean isDestroyed;
-
+    private static final long serialVersionUID = 2L;
     public Brick(int xCoordinate, int yCoordinate, int brick_width, int brick_height, Color brick_color){
         super(xCoordinate, yCoordinate, brick_width,brick_height,brick_color);
         this.lives = 1;

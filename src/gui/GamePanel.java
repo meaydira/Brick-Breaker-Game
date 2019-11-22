@@ -14,7 +14,7 @@ import java.awt.event.KeyListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
-
+import java.io.IOException;
 
 
 public class GamePanel extends JPanel implements GameConstants, KeyListener, ActionListener {
@@ -190,6 +190,21 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         }
         if (e.getKeyCode() == KeyEvent.VK_D) {
             currentGame.changePaddleAnglePositively();
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_S) {
+            System.out.println("S key is pressed.");
+            currentGame.saveCurrent();
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_L) {
+            try {
+                currentGame.loadCurrent();
+            } catch (ClassNotFoundException e1) {
+                e1.printStackTrace();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
 
     }

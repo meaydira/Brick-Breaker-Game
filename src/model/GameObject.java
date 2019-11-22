@@ -1,13 +1,15 @@
 package model;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public abstract class GameObject {
+public abstract class GameObject implements Serializable{
     protected double x_coordinate;
     protected double y_coordinate;
     protected int width;
     protected int height;
     protected Color color;
+    private static final long serialVersionUID = 13L;
 
     //Constructor
     public GameObject(double x_coordianate, double y_coordinate, int width, int height, Color color) {
