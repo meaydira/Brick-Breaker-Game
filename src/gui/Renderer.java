@@ -1,9 +1,8 @@
 package gui;
 
 import game_engine.Board;
+import game_engine.BuildingMode;
 import game_engine.Game;
-
-import javax.swing.*;
 
 public class Renderer {
     private MainMenuPanel mainMenu;
@@ -11,6 +10,7 @@ public class Renderer {
     private LoginPanel loginPanel;
     private RegisterPanel registerPanel;
     private GamePanel gamePanel;
+    private BuildingModePanel buildingModePanel;
     private static Renderer renderer_instance = null;
 
     public static Renderer getInstance(){
@@ -39,12 +39,18 @@ public class Renderer {
 
     public GamePanel getGamePanel(Game game){
         this.gamePanel = GamePanel.getInstance(game);
-        Board gameBoard = Board.getInstance(gamePanel);
+        Board gameBoard = Board.changeToGamingPanel(gamePanel);
         return gamePanel;
     }
 
     public RegisterPanel getRegisterPanel() {
         this.registerPanel = RegisterPanel.getInstance();
         return registerPanel;
+    }
+
+    public BuildingModePanel getBuildingModePanel(BuildingMode bm) {
+        this.buildingModePanel =  BuildingModePanel.getInstance(bm);
+        Board gameBoard = Board.getInstance(buildingModePanel);
+        return buildingModePanel;
     }
 }

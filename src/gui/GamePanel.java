@@ -11,14 +11,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.geom.*;
-import java.awt.*;
-import javax.swing.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 
 
@@ -50,7 +45,6 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
 
 
     public void paint(Graphics g) {
-//      paintComponent(g);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         screenSize.getHeight();
         screenSize.getWidth();
@@ -61,14 +55,12 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         // drawing map
 
         for (Brick b : currentGame.getMap().getBricks()) {
-            if (!b.isDestroyed()) {
-                if (b.getClass().getName() == "model.bricks.MineBrick") {
-                    drawMineBrick(g2d, b.getColor(), b.getX(), b.getY(), b.getWidth(), b.getHeight());
-                } else if (b.getClass().getName() == "model.bricks.HalfMetalBrick") {
-                    drawHalfMetal(g2d, b.getColor(), b.getX(), b.getY(), b.getWidth(), b.getHeight());
-                } else {
-                    drawSimpleBrick(g2d, b.getColor(), b.getX(), b.getY(), b.getWidth(), b.getHeight());
-                }
+            if (!b.isDestroyed()) if (b.getClass().getName().equals("model.bricks.MineBrick")) {
+                drawMineBrick(g2d, b.getColor(), b.getX(), b.getY(), b.getWidth(), b.getHeight());
+            } else if (b.getClass().getName().equals("model.bricks.HalfMetalBrick")) {
+                drawHalfMetal(g2d, b.getColor(), b.getX(), b.getY(), b.getWidth(), b.getHeight());
+            } else {
+                drawSimpleBrick(g2d, b.getColor(), b.getX(), b.getY(), b.getWidth(), b.getHeight());
             }
         }
 
@@ -172,6 +164,9 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         g2d.fill(shape);
     }
 
+
+
+
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             currentGame.moveRight();
@@ -185,6 +180,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
             if (!currentGame.isRunning()) {
                 currentGame.reinitialize();
                 repaint();
+
             } else {
                 currentGame.switchMode();
             }
@@ -208,7 +204,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
     public void actionPerformed(ActionEvent e) {
 
         timer.start();
-        boolean directionLock = false;  // TODO: this is not used.
+       //TODO: Implement  boolean directionLock = false;
         if (currentGame.isRunning()) {
             currentGame.runPhysics();
         }

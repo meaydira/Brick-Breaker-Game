@@ -1,7 +1,6 @@
 package game_engine;
 
-import factories.AlienFactory;
-import factories.Brickfactory;
+
 import javafx.scene.shape.Circle;
 import model.balls.Ball;
 import model.bricks.Brick;
@@ -14,45 +13,49 @@ import java.awt.geom.Rectangle2D;
 
 public class Game implements Runnable, GameConstants {
 
-    private int i = 0;
-    private String playerName = "John Doe";
     private Player player;
-    private int totalBricks = 48;  //TODO: should be initialized by building mode
+    private String playerName;
+    private int totalBricks = 0;
     private Ball ball;
 
     private Paddle paddle;
     private GameStatus status;
     private boolean running = false;
 
-    private Brickfactory brickFactory;  //unused ?  //TODO: implement or delete
-    private AlienFactory alienFactory;  //these should be  //TODO: implement or delete
-
     private long verticalDirectionChangeLock = 0;
     private long horizontalDirectionChangeLock = 0;
     private long hitLock = 0;
     private long Lock;
+    private Map initialMap;
     private Map map;
 
 
     private int score = 0, lives = MAX_LIVES, bricksLeft = MAX_BRICKS, waitTime = 10;
 
-    private Board gameBoard;  // TODO: implement or delete
 
     public Game(Player player) {
         playerName = JOptionPane.showInputDialog("Please enter your name:", "Brick Breaker, Corporate Slaves");
         //if (playerName.toUpperCase().equals("WARRIS") || playerName.toUpperCase().equals("WARRIS GILL") || playerName.toUpperCase().equals("ATİLLA") || playerName.toUpperCase().equals("ATİLLA GÜRSOY")) {
         //score += 1000;
         //gameP.showMessage("What a nice name ! You unlocked the secret 1,000 point bonus! Have fun!", "1,000 Points"); }
-
-
         this.player = player;
         ball = new Ball();
         paddle = new Paddle();
         map = new MapGenerator().generateMap(6, 12);
+        totalBricks = 48;
+        hitLock = System.currentTimeMillis(); }
+
+
+    public Game(Player player, Map map) {
+        playerName = JOptionPane.showInputDialog("Please enter your name:", "Brick Breaker, Corporate Slaves");
+        this.player = player;
+        ball = new Ball();
+        paddle = new Paddle();
+        this.map = map;
+        this.initialMap = map;
+        totalBricks = map.getBricks().size();
         hitLock = System.currentTimeMillis();
-
-
-    }
+  }
 
     public void reinitialize() {
         if (status == GameStatus.Lost) {
@@ -66,7 +69,7 @@ public class Game implements Runnable, GameConstants {
             getPaddle().setXpos(310);
             setScore(0);
             setTotalBricks(21);
-            map = new MapGenerator().generateMap(6, 12);
+            map = initialMap;
         }
         running = true;
 
@@ -122,11 +125,6 @@ public class Game implements Runnable, GameConstants {
         }
     }
 
-
-    public String getPlayerName() {
-        return playerName;
-    }
-
     public Ball getBall() {
         return this.ball;
     }
@@ -154,24 +152,6 @@ public class Game implements Runnable, GameConstants {
     public void setTotalBricks(int totalBricks) {
         this.totalBricks = totalBricks;
     }
-
-    //Accessor methods
-    public double getBallXDir() {
-        return this.ball.getXDir();
-    }
-
-    public double getBallYDir() {
-        return this.ball.getYDir();
-    }
-
-    public double getBallX() {
-        return ball.getX();
-    }
-
-    public double getBallY() {
-        return ball.getY();
-    }
-
 
     public GameStatus getStatus() {
         return status;
@@ -219,23 +199,12 @@ public class Game implements Runnable, GameConstants {
                     getPaddle().getVirtualY()-(getPaddle().getWidth())*(Math.sin(Math.toRadians(-getPaddle().getAngle()))))))
             {
                 if(System.currentTimeMillis()>Lock + 100) {
-//                        System.out.println();
-//                        System.out.println("COLLISION NUMBER: "+count++);
-//
-//                        System.out.println("paddle angle while collision <0 : "+getPaddle().getAngle());
-//                        System.out.println("ball input angle "+getBall().getAngle());
                     getBall().setAngle((180- 2 * getPaddle().getAngle() - getBall().getAngle()));
-//                        System.out.println("ball angle set to 180-2paddle-ball == "+getBall().getAngle());
                     getBall().setYDirSpecial(-Math.abs(Math.sin(Math.toRadians(getBall().getAngle()))*getBall().getVectorLength()));
                     getBall().setXDirSpecial(Math.cos(Math.toRadians(getBall().getAngle()))*getBall().getVectorLength());
                     getBall().setAngleByDir(getBall().getXDir(),getBall().getYDir());
-//                        System.out.println("ball output directions: "+getBall().getXDir()+", "+getBall().getYDir());
-//                        System.out.println("ball output angle "+getBall().getAngle());
                     Lock=System.currentTimeMillis();
-                }
-                //System.out.println("HIIIIT!!! angle negative");
-
-            }
+                }}
         }else if(getPaddle().getAngle()>=0){
             if( (new Rectangle2D.Double(  (getBall().getX()),  (getBall().getY()), 20, 20))
                     .intersectsLine(new Line2D.Double(
@@ -245,25 +214,15 @@ public class Game implements Runnable, GameConstants {
                             getPaddle().getYpos()  )))
             {
                 if(System.currentTimeMillis()>Lock + 100) {
-//                        System.out.println();
-//                        System.out.println("COLLISION NUMBER: "+count++);
-//                        System.out.println("ball input directions: "+getBall().getXDir()+", "+getBall().getYDir());
-//                        System.out.println("paddle angle while collision >=0 : "+getPaddle().getAngle());
-//                        System.out.println("ball input angle "+getBall().getAngle());
                     getBall().setAngle((360-2 * getPaddle().getAngle() - getBall().getAngle()));
                     getBall().setYDirSpecial(-Math.abs(Math.sin(Math.toRadians(getBall().getAngle()))*getBall().getVectorLength()));
                     getBall().setXDirSpecial(Math.cos(Math.toRadians(getBall().getAngle()))*getBall().getVectorLength());
                     getBall().setAngleByDir(getBall().getXDir(),getBall().getYDir());
-//                        System.out.println("ball angle set to 360-2paddle-ball == "+getBall().getAngle());
-//
-//                        System.out.println("ball output directions: "+getBall().getXDir()+", "+getBall().getYDir());
-//                        System.out.println("ball output angle "+getBall().getAngle());
                     Lock=System.currentTimeMillis();
                     // System.out.println("HIIIIT!!! angle positive");
                 }
             }
         }
-        //end of squashes with paddle
 
     }
 
@@ -307,12 +266,7 @@ public class Game implements Runnable, GameConstants {
             collisionBallPaddle();
             collisionBallWall();
 
-
-            //move the ball
-
             if (isRunning()) {
-//                getBall().setX(getBallX() + getBallXDir());
-//                getBall().setY(getBallY() + getBallYDir());
                 ball.move();
             }
             try {
@@ -325,23 +279,4 @@ public class Game implements Runnable, GameConstants {
 
 
 }
-
-//old squashes with the paddle
-//            if (new Rectangle(getBall().getX(), getBall().getY(), 20, 20).intersects(new Rectangle(getPaddle().getXpos(), PADDLE_Y_START, 30, 8))) {
-//                getBall().setYDir(-getBall().getYDir());
-//                getBall().setXDir(-2);
-//            } else if (new Rectangle(getBall().getX(), getBall().getY(), 20, 20).intersects(new Rectangle(getPaddle().getXpos() + 120, PADDLE_Y_START, 30, 8))) {
-//                getBall().setYDir(-getBall().getYDir());
-//                getBall().setXDir(+2);
-//            } else if (new Rectangle(getBall().getX(), getBall().getY(), 20, 20).intersects(new Rectangle(getPaddle().getXpos() + 30, PADDLE_Y_START, 30, 8))) {
-//                getBall().setYDir(-getBall().getYDir());
-//                getBall().setXDir(getBall().getXDir() - 1);
-//            } else if (new Rectangle(getBall().getX(), getBall().getY(), 20, 20).intersects(new Rectangle(getPaddle().getXpos() + 90, PADDLE_Y_START, 30, 8))) {
-//                getBall().setYDir(-getBall().getYDir());
-//                getBall().setXDir(getBall().getXDir() + 1);
-//            } else if (new Rectangle(getBall().getX(), getBall().getY(), 20, 20).intersects(new Rectangle(getPaddle().getXpos() + 60, PADDLE_Y_START, 30, 8))) {
-//                getBall().setYDir(-getBall().getYDir());
-//            }
-
-
 

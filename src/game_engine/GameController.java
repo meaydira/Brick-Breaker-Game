@@ -1,6 +1,6 @@
 package game_engine;
 
-import gui.GamePanel;
+import gui.BuildingModePanel;
 import gui.LoginPanel;
 import gui.RegisterPanel;
 import gui.Renderer;
@@ -26,7 +26,8 @@ public class GameController implements GameConstants {
 
             boolean authentication_succesfull =controller_instance.authenticated(player_to_authenticate);
             if (authentication_succesfull){
-                controller_instance.playGame();
+                controller_instance.startBuildingMode();
+
             }else{
                 controller_instance.showErrorPanel();
                 System.exit(0);
@@ -45,20 +46,38 @@ public class GameController implements GameConstants {
         return true;
     }
     public void playGame(){
-        //TODO: Normally we will call game here. That object will be responsible from every third party in the game.
         Game game = new Game(this.player);
         renderer.getGamePanel(game);
         Thread thread = new Thread(game);
         thread.run();
 
     }
+
+    public void playGame(Map map){
+        Game game = new Game(this.player, map);
+        renderer.getGamePanel(game);
+        Thread thread = new Thread(game);
+        thread.run();
+
+    }
+
+    public void startBuildingMode(){
+        //TODO: Normally we will call game here. That object will be responsible from every third party in the game.
+
+        BuildingMode buildingMode = new BuildingMode(this.player);
+        BuildingModePanel panel = renderer.getBuildingModePanel(buildingMode);
+        Thread thread = new Thread(buildingMode);
+        thread.run();
+        controller_instance.playGame(buildingMode.getCurrentMap());
+
+    }
+
     public void showErrorPanel(){
         renderer.getErrorPanel();
     }
 
     public Player redirectDesiredPage(Redirection rd) {
         if (rd == Redirection.gamePage) {
-        //    GamePanel gp = renderer.getGamePanel();
             return player;
         }
         else if (rd == Redirection.loginPage) {

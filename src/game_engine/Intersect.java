@@ -15,7 +15,7 @@ public class Intersect {
         Rectangle paramBrickRect= new Rectangle((int) brick.getX(), (int) brick.getY(), brick.getWidth(), brick.getHeight());
         for (Brick b : map.getBricks()) {
 
-            if(b==brick){
+
                 if (!(b instanceof MineBrick)) {
                     Rectangle brickRect = new Rectangle((int) b.getX(), (int) b.getY(), b.getWidth(), b.getHeight());
                     if(paramBrickRect.intersects(brickRect))
@@ -27,7 +27,7 @@ public class Intersect {
                     }
                 }
 
-            }
+
         }
         return intersects;
     }
