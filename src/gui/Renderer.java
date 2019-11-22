@@ -39,7 +39,7 @@ public class Renderer {
 
     public GamePanel getGamePanel(Game game){
         this.gamePanel = GamePanel.getInstance(game);
-        Board gameBoard = Board.getInstance(gamePanel);
+        Board gameBoard = Board.changeToGamingPanel(gamePanel);
         return gamePanel;
     }
 
@@ -50,6 +50,7 @@ public class Renderer {
 
     public BuildingModePanel getBuildingModePanel(BuildingMode bm) {
         this.buildingModePanel =  BuildingModePanel.getInstance(bm);
+        Board gameBoard = Board.getInstance(buildingModePanel);
         return buildingModePanel;
     }
 }

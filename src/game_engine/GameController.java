@@ -5,8 +5,6 @@ import gui.LoginPanel;
 import gui.RegisterPanel;
 import gui.Renderer;
 
-import javax.swing.*;
-
 public class GameController implements GameConstants {
     //Game-objects on screen
     private static GameController controller_instance = null;
@@ -65,21 +63,22 @@ public class GameController implements GameConstants {
 
     public void startBuildingMode(){
         //TODO: Normally we will call game here. That object will be responsible from every third party in the game.
-        JFrame frame = new JFrame();
+
+        BuildingMode buildingMode = new BuildingMode(this.player);
+        BuildingModePanel panel = renderer.getBuildingModePanel(buildingMode);
+     /*   JFrame frame = new JFrame();
         frame.setSize(900,600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
         frame.setVisible(true);
-        BuildingMode buildingMode = new BuildingMode(this.player);
-        BuildingModePanel panel = renderer.getBuildingModePanel(buildingMode);
         frame.add(panel);
         frame.setContentPane(panel);
-        frame.setVisible(true);
+        frame.setVisible(true);  */
         //renderer.getBuildingModePanel(buildingMode);
+
         Thread thread = new Thread(buildingMode);
         thread.run();
-
         controller_instance.playGame(buildingMode.getCurrentMap());
 
     }

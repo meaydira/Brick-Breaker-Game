@@ -1,9 +1,9 @@
 package game_engine;
 
+import gui.BuildingModePanel;
 import gui.GamePanel;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class Board extends JFrame implements GameConstants {
 
@@ -32,6 +32,38 @@ public class Board extends JFrame implements GameConstants {
         } else {
             return board_instance;
         }
+    }
+
+    public static Board getInstance(BuildingModePanel panel) {
+        if (board_instance == null) {
+            board_instance = new Board();
+            board_instance.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            board_instance.setBounds(10, 10, 900, 600);
+
+            board_instance.setTitle("Bricking Bad");
+            board_instance.setResizable(false);
+            board_instance.setVisible(true);
+            board_instance.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            board_instance.add(panel);
+            return board_instance;
+
+        } else {
+            return board_instance;
+        }
+    }
+
+    public static Board changeToGamingPanel(GamePanel panel){
+
+        board_instance = new Board();
+        board_instance.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        board_instance.setBounds(10, 10, 900, 600);
+
+        board_instance.setTitle("Bricking Bad");
+        board_instance.setResizable(false);
+        board_instance.setVisible(true);
+        board_instance.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        board_instance.add(panel);
+        return board_instance;
     }
 
 

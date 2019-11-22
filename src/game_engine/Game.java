@@ -40,6 +40,7 @@ public class Game implements Runnable, GameConstants {
     private long horizontalDirectionChangeLock = 0;
     private long hitLock = 0;
     private long Lock;
+    private Map initialMap;
     private Map map;
 
 
@@ -52,16 +53,11 @@ public class Game implements Runnable, GameConstants {
         //if (playerName.toUpperCase().equals("WARRIS") || playerName.toUpperCase().equals("WARRIS GILL") || playerName.toUpperCase().equals("ATİLLA") || playerName.toUpperCase().equals("ATİLLA GÜRSOY")) {
         //score += 1000;
         //gameP.showMessage("What a nice name ! You unlocked the secret 1,000 point bonus! Have fun!", "1,000 Points"); }
-
-
         this.player = player;
         ball = new Ball();
         paddle = new Paddle();
         map = new MapGenerator().generateMap(6, 12);
-        hitLock = System.currentTimeMillis();
-
-
-    }
+        hitLock = System.currentTimeMillis(); }
 
 
     public Game(Player player, Map map) {
@@ -70,11 +66,12 @@ public class Game implements Runnable, GameConstants {
         //score += 1000;
         //gameP.showMessage("What a nice name ! You unlocked the secret 1,000 point bonus! Have fun!", "1,000 Points"); }
 
-
         this.player = player;
         ball = new Ball();
         paddle = new Paddle();
         this.map = map;
+        this.initialMap = map;
+        totalBricks = map.getBricks().size();
         hitLock = System.currentTimeMillis();
 
 
@@ -92,7 +89,7 @@ public class Game implements Runnable, GameConstants {
             getPaddle().setXpos(310);
             setScore(0);
             setTotalBricks(21);
-            map = new MapGenerator().generateMap(6, 12);
+            map = initialMap;
         }
         running = true;
 

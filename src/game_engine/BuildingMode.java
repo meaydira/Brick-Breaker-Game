@@ -177,13 +177,10 @@ public class BuildingMode implements Runnable, GameConstants  {
         }
     }
 
-
-
     @Override
     public void run() {
         System.out.println("Building mode class is running");
         while (running) {
-
             try {
                 Thread.sleep(waitTime);
             } catch (InterruptedException ie) {
