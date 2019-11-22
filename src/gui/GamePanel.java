@@ -177,12 +177,18 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         }
 
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            if (!currentGame.isRunning()) {
-                currentGame.reinitialize();
-                repaint();
+            if(!currentGame.isGameStarted()) {
+                currentGame.setGameStarted(true);
+                currentGame.setRunning(true) ;
+            }else {
+                if (currentGame.getStatus() == GameStatus.Lost) currentGame.setGameStarted(false);
+                if (currentGame.getStatus() == GameStatus.Lost) {
+                    currentGame.reinitialize();
+                    repaint();
 
-            } else {
-                currentGame.switchMode();
+                } else {
+                    currentGame.switchMode();
+                }
             }
         }
         if (e.getKeyCode() == KeyEvent.VK_A) {

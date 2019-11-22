@@ -22,7 +22,33 @@ public class Game implements Runnable, GameConstants {
 
     private Paddle paddle;
     private GameStatus status;
+
+    public void setRunning(boolean running) {
+        this.running = running;
+    }
+
     private boolean running = false;
+    private boolean gamePaused=false;
+    private boolean gameStarted=false;
+
+    public boolean isGamePaused() {
+        return gamePaused;
+    }
+
+    public void setGamePaused(boolean gamePaused) {
+        this.gamePaused = gamePaused;
+    }
+
+
+
+    public boolean isGameStarted() {
+        return gameStarted;
+    }
+
+    public void setGameStarted(boolean gameStarted) {
+        this.gameStarted = gameStarted;
+    }
+
 
     private long verticalDirectionChangeLock = 0;
     private long horizontalDirectionChangeLock = 0;
@@ -75,8 +101,9 @@ public class Game implements Runnable, GameConstants {
             setScore(0);
             setTotalBricks(21);
             map = initialMap;
+            gameStarted=false;
         }
-        //running = true;
+       // running=true;
 
     }
 
@@ -164,35 +191,51 @@ public class Game implements Runnable, GameConstants {
 
     public void moveRight() {
         //running = true;
-        getPaddle().moveRight();
-        if(!isRunning()) {
-            getBall().setX(getPaddle().getXpos() + getPaddle().getWidth() / 2 - BALL_WIDTH / 2);
+        if(!isGamePaused()) {
+            getPaddle().moveRight();
+            if (!isRunning() && !isGameStarted()) {
+                getBall().setX(getPaddle().getXpos() + getPaddle().getWidth() / 2 - BALL_WIDTH / 2);
+            }
         }
     }
 
     public void moveLeft() {
         //running = true;
-        getPaddle().moveLeft();
-        if(!isRunning()){
-            getBall().setX(getPaddle().getXpos() + getPaddle().getWidth() / 2 - BALL_WIDTH / 2);
+        if(!isGamePaused()) {
+            getPaddle().moveLeft();
+            if (!isRunning() && !isGameStarted()) {
+                getBall().setX(getPaddle().getXpos() + getPaddle().getWidth() / 2 - BALL_WIDTH / 2);
+            }
         }
          // getBall().setX(getBall().getX()-20);
     }
     public void tPressed(){
-        running=true;
-
+        if(gameStarted==false) {
+            gameStarted = true;
+            running = true;
+        }
     }
 
     public void changePaddleAnglePositively() {
-        getPaddle().rotatePositive();
+        if(!isGamePaused()&&isRunning()&&isGameStarted()) {
+            getPaddle().rotatePositive();
+
+        }
+
     }
 
     public void changePaddleAngleNegatively() {
-        getPaddle().rotateNegative();
+        if(!isGamePaused()&&isRunning()&&isGameStarted()) {
+            getPaddle().rotateNegative();
+
+        }
     }
 
     public void switchMode() {
-        running = false;
+        running = !running;
+        if(!isRunning()){
+            setGamePaused(true);
+        }else setGamePaused(false);
     }
 
     public Map getMap() {
