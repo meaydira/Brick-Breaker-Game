@@ -80,22 +80,7 @@ public class Game implements Runnable, GameConstants {
         running = true;
 
     }
-    public void buildingModeBrickChanger(int x,int y){
-        Point point= new Point(x,y);
-        Rectangle brickRect;
 
-        for (Brick b : map.getBricks()) {
-            brickRect = new Rectangle((int) b.getX(),(int) b.getY(), b.getWidth(), b.getHeight());
-                if(brickRect.contains(point)){
-                    if(b.isDestroyed()){
-                        b.setDestroyed(false);
-                    }else{
-                        b.setDestroyed(true);
-                    }
-                }
-        }
-
-    }
     public void runPhysics() {
 
         //If the innner loop needs to break due to collusion, it will break to this point

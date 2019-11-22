@@ -8,14 +8,9 @@ import model.bricks.Brick;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.*;
-import java.awt.*;
-import javax.swing.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 
 
@@ -184,7 +179,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         int x=e.getX();
         int y=e.getY();
         if(currentGame.isBuilding()==true){
-            currentGame.buildingModeBrickChanger(x,y);
+
             repaint();
         }
     }
