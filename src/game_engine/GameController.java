@@ -29,6 +29,7 @@ public class GameController implements GameConstants {
             boolean authentication_succesfull =controller_instance.authenticated(player_to_authenticate);
             if (authentication_succesfull){
                 controller_instance.startBuildingMode();
+
             }else{
                 controller_instance.showErrorPanel();
                 System.exit(0);
@@ -54,6 +55,14 @@ public class GameController implements GameConstants {
 
     }
 
+    public void playGame(Map map){
+        Game game = new Game(this.player, map);
+        renderer.getGamePanel(game);
+        Thread thread = new Thread(game);
+        thread.run();
+
+    }
+
     public void startBuildingMode(){
         //TODO: Normally we will call game here. That object will be responsible from every third party in the game.
         JFrame frame = new JFrame();
@@ -70,6 +79,8 @@ public class GameController implements GameConstants {
         //renderer.getBuildingModePanel(buildingMode);
         Thread thread = new Thread(buildingMode);
         thread.run();
+
+        controller_instance.playGame(buildingMode.getCurrentMap());
 
     }
 

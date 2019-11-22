@@ -50,11 +50,7 @@ public class BuildingModePanel  extends JPanel implements GameConstants, KeyList
         // drawing map
         drawMap(g2d);
 
-
         drawBorder(g2d);
-
-
-        //help sign
 
         drawText(g2d, 14, "PRESS 'G' FOR A RANDOM MAP." , 700, PADDLE_Y_START, Color.BLACK);
 
@@ -78,11 +74,11 @@ public class BuildingModePanel  extends JPanel implements GameConstants, KeyList
         for (Brick b : buildingMode.getCurrentMap().getBricks()) {
             if (!b.isDestroyed()) {
                 if (b.getClass().getName() == "model.bricks.MineBrick") {
-                    drawMineBrick(g2d, Color.red, b.getX(), b.getY(), b.getWidth(), b.getHeight());
+                    drawMineBrick(g2d, b.getColor(), b.getX(), b.getY(), b.getWidth(), b.getHeight());
                 } else if (b.getClass().getName() == "model.bricks.HalfMetalBrick") {
-                    drawHalfMetal(g2d, Color.gray, b.getX(), b.getY(), b.getWidth(), b.getHeight());
+                    drawHalfMetal(g2d, b.getColor(), b.getX(), b.getY(), b.getWidth(), b.getHeight());
                 } else {
-                    drawSimpleBrick(g2d, Color.green, b.getX(), b.getY(), b.getWidth(), b.getHeight());
+                    drawSimpleBrick(g2d, b.getColor(), b.getX(), b.getY(), b.getWidth(), b.getHeight());
                 }
             }
         }
@@ -215,7 +211,9 @@ public class BuildingModePanel  extends JPanel implements GameConstants, KeyList
             buildingMode.initializeMap();
             System.out.println("G is clicked.");
         }
-
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            buildingMode.terminate();
+        }
 
         if (e.getKeyCode() == KeyEvent.VK_1) {
             buildingMode.changeBrickType(1);

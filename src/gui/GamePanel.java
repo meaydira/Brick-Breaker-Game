@@ -7,14 +7,17 @@ import model.bricks.Brick;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
 
 
-public class GamePanel extends JPanel implements GameConstants, KeyListener, ActionListener,MouseListener {
+public class GamePanel extends JPanel implements GameConstants, KeyListener, ActionListener {
 
 
     private static GamePanel game_instance = null;
@@ -29,7 +32,6 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
             game_instance.currentGame = game;
             game_instance.setLayout(new GridLayout());
             game_instance.addKeyListener(game_instance);
-            game_instance.addMouseListener(game_instance);
             game_instance.setFocusable(true);
             game_instance.setFocusTraversalKeysEnabled(false);
             game_instance.timer = new Timer(game_instance.delay, game_instance);
@@ -175,34 +177,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
     }
 
 
-    public void mouseClicked(MouseEvent e) {
-        int x=e.getX();
-        int y=e.getY();
-        if(currentGame.isBuilding()==true){
 
-            repaint();
-        }
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
 
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {

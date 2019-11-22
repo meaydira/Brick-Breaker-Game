@@ -28,7 +28,7 @@ public class Game implements Runnable, GameConstants {
     private AlienFactory alienFactory;  //these should be  //TODO: implement or delete
 
     public boolean isBuilding() {
-        return isBuilding;
+        return false;
     }
 
     public void setBuilding(boolean building) {
@@ -58,6 +58,23 @@ public class Game implements Runnable, GameConstants {
         ball = new Ball();
         paddle = new Paddle();
         map = new MapGenerator().generateMap(6, 12);
+        hitLock = System.currentTimeMillis();
+
+
+    }
+
+
+    public Game(Player player, Map map) {
+        playerName = JOptionPane.showInputDialog("Please enter your name:", "Brick Breaker, Corporate Slaves");
+        //if (playerName.toUpperCase().equals("WARRIS") || playerName.toUpperCase().equals("WARRIS GILL") || playerName.toUpperCase().equals("ATİLLA") || playerName.toUpperCase().equals("ATİLLA GÜRSOY")) {
+        //score += 1000;
+        //gameP.showMessage("What a nice name ! You unlocked the secret 1,000 point bonus! Have fun!", "1,000 Points"); }
+
+
+        this.player = player;
+        ball = new Ball();
+        paddle = new Paddle();
+        this.map = map;
         hitLock = System.currentTimeMillis();
 
 
