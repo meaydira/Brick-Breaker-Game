@@ -5,7 +5,7 @@ import model.GameObject;
 
 import java.io.Serializable;
 
-public class Ball extends GameObject implements GameConstants, Serializable{
+public class Ball extends GameObject implements GameConstants, Serializable {
 
     private double xDir = BALL_X_DIRECTION, yDir = BALL_Y_DIRECTION;
 
@@ -13,18 +13,19 @@ public class Ball extends GameObject implements GameConstants, Serializable{
         return vectorLength;
     }
 
-    private double vectorLength=Math.sqrt(xDir*xDir+yDir*yDir);
+    private double vectorLength = Math.sqrt(xDir * xDir + yDir * yDir);
 
     public void setAngle(double angle) {
         this.angle = angle;
 
-       // System.out.println("angle changed to: "+angle);
+        // System.out.println("angle changed to: "+angle);
     }
+
     private static final long serialVersionUID = 1L;
-    private double angle=Math.toDegrees(Math.atan( - (yDir/xDir)));
+    private double angle = Math.toDegrees(Math.atan(-(yDir / xDir)));
 
     public Ball() {
-        super(385, 519-30, BALL_WIDTH, BALL_HEIGHT, BALL_COLOR);
+        super(385, 519 - 30, BALL_WIDTH, BALL_HEIGHT, BALL_COLOR);
     }
 
     //Moves the ball
@@ -39,23 +40,23 @@ public class Ball extends GameObject implements GameConstants, Serializable{
         x_coordinate = BALL_X_START;
         y_coordinate = BALL_Y_START;
 
-        x_coordinate=385;
-        y_coordinate=519;
+        x_coordinate = 385;
+        y_coordinate = 519;
         xDir = 1;
         yDir = -1;
-        vectorLength=Math.sqrt(xDir*xDir+yDir*yDir);
+        vectorLength = Math.sqrt(xDir * xDir + yDir * yDir);
     }
 
     //Mutator methods
     public void setXDir(double xDir) {
         this.xDir = xDir;
-        setAngle(Math.toDegrees(Math.atan((double) -(yDir/xDir))));
+        setAngle(Math.toDegrees(Math.atan((double) -(yDir / xDir))));
 
     }
 
     public void setYDir(double yDir) {
         this.yDir = yDir;
-        setAngle(Math.toDegrees(Math.atan((double) -(yDir/xDir))));
+        setAngle(Math.toDegrees(Math.atan((double) -(yDir / xDir))));
 
     }
 
@@ -64,6 +65,7 @@ public class Ball extends GameObject implements GameConstants, Serializable{
 
 
     }
+
     public void setYDirSpecial(double yDir) {
         this.yDir = yDir;
 
@@ -71,10 +73,11 @@ public class Ball extends GameObject implements GameConstants, Serializable{
     }
 
 
-    public void setX(double xCoordinate){
+    public void setX(double xCoordinate) {
         super.x_coordinate = xCoordinate;
     }
-    public void setY(double yCoordinate){
+
+    public void setY(double yCoordinate) {
         super.y_coordinate = yCoordinate;
     }
 
@@ -87,23 +90,26 @@ public class Ball extends GameObject implements GameConstants, Serializable{
         return yDir;
     }
 
-    public double getX(){
+    public double getX() {
         return super.x_coordinate;
     }
-    public double getY(){
+
+    public double getY() {
         return super.y_coordinate;
     }
 
-    public double getAngle(){
+    public double getAngle() {
         return this.angle;
     }
-    public void setDirByAngle(double angle){
-        this.angle=angle;
-        xDir=vectorLength*Math.cos(Math.toRadians(angle));
-        yDir=- vectorLength*Math.sin(Math.toRadians(angle));
+
+    public void setDirByAngle(double angle) {
+        this.angle = angle;
+        xDir = vectorLength * Math.cos(Math.toRadians(angle));
+        yDir = -vectorLength * Math.sin(Math.toRadians(angle));
 
     }
-    public void setAngleByDir(double xx,double yy){
-        setAngle(Math.toDegrees(Math.atan((double) -yy/xx)));
+
+    public void setAngleByDir(double xx, double yy) {
+        setAngle(Math.toDegrees(Math.atan((double) -yy / xx)));
     }
 }

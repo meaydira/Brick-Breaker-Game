@@ -63,20 +63,36 @@ public class Game implements Runnable, GameConstants {
         hitLock = System.currentTimeMillis();
     }
 
+    public boolean isReinitialized() {
+        return (isGameStarted() && getStatus() == GameStatus.Lost);
+    }
+
     public void reinitialize() {
-        if (status == GameStatus.Lost) {
-            status = GameStatus.Undecided;
-            getBall().setX(385);
-            getBall().setY(519 - 30);
+        if (!isGameStarted()) {
+            setGameStarted(true);
+            setRunning(true);
+        } else {
+            if (getStatus() == GameStatus.Lost) {
+                setGameStarted(false);
 
-            getBall().setXDir(-1);
-            getBall().setYDir(-2);
 
-            getPaddle().setXpos(310);
-            setScore(0);
-            setTotalBricks(21);
-            map = initialMap;
-            gameStarted = false;
+                if (status == GameStatus.Lost) {
+                    status = GameStatus.Undecided;
+                    getBall().setX(385);
+                    getBall().setY(519 - 30);
+
+                    getBall().setXDir(-1);
+                    getBall().setYDir(-2);
+
+                    getPaddle().setXpos(310);
+                    setScore(0);
+                    setTotalBricks(21);
+                    map = initialMap;
+                    gameStarted = false;
+                }
+            } else {
+                switchMode();
+            }
         }
 
     }
@@ -238,10 +254,10 @@ public class Game implements Runnable, GameConstants {
         } else if (getPaddle().getAngle() >= 0) {
             if (GameGeometrics.checkPaddleLineIntersectsBall((getBall().getX()), (getBall().getY()),
 
-                            getPaddle().getXpos() + getPaddle().getWidth() - (getPaddle().getWidth()) * (Math.cos(Math.toRadians(getPaddle().getAngle()))),
-                            getPaddle().getYpos() - (getPaddle().getWidth()) * (Math.sin(Math.toRadians(getPaddle().getAngle()))),
-                            getPaddle().getXpos() + (getPaddle().getWidth()),
-                            getPaddle().getYpos())) {
+                    getPaddle().getXpos() + getPaddle().getWidth() - (getPaddle().getWidth()) * (Math.cos(Math.toRadians(getPaddle().getAngle()))),
+                    getPaddle().getYpos() - (getPaddle().getWidth()) * (Math.sin(Math.toRadians(getPaddle().getAngle()))),
+                    getPaddle().getXpos() + (getPaddle().getWidth()),
+                    getPaddle().getYpos())) {
                 if (System.currentTimeMillis() > Lock + 100) {
                     getBall().setAngle((360 - 2 * getPaddle().getAngle() - getBall().getAngle()));
                     getBall().setYDirSpecial(-Math.abs(Math.sin(Math.toRadians(getBall().getAngle())) * getBall().getVectorLength()));

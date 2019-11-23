@@ -47,7 +47,7 @@ public class GameController {
         return game.getPaddle().getWidth();
     }
 
-    public double getPaddleAngle(){
+    public double getPaddleAngle() {
         return game.getPaddle().getAngle();
     }
 
@@ -75,10 +75,6 @@ public class GameController {
         return game.getBall().getY();
     }
 
-    public double getBallAngle() {
-        return game.getBall().getAngle();
-    }
-
     public void movePaddleLeft() {
         game.moveLeft();
     }
@@ -87,25 +83,12 @@ public class GameController {
         game.moveRight();
     }
 
-    public boolean isGameStarted() {
-        return game.isGameStarted();
+    public boolean isReinitialized() {
+        return game.isReinitialized();
     }
 
-
-    public void setGameStarted(boolean mode) {
-        game.setGameStarted(mode);
-    }
-
-    public void switchMode() {
-        game.switchMode();
-    }
-
-    public void reinitialize(){
+    public void reinitialize() {
         game.reinitialize();
-    }
-
-    public void setRunning(boolean mode){
-        game.setRunning(mode);
     }
 
     public void loadCurrent() {
