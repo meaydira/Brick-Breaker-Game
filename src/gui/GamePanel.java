@@ -203,7 +203,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         }
 
         if (e.getKeyCode() == KeyEvent.VK_L) {
-//            currentGame.loadCurrent();
+            currentGame.loadCurrent();
         }
 
     }

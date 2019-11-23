@@ -96,9 +96,6 @@ public class GameController {
         return game.isGameStarted();
     }
 
-    public boolean isGamePaused() {
-        return game.isGamePaused();
-    }
 
     public void setGameStarted(boolean mode) {
         game.setGameStarted(mode);
