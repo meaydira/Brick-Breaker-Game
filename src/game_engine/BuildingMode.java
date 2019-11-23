@@ -54,7 +54,7 @@ public class BuildingMode implements Runnable, GameConstants  {
             int yPos=yPosBrick_lowLimit+ random.nextInt(yPosBrick_HighLimit-yPosBrick_lowLimit);
             Brick simpleBrick= Brickfactory.getInstance().produce("SimpleBrick",xPos,yPos,BRICK_WIDTH,BRICK_HEIGHT, Color.green);
             if(!( map==null)) {
-                if(!(.checkIntersectSimpleBrickwithAllBricks(simpleBrick,map))){
+                if(!(GameGeometrics.checkIntersectSimpleBrickwithAllBricks(simpleBrick,map))){
                     map.addBrick(simpleBrick);
                 }
             }else{
@@ -100,8 +100,6 @@ public class BuildingMode implements Runnable, GameConstants  {
                 map.addBrick(wrapperBrick);
             }
         }
-
-
     }
 
     public Map getCurrentMap(){
