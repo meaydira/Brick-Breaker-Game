@@ -3,7 +3,7 @@ package game_engine;
 import factories.Brickfactory;
 import model.balls.Ball;
 import model.bricks.Brick;
-import model2.Paddle;
+import model.Paddle;
 
 import java.awt.*;
 import java.util.Random;
@@ -16,7 +16,6 @@ public class BuildingMode implements Runnable, GameConstants  {
     public static final int xPosBrick_HighLimit= 670;
     public static final int yPosBrick_lowLimit= 0;
     public static final int yPosBrick_HighLimit= 338;
-            //(int) (WINDOW_HEIGHT-(0.4*WINDOW_HEIGHT));
     private int numSimpleBrick=12,  numMineBrick=3,  numHalfMetalBrick=4, numWrapperBrick=0;
     private int waitTime = 10;
     private Ball ball;
@@ -179,7 +178,6 @@ public class BuildingMode implements Runnable, GameConstants  {
 
     @Override
     public void run() {
-        System.out.println("Building mode class is running");
         while (running) {
             try {
                 Thread.sleep(waitTime);

@@ -1,4 +1,4 @@
-package Database;
+package database;
 
 import game_engine.Player;
 
@@ -6,7 +6,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class FileManager implements DataBaseAdapter {
-	private  String playerTable= "src/Database/playerTable.txt";
+	private  String playerTable= "src/database/playerTable.txt";
 	private static int count = 0;
 
 

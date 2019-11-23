@@ -1,9 +1,9 @@
-package Database;
+package database;
 
 import game_engine.Map;
 import game_engine.Player;
 import model.balls.Ball;
-import model2.Paddle;
+import model.Paddle;
 
 import java.io.Serializable;
 

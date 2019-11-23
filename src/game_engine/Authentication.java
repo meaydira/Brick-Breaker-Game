@@ -1,8 +1,6 @@
 package game_engine;
 
-import Database.Database;
-
-import java.io.IOException;
+import database.Database;
 
 public class Authentication {
 

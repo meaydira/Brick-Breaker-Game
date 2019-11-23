@@ -43,7 +43,6 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
     }
 
 
-
     public void paint(Graphics g) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         screenSize.getHeight();
@@ -109,7 +108,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         g2d.setColor(color);
         g2d.fill(new Rectangle2D.Double(x, y, width, height - 5));
         g2d.setColor(Color.darkGray);
-        g2d.fill(new Rectangle2D.Double(x , y+ height - 8, width, 5));
+        g2d.fill(new Rectangle2D.Double(x, y + height - 8, width, 5));
 
     }
 
@@ -147,11 +146,11 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
     private void drawPaddle(Graphics2D g2d) {
 
         g2d.setColor(Color.yellow);
-        Rectangle2D paddleRechtangle =new Rectangle2D.Double(currentGame.getPaddle().getXpos(), PADDLE_Y_START, currentGame.getPaddle().getWidth(), PADDLE_HEIGHT);
+        Rectangle2D paddleRechtangle = new Rectangle2D.Double(currentGame.getPaddle().getXpos(), PADDLE_Y_START, currentGame.getPaddle().getWidth(), PADDLE_HEIGHT);
 
         AffineTransform tx = new AffineTransform();
         Double radianAngle = Math.toRadians(currentGame.getPaddle().getAngle());
-        double rotationCenter =  (currentGame.getPaddle().getAngle() < 0) ? (currentGame.getPaddle().getXpos()) : ( currentGame.getPaddle().getXpos() + currentGame.getPaddle().getWidth());
+        double rotationCenter = (currentGame.getPaddle().getAngle() < 0) ? (currentGame.getPaddle().getXpos()) : (currentGame.getPaddle().getXpos() + currentGame.getPaddle().getWidth());
         tx.rotate(radianAngle, rotationCenter, PADDLE_Y_START);
         Shape rotatedVersion = tx.createTransformedShape(paddleRechtangle);
         g2d.fill(rotatedVersion);
@@ -159,12 +158,10 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
 
     private void drawBall(Graphics2D g2d) {
 
-        Ellipse2D.Double shape = new Ellipse2D.Double( currentGame.getBall().getX(), currentGame.getBall().getY(), BALL_WIDTH, BALL_HEIGHT);
+        Ellipse2D.Double shape = new Ellipse2D.Double(currentGame.getBall().getX(), currentGame.getBall().getY(), BALL_WIDTH, BALL_HEIGHT);
         g2d.setColor(currentGame.getBall().getColor());
         g2d.fill(shape);
     }
-
-
 
 
     public void keyPressed(KeyEvent e) {
@@ -177,15 +174,14 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         }
 
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            if(!currentGame.isGameStarted()) {
+            if (!currentGame.isGameStarted()) {
                 currentGame.setGameStarted(true);
-                currentGame.setRunning(true) ;
-            }else {
-                if (currentGame.getStatus() == GameStatus.Lost) currentGame.setGameStarted(false);
+                currentGame.setRunning(true);
+            } else {
                 if (currentGame.getStatus() == GameStatus.Lost) {
+                    currentGame.setGameStarted(false);
                     currentGame.reinitialize();
                     repaint();
-
                 } else {
                     currentGame.switchMode();
                 }
@@ -199,10 +195,9 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         }
 
         if (e.getKeyCode() == KeyEvent.VK_S) {
-            System.out.println("S key is pressed.");
             currentGame.saveCurrent();
         }
-        if(e.getKeyCode()==KeyEvent.VK_T){
+        if (e.getKeyCode() == KeyEvent.VK_T) {
             currentGame.tPressed();
         }
 
@@ -228,7 +223,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
     public void actionPerformed(ActionEvent e) {
 
         timer.start();
-       //TODO: Implement  boolean directionLock = false;
+        //TODO: Implement  boolean directionLock = false;
         if (currentGame.isRunning()) {
             currentGame.runPhysics();
         }

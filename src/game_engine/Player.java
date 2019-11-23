@@ -1,6 +1,6 @@
 package game_engine;
 
-import Database.GameState;
+import database.GameState;
 
 import java.io.Serializable;
 import java.util.ArrayList;

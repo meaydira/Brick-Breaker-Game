@@ -1,13 +1,11 @@
 package game_engine;
 
-
-import Database.GameState;
+import database.GameState;
 import javafx.scene.shape.Circle;
 import model.balls.Ball;
 import model.bricks.Brick;
-import model2.Paddle;
+import model.Paddle;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
@@ -16,7 +14,6 @@ import java.io.IOException;
 public class Game implements Runnable, GameConstants {
 
     private Player player;
-    private String playerName;
     private int totalBricks = 0;
     private Ball ball;
 
@@ -28,8 +25,8 @@ public class Game implements Runnable, GameConstants {
     }
 
     private boolean running = false;
-    private boolean gamePaused=false;
-    private boolean gameStarted=false;
+    private boolean gamePaused = false;
+    private boolean gameStarted = false;
 
     public boolean isGamePaused() {
         return gamePaused;
@@ -38,7 +35,6 @@ public class Game implements Runnable, GameConstants {
     public void setGamePaused(boolean gamePaused) {
         this.gamePaused = gamePaused;
     }
-
 
 
     public boolean isGameStarted() {
@@ -58,27 +54,9 @@ public class Game implements Runnable, GameConstants {
     private Map map;
     SaveLoadManager SLM = SaveLoadManager.getInstance();
 
-
     private int score = 0, lives = MAX_LIVES, bricksLeft = MAX_BRICKS, waitTime = 10;
 
-
-    public Game(Player player) {
-        playerName = JOptionPane.showInputDialog("Please enter your name:", "Brick Breaker, Corporate Slaves");
-        //if (playerName.toUpperCase().equals("WARRIS") || playerName.toUpperCase().equals("WARRIS GILL") || playerName.toUpperCase().equals("ATİLLA") || playerName.toUpperCase().equals("ATİLLA GÜRSOY")) {
-        //score += 1000;
-        //gameP.showMessage("What a nice name ! You unlocked the secret 1,000 point bonus! Have fun!", "1,000 Points"); }
-        this.player = player;
-        ball = new Ball();
-        paddle = new Paddle();
-        getBall().setX(310+getPaddle().getWidth()/2);
-        getBall().setY(getPaddle().getYpos()-1);
-        map = new MapGenerator().generateMap(6, 12);
-        totalBricks = 48;
-        hitLock = System.currentTimeMillis(); }
-
-
     public Game(Player player, Map map) {
-        playerName = JOptionPane.showInputDialog("Please enter your name:", "Brick Breaker, Corporate Slaves");
         this.player = player;
         ball = new Ball();
         paddle = new Paddle();
@@ -86,13 +64,13 @@ public class Game implements Runnable, GameConstants {
         this.initialMap = map;
         totalBricks = map.getBricks().size();
         hitLock = System.currentTimeMillis();
-  }
+    }
 
     public void reinitialize() {
         if (status == GameStatus.Lost) {
             status = GameStatus.Undecided;
             getBall().setX(385);
-            getBall().setY(519-30);
+            getBall().setY(519 - 30);
 
             getBall().setXDir(-1);
             getBall().setYDir(-2);
@@ -101,9 +79,8 @@ public class Game implements Runnable, GameConstants {
             setScore(0);
             setTotalBricks(21);
             map = initialMap;
-            gameStarted=false;
+            gameStarted = false;
         }
-       // running=true;
 
     }
 
@@ -116,7 +93,7 @@ public class Game implements Runnable, GameConstants {
         outher_escape:
         for (Brick b : map.getBricks()) {
             ballRect = new Rectangle2D.Double(this.ball.getX(), this.ball.getY(), 20, 20);
-            brickRect = new Rectangle((int) b.getX(),(int) b.getY(), b.getWidth(), b.getHeight());
+            brickRect = new Rectangle((int) b.getX(), (int) b.getY(), b.getWidth(), b.getHeight());
 
             if (!b.isDestroyed() && ballRect.intersects(brickRect)) {
 
@@ -135,7 +112,7 @@ public class Game implements Runnable, GameConstants {
                         getBall().setYDir(-getBall().getYDir());
                         verticalDirectionChangeLock = System.currentTimeMillis();
                         if (b.getClass().getName() == "model.bricks.MineBrick") {
-                            Circle explosionRange = new Circle(b.getX(), b.getY(), getPaddle().getWidth()/2);
+                            Circle explosionRange = new Circle(b.getX(), b.getY(), getPaddle().getWidth() / 2);
                             for (Brick brick_to_explode : map.getBricks()) {
                                 if (!brick_to_explode.isDestroyed() && explosionRange.contains(brick_to_explode.getX(), brick_to_explode.getY())) {
                                     brick_to_explode.destroyBrick();
@@ -191,7 +168,7 @@ public class Game implements Runnable, GameConstants {
 
     public void moveRight() {
         //running = true;
-        if(!isGamePaused()) {
+        if (!isGamePaused()) {
             getPaddle().moveRight();
             if (!isRunning() && !isGameStarted()) {
                 getBall().setX(getPaddle().getXpos() + getPaddle().getWidth() / 2 - BALL_WIDTH / 2);
@@ -201,23 +178,24 @@ public class Game implements Runnable, GameConstants {
 
     public void moveLeft() {
         //running = true;
-        if(!isGamePaused()) {
+        if (!isGamePaused()) {
             getPaddle().moveLeft();
             if (!isRunning() && !isGameStarted()) {
                 getBall().setX(getPaddle().getXpos() + getPaddle().getWidth() / 2 - BALL_WIDTH / 2);
             }
         }
-         // getBall().setX(getBall().getX()-20);
+        // getBall().setX(getBall().getX()-20);
     }
-    public void tPressed(){
-        if(gameStarted==false) {
+
+    public void tPressed() {
+        if (gameStarted == false) {
             gameStarted = true;
             running = true;
         }
     }
 
     public void changePaddleAnglePositively() {
-        if(!isGamePaused()&&isRunning()&&isGameStarted()) {
+        if (!isGamePaused() && isRunning() && isGameStarted()) {
             getPaddle().rotatePositive();
 
         }
@@ -225,7 +203,7 @@ public class Game implements Runnable, GameConstants {
     }
 
     public void changePaddleAngleNegatively() {
-        if(!isGamePaused()&&isRunning()&&isGameStarted()) {
+        if (!isGamePaused() && isRunning() && isGameStarted()) {
             getPaddle().rotateNegative();
 
         }
@@ -233,59 +211,59 @@ public class Game implements Runnable, GameConstants {
 
     public void switchMode() {
         running = !running;
-        if(!isRunning()){
+        if (!isRunning()) {
             setGamePaused(true);
-        }else setGamePaused(false);
+        } else setGamePaused(false);
     }
 
     public Map getMap() {
         return this.map;
     }
+
     public Player getPlayer() {
-    	return this.player;
-    }
-    public int getlives() {
-    	return this.lives;
+        return this.player;
     }
 
-    private void collisionBallPaddle(){
+    public int getlives() {
+        return this.lives;
+    }
+
+    private void collisionBallPaddle() {
         //squashes with the paddle
-        if(getPaddle().getAngle()<0){
-            if (new Rectangle2D.Double(  (getBall().getX()), (getBall().getY()), 20, 20).intersectsLine(new Line2D.Double(
+        if (getPaddle().getAngle() < 0) {
+            if (new Rectangle2D.Double((getBall().getX()), (getBall().getY()), 20, 20).intersectsLine(new Line2D.Double(
                     getPaddle().getVirtualX(),
                     getPaddle().getVirtualY(),
-                    getPaddle().getVirtualX()+(getPaddle().getWidth())*(Math.cos(Math.toRadians(-getPaddle().getAngle()))),
-                    getPaddle().getVirtualY()-(getPaddle().getWidth())*(Math.sin(Math.toRadians(-getPaddle().getAngle()))))))
-            {
-                if(System.currentTimeMillis()>Lock + 100) {
-                    getBall().setAngle((180- 2 * getPaddle().getAngle() - getBall().getAngle()));
-                    getBall().setYDirSpecial(-Math.abs(Math.sin(Math.toRadians(getBall().getAngle()))*getBall().getVectorLength()));
-                    getBall().setXDirSpecial(Math.cos(Math.toRadians(getBall().getAngle()))*getBall().getVectorLength());
-                    getBall().setAngleByDir(getBall().getXDir(),getBall().getYDir());
-                    Lock=System.currentTimeMillis();
-                }}
-        }else if(getPaddle().getAngle()>=0){
-            if( (new Rectangle2D.Double(  (getBall().getX()),  (getBall().getY()), 20, 20))
+                    getPaddle().getVirtualX() + (getPaddle().getWidth()) * (Math.cos(Math.toRadians(-getPaddle().getAngle()))),
+                    getPaddle().getVirtualY() - (getPaddle().getWidth()) * (Math.sin(Math.toRadians(-getPaddle().getAngle())))))) {
+                if (System.currentTimeMillis() > Lock + 100) {
+                    getBall().setAngle((180 - 2 * getPaddle().getAngle() - getBall().getAngle()));
+                    getBall().setYDirSpecial(-Math.abs(Math.sin(Math.toRadians(getBall().getAngle())) * getBall().getVectorLength()));
+                    getBall().setXDirSpecial(Math.cos(Math.toRadians(getBall().getAngle())) * getBall().getVectorLength());
+                    getBall().setAngleByDir(getBall().getXDir(), getBall().getYDir());
+                    Lock = System.currentTimeMillis();
+                }
+            }
+        } else if (getPaddle().getAngle() >= 0) {
+            if ((new Rectangle2D.Double((getBall().getX()), (getBall().getY()), 20, 20))
                     .intersectsLine(new Line2D.Double(
-                            getPaddle().getXpos()+getPaddle().getWidth()-(getPaddle().getWidth())*(Math.cos(Math.toRadians(getPaddle().getAngle()))),
-                            getPaddle().getYpos()-(getPaddle().getWidth())*(Math.sin(Math.toRadians(getPaddle().getAngle()))),
-                            getPaddle().getXpos()+(getPaddle().getWidth()),
-                            getPaddle().getYpos()  )))
-            {
-                if(System.currentTimeMillis()>Lock + 100) {
-                    getBall().setAngle((360-2 * getPaddle().getAngle() - getBall().getAngle()));
-                    getBall().setYDirSpecial(-Math.abs(Math.sin(Math.toRadians(getBall().getAngle()))*getBall().getVectorLength()));
-                    getBall().setXDirSpecial(Math.cos(Math.toRadians(getBall().getAngle()))*getBall().getVectorLength());
-                    getBall().setAngleByDir(getBall().getXDir(),getBall().getYDir());
-                    Lock=System.currentTimeMillis();
-                    // System.out.println("HIIIIT!!! angle positive");
+                            getPaddle().getXpos() + getPaddle().getWidth() - (getPaddle().getWidth()) * (Math.cos(Math.toRadians(getPaddle().getAngle()))),
+                            getPaddle().getYpos() - (getPaddle().getWidth()) * (Math.sin(Math.toRadians(getPaddle().getAngle()))),
+                            getPaddle().getXpos() + (getPaddle().getWidth()),
+                            getPaddle().getYpos()))) {
+                if (System.currentTimeMillis() > Lock + 100) {
+                    getBall().setAngle((360 - 2 * getPaddle().getAngle() - getBall().getAngle()));
+                    getBall().setYDirSpecial(-Math.abs(Math.sin(Math.toRadians(getBall().getAngle())) * getBall().getVectorLength()));
+                    getBall().setXDirSpecial(Math.cos(Math.toRadians(getBall().getAngle())) * getBall().getVectorLength());
+                    getBall().setAngleByDir(getBall().getXDir(), getBall().getYDir());
+                    Lock = System.currentTimeMillis();
                 }
             }
         }
 
     }
 
-    private void collisionBallWall(){
+    private void collisionBallWall() {
         //squashes with the wall
         if (getBall().getX() < 0) {
             getBall().setXDir(-getBall().getXDir());
@@ -300,20 +278,21 @@ public class Game implements Runnable, GameConstants {
     }
 
     public void saveCurrent() {
-        if(running==false) {
+        if (running == false) {
             SLM.saveGame(this);
+            System.out.println("Game Savec");
         }
 
     }
 
     public void loadCurrent() throws ClassNotFoundException, IOException {
-        if(running==false) {
-            GameState Load=SLM.loadGame(player);
+        if (running == false) {
+            GameState Load = SLM.loadGame(player);
             this.setScore(Load.getScore());
-            this.paddle=Load.getPaddleState();
-            this.ball=Load.getBallState();
-            this.map=Load.getMapState();
-            this.lives=Load.getLives();
+            this.paddle = Load.getPaddleState();
+            this.ball = Load.getBallState();
+            this.map = Load.getMapState();
+            this.lives = Load.getLives();
         }
     }
 

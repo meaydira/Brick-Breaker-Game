@@ -1,24 +1,25 @@
-package gui;
+package controllers;
 
 import game_engine.Board;
 import game_engine.BuildingMode;
 import game_engine.Game;
+import gui.*;
 
-public class Renderer {
+public class UIController {
     private MainMenuPanel mainMenu;
     private ErrorPanel errorPanel;
     private LoginPanel loginPanel;
     private RegisterPanel registerPanel;
     private GamePanel gamePanel;
     private BuildingModePanel buildingModePanel;
-    private static Renderer renderer_instance = null;
+    private static UIController UIController_instance = null;
 
-    public static Renderer getInstance(){
-        if(renderer_instance == null){
-            renderer_instance = new Renderer();
-            return renderer_instance;
+    public static UIController getInstance(){
+        if(UIController_instance == null){
+            UIController_instance = new UIController();
+            return UIController_instance;
         }else{
-            return renderer_instance;
+            return UIController_instance;
         }
 
     }
