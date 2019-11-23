@@ -2,6 +2,11 @@ package controllers;
 
 import game_engine.Game;
 import game_engine.GameStatus;
+import model.bricks.Brick;
+
+import java.awt.*;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class GameController {
     private Game game;
@@ -10,18 +15,120 @@ public class GameController {
     private GameController() {
 
     }
-    public static GameController getInstance(Game newGame){
-        if(instance == null){
+
+    public static GameController getInstance(Game newGame) {
+        if (instance == null) {
             instance = new GameController();
         }
         instance.game = newGame;
         return instance;
     }
-    public boolean isRunning(){
+
+    public boolean isRunning() {
         return game.isRunning();
     }
-    public GameStatus getStatus(){
+
+    public GameStatus getStatus() {
         return game.getStatus();
     }
+
+    public ArrayList<Brick> getBricks() {
+        return game.getMap().getBricks();
+    }
+
+    public int getScore() {
+        return game.getScore();
+    }
+
+    public double getPaddleX() {
+        return game.getPaddle().getXpos();
+    }
+
+    public double getPaddleWidth() {
+        return game.getPaddle().getWidth();
+    }
+
+    public double getPaddleAngle(){
+        return game.getPaddle().getAngle();
+    }
+
+    public void changePaddleAngleNegatively() {
+        game.changePaddleAngleNegatively();
+    }
+
+    public void changePaddleAnglePositively() {
+        game.changePaddleAnglePositively();
+    }
+
+    public void saveCurrent() {
+        game.saveCurrent();
+    }
+
+    public void tPressed() {
+        game.tPressed();
+    }
+
+    public double getBallX() {
+        return game.getBall().getX();
+    }
+
+    public double getBallY() {
+        return game.getBall().getY();
+    }
+
+    public double getBallAngle() {
+        return game.getBall().getAngle();
+    }
+
+    public Color getBallColor() {
+        return game.getBall().getColor();
+    }
+
+    public void movePaddleLeft() {
+        game.moveLeft();
+    }
+
+    public void movePaddleRight() {
+        game.moveRight();
+    }
+
+    public boolean isGameStarted() {
+        return game.isGameStarted();
+    }
+
+    public boolean isGamePaused() {
+        return game.isGamePaused();
+    }
+
+    public void setGameStarted(boolean mode) {
+        game.setGameStarted(mode);
+    }
+
+    public void switchMode() {
+        game.switchMode();
+    }
+
+    public void reinitialize(){
+        game.reinitialize();
+    }
+
+    public void setRunning(boolean mode){
+        game.setRunning(mode);
+    }
+
+    public void loadCurrent() {
+        try {
+            game.loadCurrent();
+        } catch (ClassNotFoundException e1) {
+            e1.printStackTrace();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    public void runPhysics() {
+        game.runPhysics();
+    }
+
 
 }

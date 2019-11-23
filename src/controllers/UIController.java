@@ -38,7 +38,7 @@ public class UIController {
         return loginPanel;
     }
 
-    public GamePanel getGamePanel(Game game){
+    public GamePanel getGamePanel(GameController game){
         this.gamePanel = GamePanel.getInstance(game);
         Board gameBoard = Board.changeToGamingPanel(gamePanel);
         return gamePanel;

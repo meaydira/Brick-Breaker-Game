@@ -48,7 +48,8 @@ public class NavigationController implements GameConstants {
 
     public void playGame(Map map){
         Game game = new Game(this.player, map);
-        uiController.getGamePanel(game);
+        GameController g_controller = GameController.getInstance(game);
+        uiController.getGamePanel(g_controller);
         Thread thread = new Thread(game);
         thread.run();
 

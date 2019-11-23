@@ -1,5 +1,6 @@
 package gui;
 
+import controllers.GameController;
 import game_engine.Game;
 import game_engine.GameConstants;
 import game_engine.GameStatus;
@@ -21,12 +22,12 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
 
 
     private static GamePanel game_instance = null;
-    private Game currentGame;
+    private GameController currentGame;
     private Timer timer;
     private int delay = 2;
     private JButton pauseButton;  // TODO: Implement pause button
 
-    public static GamePanel getInstance(Game game) {
+    public static GamePanel getInstance(GameController game) {
         if (game_instance == null) {
             game_instance = new GamePanel();
             game_instance.currentGame = game;
@@ -53,7 +54,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
 
         // drawing map
 
-        for (Brick b : currentGame.getMap().getBricks()) {
+        for (Brick b : currentGame.getBricks()) {
             if (!b.isDestroyed()) if (b.getClass().getName().equals("model.bricks.MineBrick")) {
                 drawMineBrick(g2d, b.getColor(), b.getX(), b.getY(), b.getWidth(), b.getHeight());
             } else if (b.getClass().getName().equals("model.bricks.HalfMetalBrick")) {
@@ -146,11 +147,11 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
     private void drawPaddle(Graphics2D g2d) {
 
         g2d.setColor(Color.yellow);
-        Rectangle2D paddleRechtangle = new Rectangle2D.Double(currentGame.getPaddle().getXpos(), PADDLE_Y_START, currentGame.getPaddle().getWidth(), PADDLE_HEIGHT);
+        Rectangle2D paddleRechtangle = new Rectangle2D.Double(currentGame.getPaddleX(), PADDLE_Y_START, currentGame.getPaddleWidth(), PADDLE_HEIGHT);
 
         AffineTransform tx = new AffineTransform();
-        Double radianAngle = Math.toRadians(currentGame.getPaddle().getAngle());
-        double rotationCenter = (currentGame.getPaddle().getAngle() < 0) ? (currentGame.getPaddle().getXpos()) : (currentGame.getPaddle().getXpos() + currentGame.getPaddle().getWidth());
+        Double radianAngle = Math.toRadians(currentGame.getPaddleAngle());
+        double rotationCenter = (currentGame.getPaddleAngle() < 0) ? (currentGame.getPaddleX()) : (currentGame.getPaddleX() + currentGame.getPaddleWidth());
         tx.rotate(radianAngle, rotationCenter, PADDLE_Y_START);
         Shape rotatedVersion = tx.createTransformedShape(paddleRechtangle);
         g2d.fill(rotatedVersion);
@@ -158,19 +159,19 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
 
     private void drawBall(Graphics2D g2d) {
 
-        Ellipse2D.Double shape = new Ellipse2D.Double(currentGame.getBall().getX(), currentGame.getBall().getY(), BALL_WIDTH, BALL_HEIGHT);
-        g2d.setColor(currentGame.getBall().getColor());
+        Ellipse2D.Double shape = new Ellipse2D.Double(currentGame.getBallX(), currentGame.getBallY(), BALL_WIDTH, BALL_HEIGHT);
+        g2d.setColor(currentGame.getBallColor());
         g2d.fill(shape);
     }
 
 
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            currentGame.moveRight();
+            currentGame.movePaddleRight();
         }
 
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            currentGame.moveLeft();
+            currentGame.movePaddleLeft();
         }
 
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -202,13 +203,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         }
 
         if (e.getKeyCode() == KeyEvent.VK_L) {
-            try {
-                currentGame.loadCurrent();
-            } catch (ClassNotFoundException e1) {
-                e1.printStackTrace();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
+//            currentGame.loadCurrent();
         }
 
     }
