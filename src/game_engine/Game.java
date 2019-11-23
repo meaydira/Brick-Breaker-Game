@@ -1,16 +1,13 @@
 package game_engine;
 
 import database.GameState;
-import model.GameShape;
+import model.GameGeometrics;
 import model.balls.Ball;
 import model.bricks.Brick;
 import model.Paddle;
 
 import java.io.IOException;
 
-import javafx.scene.shape.Circle;
-
-import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
@@ -93,7 +90,7 @@ public class Game implements Runnable, GameConstants {
         outher_escape:
         for (Brick b : map.getBricks()) {
 
-            if (!b.isDestroyed() && GameShape.ballIntersectsBrick(b, ball)) {
+            if (!b.isDestroyed() && GameGeometrics.ballIntersectsBrick(b, ball)) {
 
                 if (System.currentTimeMillis() - hitLock > 100) {
                     b.hit();
@@ -104,14 +101,14 @@ public class Game implements Runnable, GameConstants {
                     totalBricks--;
                 }
                 // when ball hits top or bottom of brick
-                if (GameShape.ballHitsTopOrBottom(b, getBall())) {
+                if (GameGeometrics.ballHitsTopOrBottom(b, getBall())) {
                     if (System.currentTimeMillis() > verticalDirectionChangeLock + 50)  //This lock prevent the ball from oscillating
                     {
                         getBall().setYDir(-getBall().getYDir());
                         verticalDirectionChangeLock = System.currentTimeMillis();
                         if (b.getClass().getName() == "model.bricks.MineBrick") {
                             for (Brick brick_to_explode : map.getBricks()) {
-                                if (!brick_to_explode.isDestroyed() && GameShape.inExplosionRange(brick_to_explode)) {
+                                if (!brick_to_explode.isDestroyed() && GameGeometrics.inExplosionRange(brick_to_explode)) {
                                     brick_to_explode.destroyBrick();
                                 }
                             }

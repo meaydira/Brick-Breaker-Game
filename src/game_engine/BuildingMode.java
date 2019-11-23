@@ -1,7 +1,7 @@
 package game_engine;
 
 import factories.Brickfactory;
-import model.GameShape;
+import model.GameGeometrics;
 import model.balls.Ball;
 import model.bricks.Brick;
 import model.Paddle;
@@ -54,7 +54,7 @@ public class BuildingMode implements Runnable, GameConstants  {
             int yPos=yPosBrick_lowLimit+ random.nextInt(yPosBrick_HighLimit-yPosBrick_lowLimit);
             Brick simpleBrick= Brickfactory.getInstance().produce("SimpleBrick",xPos,yPos,BRICK_WIDTH,BRICK_HEIGHT, Color.green);
             if(!( map==null)) {
-                if(!(GameShape.checkIntersectSimpleBrickwithAllBricks(simpleBrick,map))){
+                if(!(.checkIntersectSimpleBrickwithAllBricks(simpleBrick,map))){
                     map.addBrick(simpleBrick);
                 }
             }else{
@@ -67,7 +67,7 @@ public class BuildingMode implements Runnable, GameConstants  {
             int yPos=yPosBrick_lowLimit+ random.nextInt(yPosBrick_HighLimit-yPosBrick_lowLimit);
             Brick mineBrick= Brickfactory.getInstance().produce("MineBrick",xPos,yPos,BRICK_WIDTH,BRICK_HEIGHT, Color.red);
             if(!( map==null)) {
-                if(!(GameShape.checkIntersectSimpleBrickwithAllBricks(mineBrick,map))){
+                if(!(GameGeometrics.checkIntersectSimpleBrickwithAllBricks(mineBrick,map))){
                     map.addBrick(mineBrick);
                 }
             }else{
@@ -80,7 +80,7 @@ public class BuildingMode implements Runnable, GameConstants  {
             int yPos=yPosBrick_lowLimit+ random.nextInt(yPosBrick_HighLimit-yPosBrick_lowLimit);
             Brick halfMetalBrick= Brickfactory.getInstance().produce("HalfMetalBrick",xPos,yPos,BRICK_WIDTH,BRICK_HEIGHT, Color.gray);
             if(!( map==null)) {
-                if(!(GameShape.checkIntersectSimpleBrickwithAllBricks(halfMetalBrick,map))){
+                if(!(GameGeometrics.checkIntersectSimpleBrickwithAllBricks(halfMetalBrick,map))){
                     map.addBrick(halfMetalBrick);
                 }
             }else{
@@ -93,7 +93,7 @@ public class BuildingMode implements Runnable, GameConstants  {
             int yPos=yPosBrick_lowLimit+ random.nextInt(yPosBrick_HighLimit-yPosBrick_lowLimit);
             Brick wrapperBrick= Brickfactory.getInstance().produce("WrapperBrick",xPos,yPos,BRICK_WIDTH,BRICK_HEIGHT, Color.white);
             if(!( map==null)) {
-                if(!(GameShape.checkIntersectSimpleBrickwithAllBricks(wrapperBrick,map))){
+                if(!(GameGeometrics.checkIntersectSimpleBrickwithAllBricks(wrapperBrick,map))){
                     map.addBrick(wrapperBrick);
                 }
             }else{
@@ -135,20 +135,20 @@ public class BuildingMode implements Runnable, GameConstants  {
             switch (currentBrick){
                 case 1:
                     Brick simpleBrick= Brickfactory.getInstance().produce("SimpleBrick",x,y,BRICK_WIDTH,BRICK_HEIGHT, Color.green);
-                    if(!(GameShape.checkIntersectSimpleBrickwithAllBricks(simpleBrick,map))){
+                    if(!(GameGeometrics.checkIntersectSimpleBrickwithAllBricks(simpleBrick,map))){
                         map.addBrick(simpleBrick);
                     }
                     break;
 
                 case 2:
                     Brick halfMetalBrick= Brickfactory.getInstance().produce("HalfMetalBrick",x,y,BRICK_WIDTH,BRICK_HEIGHT, Color.gray);
-                    if(!(GameShape.checkIntersectSimpleBrickwithAllBricks(halfMetalBrick,map))){
+                    if(!(GameGeometrics.checkIntersectSimpleBrickwithAllBricks(halfMetalBrick,map))){
                         map.addBrick(halfMetalBrick);
                     }
                     break;
                 case 3:
                     Brick mineBrick= Brickfactory.getInstance().produce("MineBrick",x,y,BRICK_WIDTH,BRICK_HEIGHT, Color.red);
-                    if(!(GameShape.checkIntersectSimpleBrickwithAllBricks(mineBrick,map))){
+                    if(!(GameGeometrics.checkIntersectSimpleBrickwithAllBricks(mineBrick,map))){
                         map.addBrick(mineBrick);
                     }
                     break;

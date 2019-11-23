@@ -9,7 +9,7 @@ import model.bricks.Brick;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-public class GameShape implements GameConstants {
+public class GameGeometrics implements GameConstants {
 
     public static boolean ballIntersectsBrick(Brick b, Ball ball){
         Rectangle2D ballRect = new Rectangle2D.Double(ball.getX(), ball.getY(), BALL_WIDTH, BALL_HEIGHT);
