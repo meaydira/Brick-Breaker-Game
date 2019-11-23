@@ -4,7 +4,6 @@ import game_engine.Game;
 import game_engine.GameStatus;
 import model.bricks.Brick;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -78,10 +77,6 @@ public class GameController {
 
     public double getBallAngle() {
         return game.getBall().getAngle();
-    }
-
-    public Color getBallColor() {
-        return game.getBall().getColor();
     }
 
     public void movePaddleLeft() {

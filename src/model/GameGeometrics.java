@@ -10,6 +10,7 @@ import model.bricks.MineBrick;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
 public class GameGeometrics implements GameConstants {
@@ -46,6 +47,16 @@ public class GameGeometrics implements GameConstants {
             }
         }
         return intersects;
+    }
+
+    public static boolean checkPaddleLineIntersectsBall(double ballx, double bally, double linePoint1x, double linePoint1y, double linePoint2x, double linePoint2y) {
+        if (new Rectangle2D.Double(ballx, bally, 20, 20).intersectsLine(new Line2D.Double(
+                linePoint1x,
+                linePoint1y,
+                linePoint2x,
+                linePoint2y
+        ))) return true;
+        else return false;
     }
 
 

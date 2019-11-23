@@ -8,9 +8,6 @@ import model.Paddle;
 
 import java.io.IOException;
 
-import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
-
 public class Game implements Runnable, GameConstants {
 
     private Player player;
@@ -225,11 +222,11 @@ public class Game implements Runnable, GameConstants {
     private void collisionBallPaddle() {
         //squashes with the paddle
         if (getPaddle().getAngle() < 0) {
-            if (new Rectangle2D.Double((getBall().getX()), (getBall().getY()), 20, 20).intersectsLine(new Line2D.Double(
+            if (GameGeometrics.checkPaddleLineIntersectsBall((getBall().getX()), (getBall().getY()),
                     getPaddle().getVirtualX(),
                     getPaddle().getVirtualY(),
                     getPaddle().getVirtualX() + (getPaddle().getWidth()) * (Math.cos(Math.toRadians(-getPaddle().getAngle()))),
-                    getPaddle().getVirtualY() - (getPaddle().getWidth()) * (Math.sin(Math.toRadians(-getPaddle().getAngle())))))) {
+                    getPaddle().getVirtualY() - (getPaddle().getWidth()) * (Math.sin(Math.toRadians(-getPaddle().getAngle()))))) {
                 if (System.currentTimeMillis() > Lock + 100) {
                     getBall().setAngle((180 - 2 * getPaddle().getAngle() - getBall().getAngle()));
                     getBall().setYDirSpecial(-Math.abs(Math.sin(Math.toRadians(getBall().getAngle())) * getBall().getVectorLength()));
@@ -239,12 +236,12 @@ public class Game implements Runnable, GameConstants {
                 }
             }
         } else if (getPaddle().getAngle() >= 0) {
-            if ((new Rectangle2D.Double((getBall().getX()), (getBall().getY()), 20, 20))
-                    .intersectsLine(new Line2D.Double(
+            if (GameGeometrics.checkPaddleLineIntersectsBall((getBall().getX()), (getBall().getY()),
+
                             getPaddle().getXpos() + getPaddle().getWidth() - (getPaddle().getWidth()) * (Math.cos(Math.toRadians(getPaddle().getAngle()))),
                             getPaddle().getYpos() - (getPaddle().getWidth()) * (Math.sin(Math.toRadians(getPaddle().getAngle()))),
                             getPaddle().getXpos() + (getPaddle().getWidth()),
-                            getPaddle().getYpos()))) {
+                            getPaddle().getYpos())) {
                 if (System.currentTimeMillis() > Lock + 100) {
                     getBall().setAngle((360 - 2 * getPaddle().getAngle() - getBall().getAngle()));
                     getBall().setYDirSpecial(-Math.abs(Math.sin(Math.toRadians(getBall().getAngle())) * getBall().getVectorLength()));

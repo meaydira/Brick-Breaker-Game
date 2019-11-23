@@ -160,7 +160,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
     private void drawBall(Graphics2D g2d) {
 
         Ellipse2D.Double shape = new Ellipse2D.Double(currentGame.getBallX(), currentGame.getBallY(), BALL_WIDTH, BALL_HEIGHT);
-        g2d.setColor(currentGame.getBallColor());
+        g2d.setColor(BALL_COLOR);
         g2d.fill(shape);
     }
 
