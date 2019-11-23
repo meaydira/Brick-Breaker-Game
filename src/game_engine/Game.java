@@ -1,15 +1,18 @@
 package game_engine;
 
 import database.GameState;
-import javafx.scene.shape.Circle;
+import model.GameShape;
 import model.balls.Ball;
 import model.bricks.Brick;
 import model.Paddle;
 
+import java.io.IOException;
+
+import javafx.scene.shape.Circle;
+
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
-import java.io.IOException;
 
 public class Game implements Runnable, GameConstants {
 
@@ -87,15 +90,10 @@ public class Game implements Runnable, GameConstants {
     public void runPhysics() {
 
         //If the innner loop needs to break due to collusion, it will break to this point
-
-        Rectangle2D ballRect;
-        Rectangle brickRect;
         outher_escape:
         for (Brick b : map.getBricks()) {
-            ballRect = new Rectangle2D.Double(this.ball.getX(), this.ball.getY(), 20, 20);
-            brickRect = new Rectangle((int) b.getX(), (int) b.getY(), b.getWidth(), b.getHeight());
 
-            if (!b.isDestroyed() && ballRect.intersects(brickRect)) {
+            if (!b.isDestroyed() && GameShape.ballIntersectsBrick(b, ball)) {
 
                 if (System.currentTimeMillis() - hitLock > 100) {
                     b.hit();
@@ -106,15 +104,14 @@ public class Game implements Runnable, GameConstants {
                     totalBricks--;
                 }
                 // when ball hits top or bottom of brick
-                if (getBall().getY() + 20 <= brickRect.getY() + 2 || getBall().getY() >= brickRect.getY() + brickRect.getHeight() - 2) {
+                if (GameShape.ballHitsTopOrBottom(b, getBall())) {
                     if (System.currentTimeMillis() > verticalDirectionChangeLock + 50)  //This lock prevent the ball from oscillating
                     {
                         getBall().setYDir(-getBall().getYDir());
                         verticalDirectionChangeLock = System.currentTimeMillis();
                         if (b.getClass().getName() == "model.bricks.MineBrick") {
-                            Circle explosionRange = new Circle(b.getX(), b.getY(), getPaddle().getWidth() / 2);
                             for (Brick brick_to_explode : map.getBricks()) {
-                                if (!brick_to_explode.isDestroyed() && explosionRange.contains(brick_to_explode.getX(), brick_to_explode.getY())) {
+                                if (!brick_to_explode.isDestroyed() && GameShape.inExplosionRange(brick_to_explode)) {
                                     brick_to_explode.destroyBrick();
                                 }
                             }
