@@ -26,8 +26,8 @@ public class GameGeometrics implements GameConstants {
         return ball.getY() + 20 <= brickRect.getY() + 2 || ball.getY() >= brickRect.getY() + brickRect.getHeight() - 2;
     }
 
-    public static boolean inExplosionRange(Brick b) {
-        Circle explosionRange = new Circle(b.getX(), b.getY(), screenSize.width / 20);
+    public static boolean inExplosionRange(Brick explodedBrick,Brick b) {
+        Circle explosionRange = new Circle(explodedBrick.getX(), explodedBrick.getY(), screenSize.width / 12 );
         return explosionRange.contains(b.getX(), b.getY());
     }
 

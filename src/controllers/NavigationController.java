@@ -9,7 +9,6 @@ public class NavigationController implements GameConstants {
     //Game-objects on screen
     private static NavigationController controller_instance = null;
     private UIController uiController;
-    private Game game;
     private Player player;
     private Authentication auth;
     //Constructor

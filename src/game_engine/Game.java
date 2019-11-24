@@ -1,7 +1,7 @@
 package game_engine;
 
 import database.GameState;
-import model.GameGeometrics;
+import model.GameGeometrics; //The class that includes java awt objects and methods. works like facade right now
 import model.balls.Ball;
 import model.bricks.Brick;
 import model.Paddle;
@@ -121,7 +121,7 @@ public class Game implements Runnable, GameConstants {
                         verticalDirectionChangeLock = System.currentTimeMillis();
                         if (b.getClass().getName() == "model.bricks.MineBrick") {
                             for (Brick brick_to_explode : map.getBricks()) {
-                                if (!brick_to_explode.isDestroyed() && GameGeometrics.inExplosionRange(brick_to_explode)) {
+                                if (!brick_to_explode.isDestroyed() && GameGeometrics.inExplosionRange(b,brick_to_explode)) {
                                     brick_to_explode.destroyBrick();
                                 }
                             }
