@@ -15,6 +15,9 @@ public class FileManager implements DataBaseAdapter {
 
 		try{
 			File f = new File(playerTable);
+			if (!f.exists()){
+				f.createNewFile();
+			}
 			FileInputStream fis = new FileInputStream(f);
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			players_DB=(ArrayList<Player>)ois.readObject();
