@@ -1,6 +1,6 @@
 package gui;
 
-import game_engine.Game;
+import controllers.GameController;
 import game_engine.GameConstants;
 import game_engine.GameStatus;
 import model.bricks.Brick;
@@ -14,22 +14,21 @@ import java.awt.event.KeyListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
-import java.io.IOException;
 
 
 public class GamePanel extends JPanel implements GameConstants, KeyListener, ActionListener {
 
 
     private static GamePanel game_instance = null;
-    private Game currentGame;
+    private GameController gameController;
     private Timer timer;
     private int delay = 2;
     private JButton pauseButton;  // TODO: Implement pause button
 
-    public static GamePanel getInstance(Game game) {
+    public static GamePanel getInstance(GameController game) {
         if (game_instance == null) {
             game_instance = new GamePanel();
-            game_instance.currentGame = game;
+            game_instance.gameController = game;
             game_instance.setLayout(new GridLayout());
             game_instance.addKeyListener(game_instance);
             game_instance.setFocusable(true);
@@ -43,7 +42,6 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
     }
 
 
-
     public void paint(Graphics g) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         screenSize.getHeight();
@@ -54,7 +52,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
 
         // drawing map
 
-        for (Brick b : currentGame.getMap().getBricks()) {
+        for (Brick b : gameController.getBricks()) {
             if (!b.isDestroyed()) if (b.getClass().getName().equals("model.bricks.MineBrick")) {
                 drawMineBrick(g2d, b.getColor(), b.getX(), b.getY(), b.getWidth(), b.getHeight());
             } else if (b.getClass().getName().equals("model.bricks.HalfMetalBrick")) {
@@ -70,7 +68,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         drawScores(g2d, 25, "Score : ", 700, 30, Color.BLACK);
 
         //help sign
-        String action = (currentGame.isRunning()) ? "Pause" : "Continue";
+        String action = (gameController.isRunning()) ? "Pause" : "Continue";
         drawText(g2d, 14, "Press Enter to " + action, 700, PADDLE_Y_START, Color.BLACK);
 
         // the paddle
@@ -80,13 +78,13 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         drawBall(g2d);
 
         // when you won the game
-        if (currentGame.getStatus() == GameStatus.Won) {
+        if (gameController.getStatus() == GameStatus.Won) {
             drawText(g2d, 30, "You Won", 260, 300, Color.white);
             drawText(g2d, 20, "Press (Enter) to Restart", 230, 380, Color.white);
         }
 
         // when you lose the game
-        if (currentGame.getStatus() == GameStatus.Lost) {
+        if (gameController.getStatus() == GameStatus.Lost) {
             showGameOverSign(g2d);
             drawText(g2d, 20, "Press (Enter) to Restart", 230, 380, Color.white);
         }
@@ -109,7 +107,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         g2d.setColor(color);
         g2d.fill(new Rectangle2D.Double(x, y, width, height - 5));
         g2d.setColor(Color.darkGray);
-        g2d.fill(new Rectangle2D.Double(x , y+ height - 8, width, 5));
+        g2d.fill(new Rectangle2D.Double(x, y + height - 8, width, 5));
 
     }
 
@@ -137,7 +135,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
     }
 
     private void drawScores(Graphics2D g2d, int fontsize, String text, int x, int y, Color color) {
-        drawText(g2d, fontsize, text + currentGame.getScore(), x, y, color);
+        drawText(g2d, fontsize, text + gameController.getScore(), x, y, color);
     }
 
     private void showGameOverSign(Graphics2D g2d) {
@@ -147,11 +145,11 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
     private void drawPaddle(Graphics2D g2d) {
 
         g2d.setColor(Color.yellow);
-        Rectangle2D paddleRechtangle =new Rectangle2D.Double(currentGame.getPaddle().getXpos(), PADDLE_Y_START, currentGame.getPaddle().getWidth(), PADDLE_HEIGHT);
+        Rectangle2D paddleRechtangle = new Rectangle2D.Double(gameController.getPaddleX(), PADDLE_Y_START, gameController.getPaddleWidth(), PADDLE_HEIGHT);
 
         AffineTransform tx = new AffineTransform();
-        Double radianAngle = Math.toRadians(currentGame.getPaddle().getAngle());
-        double rotationCenter =  (currentGame.getPaddle().getAngle() < 0) ? (currentGame.getPaddle().getXpos()) : ( currentGame.getPaddle().getXpos() + currentGame.getPaddle().getWidth());
+        Double radianAngle = Math.toRadians(gameController.getPaddleAngle());
+        double rotationCenter = (gameController.getPaddleAngle() < 0) ? (gameController.getPaddleX()) : (gameController.getPaddleX() + gameController.getPaddleWidth());
         tx.rotate(radianAngle, rotationCenter, PADDLE_Y_START);
         Shape rotatedVersion = tx.createTransformedShape(paddleRechtangle);
         g2d.fill(rotatedVersion);
@@ -159,61 +157,46 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
 
     private void drawBall(Graphics2D g2d) {
 
-        Ellipse2D.Double shape = new Ellipse2D.Double( currentGame.getBall().getX(), currentGame.getBall().getY(), BALL_WIDTH, BALL_HEIGHT);
-        g2d.setColor(currentGame.getBall().getColor());
+        Ellipse2D.Double shape = new Ellipse2D.Double(gameController.getBallX(), gameController.getBallY(), BALL_WIDTH, BALL_HEIGHT);
+        g2d.setColor(BALL_COLOR);
         g2d.fill(shape);
     }
 
 
-
-
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            currentGame.moveRight();
+            gameController.movePaddleRight();
         }
 
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            currentGame.moveLeft();
+            gameController.movePaddleLeft();
         }
 
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            if(!currentGame.isGameStarted()) {
-                currentGame.setGameStarted(true);
-                currentGame.setRunning(true) ;
-            }else {
-                if (currentGame.getStatus() == GameStatus.Lost) currentGame.setGameStarted(false);
-                if (currentGame.getStatus() == GameStatus.Lost) {
-                    currentGame.reinitialize();
-                    repaint();
 
-                } else {
-                    currentGame.switchMode();
-                }
+            gameController.reinitialize();
+
+            if (gameController.isReinitialized()) {
+                repaint();
             }
+
         }
         if (e.getKeyCode() == KeyEvent.VK_A) {
-            currentGame.changePaddleAngleNegatively();
+            gameController.changePaddleAngleNegatively();
         }
         if (e.getKeyCode() == KeyEvent.VK_D) {
-            currentGame.changePaddleAnglePositively();
+            gameController.changePaddleAnglePositively();
         }
 
         if (e.getKeyCode() == KeyEvent.VK_S) {
-            System.out.println("S key is pressed.");
-            currentGame.saveCurrent();
+            gameController.saveCurrent();
         }
-        if(e.getKeyCode()==KeyEvent.VK_T){
-            currentGame.tPressed();
+        if (e.getKeyCode() == KeyEvent.VK_T) {
+            gameController.tPressed();
         }
 
         if (e.getKeyCode() == KeyEvent.VK_L) {
-            try {
-                currentGame.loadCurrent();
-            } catch (ClassNotFoundException e1) {
-                e1.printStackTrace();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
+            gameController.loadCurrent();
         }
 
     }
@@ -228,9 +211,9 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
     public void actionPerformed(ActionEvent e) {
 
         timer.start();
-       //TODO: Implement  boolean directionLock = false;
-        if (currentGame.isRunning()) {
-            currentGame.runPhysics();
+        //TODO: Implement  boolean directionLock = false;
+        if (gameController.isRunning()) {
+            gameController.runPhysics();
         }
         repaint();
     }

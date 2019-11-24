@@ -1,10 +1,10 @@
-package model2;
+package model;
 
 import game_engine.GameConstants;
 
 import java.io.Serializable;
 
-public class Paddle implements GameConstants, Serializable{
+public class Paddle implements GameConstants, Serializable {
 
     private static final long serialVersionUID = 6L;
     private int width;
@@ -42,11 +42,11 @@ public class Paddle implements GameConstants, Serializable{
     public void setVirtualXY(double angle) {//sets imaginary X and Y positions for game to interpret for the top line of the paddle
         if (angle <= 0) {
             //  setXpos((int) Xpos-height*Math.sin(Math.toRadians(angle)));
-            virtualX=Xpos;
-            virtualY=Ypos;
+            virtualX = Xpos;
+            virtualY = Ypos;
         } else if (angle > 0) {
-            setVirtualX( getXpos() + width - width * (Math.cos(Math.toRadians(angle))));
-            setVirtualY( getYpos() - width * (Math.sin(Math.toRadians(angle))));
+            setVirtualX(getXpos() + width - width * (Math.cos(Math.toRadians(angle))));
+            setVirtualY(getYpos() - width * (Math.sin(Math.toRadians(angle))));
         }
 
 
@@ -55,7 +55,7 @@ public class Paddle implements GameConstants, Serializable{
     public void rotatePositive() {
         if (this.angle <= 45) {
             this.angle += 5;
-           // System.out.println(angle+" angle positive");
+            // System.out.println(angle+" angle positive");
             setVirtualXY(this.angle);
         }
 
@@ -65,7 +65,7 @@ public class Paddle implements GameConstants, Serializable{
     public void rotateNegative() {
         if (this.angle >= -45) {
             this.angle -= 5;
-           // System.out.println(angle+" angle negative");
+            // System.out.println(angle+" angle negative");
             setVirtualXY(this.angle);
         }
 
@@ -86,8 +86,8 @@ public class Paddle implements GameConstants, Serializable{
         this.Ypos = 510;
         this.width = 150;
         //this.angle = 0;
-        virtualX=310;
-        virtualY=510;
+        virtualX = 310;
+        virtualY = 510;
     }
 
     public double getVirtualX() {

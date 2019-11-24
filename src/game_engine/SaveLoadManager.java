@@ -1,7 +1,7 @@
 package game_engine;
 
-import Database.Database;
-import Database.GameState;
+import database.Database;
+import database.GameState;
 
 import java.io.IOException;
 

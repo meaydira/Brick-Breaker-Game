@@ -1,8 +1,6 @@
 package game_engine;
 
-import Database.Database;
-
-import java.io.IOException;
+import database.Database;
 
 public class Authentication {
 
@@ -21,6 +19,14 @@ public class Authentication {
             return auth_instance;
         }
 
+    }
+
+    public static boolean authenticated(Player player){
+        if(player == null){
+            return false;
+        }else{
+        return true;
+        }
     }
 
     public Player loginUser(String username, String password){
