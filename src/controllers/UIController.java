@@ -1,8 +1,6 @@
 package controllers;
 
-import game_engine.Board;
 import game_engine.BuildingMode;
-import game_engine.Game;
 import gui.*;
 
 public class UIController {
@@ -40,7 +38,7 @@ public class UIController {
 
     public GamePanel getGamePanel(GameController game){
         this.gamePanel = GamePanel.getInstance(game);
-        Board gameBoard = Board.changeToGamingPanel(gamePanel);
+        Gameboard gameBoard = Gameboard.changeToGamingPanel(gamePanel);
         return gamePanel;
     }
 
@@ -51,7 +49,7 @@ public class UIController {
 
     public BuildingModePanel getBuildingModePanel(BuildingMode bm) {
         this.buildingModePanel =  BuildingModePanel.getInstance(bm);
-        Board gameBoard = Board.getInstance(buildingModePanel);
+        Gameboard gameBoard = Gameboard.getInstance(buildingModePanel);
         return buildingModePanel;
     }
 }

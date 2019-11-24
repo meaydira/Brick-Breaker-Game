@@ -1,10 +1,10 @@
 package game_engine;
 
 import database.GameState;
-import model.GameGeometrics; //The class that includes java awt objects and methods. works like facade right now
+import model.GameGeometrics;
+import model.Paddle;
 import model.balls.Ball;
 import model.bricks.Brick;
-import model.Paddle;
 
 import java.io.IOException;
 
@@ -194,12 +194,13 @@ public class Game implements Runnable, GameConstants {
         // getBall().setX(getBall().getX()-20);
     }
 
-    public void tPressed() {
+    public void throwBall() {
         if (gameStarted == false) {
-            gameStarted = true;
+            setGameStarted(true);
             running = true;
         }
     }
+
 
     public void changePaddleAnglePositively() {
         if (!isGamePaused() && isRunning() && isGameStarted()) {

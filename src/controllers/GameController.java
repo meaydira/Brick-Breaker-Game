@@ -64,7 +64,7 @@ public class GameController {
     }
 
     public void tPressed() {
-        game.tPressed();
+        game.throwBall();
     }
 
     public double getBallX() {
