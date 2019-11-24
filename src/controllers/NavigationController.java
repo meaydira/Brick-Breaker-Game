@@ -23,10 +23,10 @@ public class NavigationController implements GameConstants {
             Redirection rd = controller_instance.uiController.getMainMenu().getDesiredPage();
             Player player_to_authenticate =  controller_instance.redirectDesiredPage(rd);
 
-            boolean authentication_succesfull =controller_instance.authenticated(player_to_authenticate);
+            boolean authentication_succesfull =Authentication.authenticated(player_to_authenticate);
             if (authentication_succesfull){
+                controller_instance.player=player_to_authenticate;
                 controller_instance.startBuildingMode();
-
             }else{
                 controller_instance.showErrorPanel();
                 System.exit(0);
@@ -37,13 +37,6 @@ public class NavigationController implements GameConstants {
         }
     }
 
-    public boolean authenticated(Player player){
-        if(player == null){return false;}
-        //TODO: Authentication will be implemented.
-
-        this.player = player;
-        return true;
-    }
 
     public void playGame(Map map){
         Game game = new Game(this.player, map);

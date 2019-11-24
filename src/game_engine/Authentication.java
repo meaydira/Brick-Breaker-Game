@@ -21,6 +21,14 @@ public class Authentication {
 
     }
 
+    public static boolean authenticated(Player player){
+        if(player == null){
+            return false;
+        }else{
+        return true;
+        }
+    }
+
     public Player loginUser(String username, String password){
         Player p =db.getPlayer(username);
             if(p != null){
