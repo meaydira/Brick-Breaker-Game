@@ -7,6 +7,7 @@ import gui.RegisterPanel;
 
 public class NavigationController implements GameConstants {
     //Game-objects on screen
+    private static Redirection desiredPage;
     private static NavigationController controller_instance = null;
     private UIController uiController;
     private Player player;
@@ -20,8 +21,8 @@ public class NavigationController implements GameConstants {
             controller_instance = new NavigationController();
             controller_instance.uiController = UIController.getInstance();
             controller_instance.auth = Authentication.getInstance();
-            Redirection rd = controller_instance.uiController.getMainMenu().getDesiredPage();
-            Player player_to_authenticate =  controller_instance.redirectDesiredPage(rd);
+            desiredPage = controller_instance.uiController.getMainMenu().getMainMenuRedirection();
+            Player player_to_authenticate =  controller_instance.redirectDesiredPage(desiredPage);
 
             boolean authentication_succesfull =Authentication.authenticated(player_to_authenticate);
             if (authentication_succesfull){
@@ -62,19 +63,29 @@ public class NavigationController implements GameConstants {
         uiController.getErrorPanel();
     }
 
-    public Player redirectDesiredPage(Redirection rd) {
-        if (rd == Redirection.gamePage) {
-            return player;
-        }
-        else if (rd == Redirection.loginPage) {
-            LoginPanel lp = uiController.getLoginPanel();
-            return auth.loginUser(lp.getUsername(),lp.getPassword());
+    public Player redirectDesiredPage(Redirection desiredPage) {
+        while(desiredPage != Redirection.gamePage){
 
-        }
+            if (desiredPage == Redirection.loginPage) {
+                LoginPanel lp = uiController.getLoginPanel();
+                desiredPage = lp.getDesiredPage();
+                if (desiredPage == Redirection.loginPage) {
+                    return auth.loginUser(lp.getUsername(),lp.getPassword());
+                }
+            }
 
-        else if (rd == Redirection.registerPage) {
-            RegisterPanel rp = uiController.getRegisterPanel();
-            return auth.registerUser(rp.getUsername(),rp.getPassword());
+            else if (desiredPage == Redirection.registerPage) {
+                RegisterPanel rp = uiController.getRegisterPanel();
+                desiredPage = rp.getDesiredPage();
+                if (desiredPage == Redirection.registerPage) {
+                    return auth.registerUser(rp.getUsername(),rp.getPassword());
+                }
+
+            }
+            else if (desiredPage == Redirection.mainPage){
+                desiredPage = controller_instance.uiController.getMainMenu().getMainMenuRedirection();
+            }
+
         }
         return null;
     }

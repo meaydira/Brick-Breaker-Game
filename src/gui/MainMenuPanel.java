@@ -16,7 +16,7 @@ import javax.swing.JLabel;
 
 public class MainMenuPanel extends JFrame implements GameConstants {
 
-    private Redirection desiredPage;
+    private Redirection mainMenuRedirection;
     JButton playGameButton;
     JButton loginButton;
     JButton registerButton;
@@ -28,18 +28,17 @@ public class MainMenuPanel extends JFrame implements GameConstants {
     public static MainMenuPanel getInstance() {
         if (mainmenu_instance == null) {
             mainmenu_instance = new MainMenuPanel();
-            mainmenu_instance.setTitle("Bricking Bad");
-            mainmenu_instance.setLayout(null);
-            mainmenu_instance.playGameButton = new JButton("Play Game");
-            mainmenu_instance.loginButton = new JButton("Login Game");
-            mainmenu_instance.registerButton = new JButton("Register Game");
-            mainmenu_instance.initializeMenu();
-            return mainmenu_instance;
-        } else {
-            return mainmenu_instance;
         }
-
+        mainmenu_instance.setTitle("Bricking Bad");
+        mainmenu_instance.setLayout(null);
+        mainmenu_instance.playGameButton = new JButton("Play Game");
+        mainmenu_instance.loginButton = new JButton("Login Game");
+        mainmenu_instance.registerButton = new JButton("Register Game");
+        mainmenu_instance.initializeMenu();
+        return mainmenu_instance;
     }
+
+
 
 
     public void initializeMenu() {
@@ -80,11 +79,11 @@ public class MainMenuPanel extends JFrame implements GameConstants {
         synchronized (playGameButton) {
             playGameButton.notify();
         }
-        this.desiredPage = rd;
+        this.mainMenuRedirection = rd;
     }
 
-    public Redirection getDesiredPage() {
-        return this.desiredPage;
+    public Redirection getMainMenuRedirection() {
+        return this.mainMenuRedirection;
     }
 
     public void addComponents() {
@@ -104,26 +103,26 @@ public class MainMenuPanel extends JFrame implements GameConstants {
         loginButton.addActionListener(new loginGameButtonHandler());
     }
 
-    private class playGameButtonHandler implements ActionListener {
-        public void actionPerformed(ActionEvent event) {
-            redirectPage(Redirection.gamePage);
-            setVisible(false);
-        }
+private class playGameButtonHandler implements ActionListener {
+    public void actionPerformed(ActionEvent event) {
+        redirectPage(Redirection.gamePage);
+        setVisible(false);
     }
+}
 
-    private class loginGameButtonHandler implements ActionListener {
-        public void actionPerformed(ActionEvent event) {
-            redirectPage(Redirection.loginPage);
-            setVisible(false);
-        }
+private class loginGameButtonHandler implements ActionListener {
+    public void actionPerformed(ActionEvent event) {
+        redirectPage(Redirection.loginPage);
+        setVisible(false);
     }
+}
 
-    private class registerGameButtonHandler implements ActionListener {
-        public void actionPerformed(ActionEvent event) {
-            redirectPage(Redirection.registerPage);
-            setVisible(false);
-        }
+private class registerGameButtonHandler implements ActionListener {
+    public void actionPerformed(ActionEvent event) {
+        redirectPage(Redirection.registerPage);
+        setVisible(false);
     }
+}
 }
 
 
