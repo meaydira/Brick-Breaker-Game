@@ -3,10 +3,12 @@ package controllers;
 import game_engine.*;
 import gui.BuildingModePanel;
 import gui.LoginPanel;
+import gui.NotificationPanel;
 import gui.RegisterPanel;
 
 public class NavigationController implements GameConstants {
     //Game-objects on screen
+    private static Redirection desiredPage;
     private static NavigationController controller_instance = null;
     private UIController uiController;
     private Player player;
@@ -20,11 +22,12 @@ public class NavigationController implements GameConstants {
             controller_instance = new NavigationController();
             controller_instance.uiController = UIController.getInstance();
             controller_instance.auth = Authentication.getInstance();
-            Redirection rd = controller_instance.uiController.getMainMenu().getDesiredPage();
-            Player player_to_authenticate =  controller_instance.redirectDesiredPage(rd);
+            desiredPage = controller_instance.uiController.getMainMenu().getMainMenuRedirection();
+            Player player_to_authenticate =  controller_instance.redirectDesiredPage(desiredPage);
 
             boolean authentication_succesfull =Authentication.authenticated(player_to_authenticate);
             if (authentication_succesfull){
+                NotificationPanel panel = new NotificationPanel("Authentication Successful");
                 controller_instance.player=player_to_authenticate;
                 controller_instance.startBuildingMode();
             }else{
@@ -52,8 +55,8 @@ public class NavigationController implements GameConstants {
 
         BuildingMode buildingMode = new BuildingMode(this.player);
         BuildingModePanel panel = uiController.getBuildingModePanel(buildingMode);
-        Thread thread = new Thread(buildingMode);
-        thread.run();
+        Thread threadBuildingMode = new Thread(buildingMode);
+        threadBuildingMode.run();
         controller_instance.playGame(buildingMode.getCurrentMap());
 
     }
@@ -62,21 +65,32 @@ public class NavigationController implements GameConstants {
         uiController.getErrorPanel();
     }
 
-    public Player redirectDesiredPage(Redirection rd) {
-        if (rd == Redirection.gamePage) {
-            return player;
-        }
-        else if (rd == Redirection.loginPage) {
-            LoginPanel lp = uiController.getLoginPanel();
-            return auth.loginUser(lp.getUsername(),lp.getPassword());
+    public Player redirectDesiredPage(Redirection desiredPage) {
+      Player player_to_play = null;
+        while(desiredPage != Redirection.gamePage){
+
+            if (desiredPage == Redirection.loginPage) {
+                LoginPanel lp = uiController.getLoginPanel();
+                desiredPage = lp.getDesiredPage();
+                if(desiredPage == Redirection.gamePage){
+                    player_to_play = auth.loginUser(lp.getUsername(),lp.getPassword());
+                }
+            }
+
+            else if (desiredPage == Redirection.registerPage) {
+                RegisterPanel rp = uiController.getRegisterPanel();
+                desiredPage = rp.getDesiredPage();
+                if(desiredPage == Redirection.gamePage){
+                    player_to_play = auth.registerUser(rp.getUsername(),rp.getPassword());
+                }
+
+            }
+            else if (desiredPage == Redirection.mainPage){
+                desiredPage = controller_instance.uiController.getMainMenu().getMainMenuRedirection();
+            }
 
         }
-
-        else if (rd == Redirection.registerPage) {
-            RegisterPanel rp = uiController.getRegisterPanel();
-            return auth.registerUser(rp.getUsername(),rp.getPassword());
-        }
-        return null;
+        return player_to_play;
     }
 }
 

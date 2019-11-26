@@ -195,7 +195,8 @@ public class BuildingModePanel  extends JPanel implements GameConstants, KeyList
         }
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             buildingMode.terminate();
-            this.setVisible(false);
+            setVisible(false);
+            timer.stop();
         }
 
         if (e.getKeyCode() == KeyEvent.VK_1) {
