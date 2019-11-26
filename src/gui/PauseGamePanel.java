@@ -15,6 +15,7 @@ public class PauseGamePanel extends JFrame implements GameConstants {
     JButton loadButton;
     JButton resumeButton;
     JButton exitButton;
+    JLabel introText;
     GameController gameController;
     private Container container;
     private PauseGamePanel(){
@@ -32,14 +33,17 @@ public class PauseGamePanel extends JFrame implements GameConstants {
     }
 
     public void initializePausePanel(){
-        setPreferredSize(new Dimension(WINDOW_WIDTH/4, WINDOW_HEIGHT/2));
+        setPreferredSize(new Dimension(WINDOW_WIDTH/2, WINDOW_HEIGHT/2));
         container = getContentPane();
-        setLayout(new GridLayout(4,1,10,5));
+        setLayout(new GridLayout(5,1,10,5));
         setLocation(frame_x, frame_y);
         setResizable(false);
         setTitle("Game Menu");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
+
+        introText = new JLabel("Welcome to Game Menu");
+        introText.setHorizontalAlignment(JLabel.CENTER);
         saveButton = new JButton("Save Game");
         saveButton.setPreferredSize(new Dimension(30,20));setPreferredSize(new Dimension(200,100));
         loadButton = new JButton("Load Game");
@@ -54,6 +58,7 @@ public class PauseGamePanel extends JFrame implements GameConstants {
     }
 
     private void addComponents() {
+        add(introText);
         add(saveButton);
         add(loadButton);
         add(resumeButton);
