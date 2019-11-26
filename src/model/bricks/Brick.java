@@ -30,7 +30,9 @@ public abstract class Brick  extends GameObject implements Serializable{
             this.isDestroyed =true;
         }
     }
-
+    public void resetHit(){
+        this.hits = 0;
+    }
 
     public void setLives(int lives) {
         this.lives = lives;

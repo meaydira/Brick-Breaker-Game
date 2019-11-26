@@ -5,9 +5,9 @@ import model.bricks.Brick;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Map implements Serializable {
+public class Map implements Serializable,Cloneable {
 
-    ArrayList<Brick> bricks;
+    private ArrayList<Brick> bricks;
 
     private static final long serialVersionUID = 7L;
     public Map() {
@@ -27,7 +27,10 @@ public class Map implements Serializable {
 
 
 
-
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 
     public void addBrick(Brick b){
         bricks.add(b);

@@ -8,7 +8,7 @@ import model.bricks.Brick;
 
 import java.io.IOException;
 
-public class Game implements Runnable, GameConstants {
+public class Game implements Runnable, GameConstants, Cloneable {
 
     private Player player;
     private int totalBricks = 0;
@@ -47,55 +47,45 @@ public class Game implements Runnable, GameConstants {
     private long horizontalDirectionChangeLock = 0;
     private long hitLock = 0;
     private long Lock;
-    private Map initialMap;
     private Map map;
     SaveLoadManager SLM = SaveLoadManager.getInstance();
 
     private int score = 0, lives = MAX_LIVES, bricksLeft = MAX_BRICKS, waitTime = 10;
 
-    public Game(Player player, Map map) {
+    public Game(Player player, Map passedMap) {
         this.player = player;
         ball = new Ball();
         paddle = new Paddle();
-        this.map = map;
-        this.initialMap = map;
-        totalBricks = map.getBricks().size();
+        this.map = passedMap;
+        setTotalBricks(this.map.getBricks().size());
         hitLock = System.currentTimeMillis();
     }
 
-    public boolean isReinitialized() {
+
+    public boolean gameIsOver() {
         return (isGameStarted() && getStatus() == GameStatus.Lost);
     }
 
-    public void reinitialize() {
-        if (!isGameStarted()) {
-            setGameStarted(true);
-            setRunning(true);
-        } else {
-            if (getStatus() == GameStatus.Lost) {
-                setGameStarted(false);
-
-
-                if (status == GameStatus.Lost) {
-                    status = GameStatus.Undecided;
-                    getBall().setX(385);
-                    getBall().setY(519 - 30);
-
-                    getBall().setXDir(-1);
-                    getBall().setYDir(-2);
-
-                    getPaddle().setXpos(310);
-                    setScore(0);
-                    setTotalBricks(21);
-                    map = initialMap;
-                    gameStarted = false;
-                }
-            } else {
-                switchMode();
-            }
-        }
-
+    public void lostGame() {
+        setGameStarted(false);
     }
+
+    public void restartGame() {
+        status = GameStatus.Undecided;
+        getBall().setX(385);
+        getBall().setY(519 - 30);
+
+        getBall().setXDir(-1);
+        getBall().setYDir(-2);
+
+        getPaddle().setXpos(310);
+        setScore(0);
+        setTotalBricks(this.map.getBricks().size());
+        renewBricks();
+        setGameStarted(true);
+        setRunning(true);
+    }
+
 
     public void runPhysics() {
 
@@ -121,7 +111,7 @@ public class Game implements Runnable, GameConstants {
                         verticalDirectionChangeLock = System.currentTimeMillis();
                         if (b.getClass().getName() == "model.bricks.MineBrick") {
                             for (Brick brick_to_explode : map.getBricks()) {
-                                if (!brick_to_explode.isDestroyed() && GameGeometrics.inExplosionRange(b,brick_to_explode)) {
+                                if (!brick_to_explode.isDestroyed() && GameGeometrics.inExplosionRange(b, brick_to_explode)) {
                                     brick_to_explode.destroyBrick();
                                 }
                             }
@@ -269,6 +259,12 @@ public class Game implements Runnable, GameConstants {
             }
         }
 
+    }
+    private void renewBricks(){
+        for (Brick b: getMap().getBricks()) {
+            b.setDestroyed(false);
+            b.resetHit();
+        }
     }
 
     private void collisionBallWall() {

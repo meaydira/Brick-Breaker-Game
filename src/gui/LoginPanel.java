@@ -108,6 +108,7 @@ public class LoginPanel extends JFrame implements GameConstants {
             username = usernameField.getText();
             password = passwordField.getText();
             setVisible(false);
+            removeData();
             releaseLock();
         }
     }
@@ -115,11 +116,17 @@ public class LoginPanel extends JFrame implements GameConstants {
     private class exitButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             desiredPage = Redirection.mainPage;
-            remove(usernameField);
-            remove(passwordField);
+            removeData();
             setVisible(false);
             releaseLock();
         }
+    }
+
+    private void removeData() {
+        usernameField.setText("");
+        passwordField.setText("");
+        remove(usernameField);
+        remove(passwordField);
     }
 
 

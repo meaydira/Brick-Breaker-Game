@@ -80,7 +80,9 @@ public class FileManager implements DataBaseAdapter {
 		ArrayList<Player> players_DB =getPlayerList();
 
 		for(Player p : players_DB){
-			if(p.getUsername().equals(username))return null;
+			if(p.getUsername().equals(username)) {
+				throw new IllegalArgumentException();
+			}
 		}
 		Player p = new Player( count++, username,password);
 		players_DB.add(p);

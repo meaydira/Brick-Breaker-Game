@@ -2,6 +2,8 @@ package controllers;
 
 import game_engine.Game;
 import game_engine.GameStatus;
+import gui.NotificationPanel;
+import gui.PauseGamePanel;
 import model.bricks.Brick;
 
 import java.io.IOException;
@@ -63,7 +65,7 @@ public class GameController {
         game.saveCurrent();
     }
 
-    public void tPressed() {
+    public void throwBall() {
         game.throwBall();
     }
 
@@ -83,12 +85,28 @@ public class GameController {
         game.moveRight();
     }
 
-    public boolean isReinitialized() {
-        return game.isReinitialized();
+    public boolean gameIsOver() {
+        return game.gameIsOver();
     }
 
-    public void reinitialize() {
-        game.reinitialize();
+    public boolean isGameStared() {
+        return game.isGameStarted();
+    }
+
+    public void lostGame() {
+        game.lostGame();
+    }
+
+    public void switchMode() {
+        game.switchMode();
+    }
+
+    public void openPauseMenu() {
+        PauseGamePanel panel = PauseGamePanel.getInstance(this);
+    }
+
+    public void restartGame() {
+        game.restartGame();
     }
 
     public void loadCurrent() {
@@ -105,5 +123,8 @@ public class GameController {
         game.runPhysics();
     }
 
+    public void exitGame() {
+        System.exit(0);
+    }
 
 }
