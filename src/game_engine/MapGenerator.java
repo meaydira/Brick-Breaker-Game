@@ -1,60 +1,65 @@
 package game_engine;
 
+import factories.Brickfactory;
+import model.bricks.SimpleBrick;
+
 import java.awt.*;
 
-public class MapGenerator implements GameConstants
-{
-    public int map[][];
-    public int brickWidth;
-    public int brickHeight;
+public class MapGenerator implements GameConstants {
+    private int col;
+    private int row;
+    private Brickfactory brick_factory;
 
-    public MapGenerator (int row, int col)
-    {
-        map = new int[row][col];
-        for(int i = 0; i<map.length; i++)
-        {
-            for(int j =0; j<map[0].length; j++)
-            {
-                map[i][j] = 1;
+
+    public MapGenerator() {
+        brick_factory = Brickfactory.getInstance();
+    }
+
+    public Map generateMap(int row, int col) {
+
+        this.col = col;
+        this.row = row;
+
+        int brickWidth = 540 / col;
+        int brickHeight = 150 / row;
+        Map map = new Map();
+        for (int i = 0; i < row; i++) {
+            String bricktype = getBrick(i);
+            for (int j = 0; j < col; j++) {
+                int brickX = j * (brickWidth + 10) + 20;
+                int brickY = i * (brickHeight + 10) + 50;
+                map.addBrick(brick_factory.produce(bricktype, brickX, brickY, brickWidth, brickHeight, getColor(bricktype)));
             }
         }
-
-        brickWidth = 540/col;
-        brickHeight = 150/row;
+        return map;
     }
 
-    public void draw(Graphics2D g)
-    {
-        for(int i = 0; i<map.length; i++)
-        {
-            for(int j =0; j<map[0].length; j++)
-            {
-                if(map[i][j] > 0)
-                {
-                    g.setColor(getColor(Math.floorMod(i+j, 4)));
-                    g.fillRect(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight);
+    public String getBrick(int i) {
+        if (i == 2) {
+            return "MineBrick";
+        } else if (i == 5) {
+            return "HalfMetalBrick";
+        } else {
+            return "SimpleBrick";
+        }
 
-                    // this is just to show separate brick, game can still run without it
-                    g.setStroke(new BasicStroke(3));
-                    g.setColor(Color.black);
-                    g.drawRect(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight);
-                }
-            }
+    }
+
+    public Color getColor(String bricktype) {
+
+        switch (bricktype) {
+            case "SimpleBrick":
+                return Color.white;
+            case "HalfMetalBrick":
+                return Color.gray;
+            case "MineBrick":
+                return Color.red;
+            case "WrapperBrick":
+                return Color.blue;
+            default:
+                return Color.yellow;
         }
     }
 
-    public Color getColor(int x){
 
-        switch(x) {
-            case 0: return Color.RED;
-            case 1: return Color.GREEN;
-            case 2: return Color.BLUE;
-            default : return Color.YELLOW;
-        }
-    }
-
-    public void setBrickValue(int value, int row, int col)
-    {
-        map[row][col] = value;
-    }
 }

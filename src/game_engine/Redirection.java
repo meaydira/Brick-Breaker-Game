@@ -1,5 +1,5 @@
 package game_engine;
 
 public enum Redirection {
-    gamePage, loginPage, registerPage
+    gamePage, loginPage, registerPage, mainPage
 }

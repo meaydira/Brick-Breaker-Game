@@ -1,6 +1,8 @@
 package game_engine;
 
-import Database.Database;
+import database.Database;
+
+import java.nio.file.attribute.UserPrincipalNotFoundException;
 
 public class Authentication {
 
@@ -21,17 +23,26 @@ public class Authentication {
 
     }
 
-    public Player loginUser(String username, String password){
+    public static boolean authenticated(Player player){
+        if(player == null){
+            return false;
+        }else{
+        return true;
+        }
+    }
+
+    public Player loginUser(String username, String password)  {
         Player p =db.getPlayer(username);
-            if(p != null){
-                if(p.getPassword() == password){
-                    return p;
-                }else{
-                    //TODO: implement throw "Wrong password" error
-                }
-                //TODO: implement throw "No such user" error
+        if(p != null){
+            if(p.getPassword().equals(password)){
+                return p;
+            }else{
+                //TODO: implement throw "Wrong password" error
+                throw new SecurityException();
             }
-            return null;
+        }
+        //TODO: implement throw "No such user" error
+        throw new IllegalArgumentException();
     }
 
     public Player registerUser(String username, String password){

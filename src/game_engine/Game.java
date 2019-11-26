@@ -1,130 +1,134 @@
 package game_engine;
 
-import factories.AlienFactory;
-import factories.Brickfactory;
-import gui.MainMenuPanel;
-import model2.Paddle;
+import database.GameState;
+import model.GameGeometrics;
+import model.Paddle;
 import model.balls.Ball;
-import model.balls.SimpleBall;
-import game_engine.MapGenerator;
+import model.bricks.Brick;
 
-import java.awt.*;
-import javax.swing.*;
-import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.io.IOException;
 
-import static com.sun.java.accessibility.util.AWTEventMonitor.addKeyListener;
-import static game_engine.GameConstants.*;
+public class Game implements Runnable, GameConstants, Cloneable {
 
-public class Game implements Runnable, GameConstants {
-
-
-    private String playerName = "Enes";
     private Player player;
-    private int totalBricks = 48;
+    private int totalBricks = 0;
     private Ball ball;
-
 
     private Paddle paddle;
     private GameStatus status;
-    private boolean running = false;
 
-
-    private Board board;
-    private MainMenuPanel initiater;
-    private Brickfactory brickFactory;
-    private AlienFactory alienFactory;
-
-    public MapGenerator getMap() {
-        return map;
+    public void setRunning(boolean running) {
+        this.running = running;
     }
 
-    private MapGenerator map;
+    private boolean running = false;
+    private boolean gamePaused = false;
+    private boolean gameStarted = false;
+
+    public boolean isGamePaused() {
+        return gamePaused;
+    }
+
+    public void setGamePaused(boolean gamePaused) {
+        this.gamePaused = gamePaused;
+    }
 
 
-    private int score = 0, lives = MAX_LIVES, bricksLeft = MAX_BRICKS, waitTime = 10, xSpeed, withSound, level = 1;
-    //  private String playerName;
-    private AtomicBoolean isPaused = new AtomicBoolean(true);
-    private Board gameBoard;
+    public boolean isGameStarted() {
+        return gameStarted;
+    }
+
+    public void setGameStarted(boolean gameStarted) {
+        this.gameStarted = gameStarted;
+    }
 
 
-    public Game(Player player) {
+    private long verticalDirectionChangeLock = 0;
+    private long horizontalDirectionChangeLock = 0;
+    private long hitLock = 0;
+    private long Lock;
+    private Map map;
+    SaveLoadManager SLM = SaveLoadManager.getInstance();
 
+    private int score = 0, lives = MAX_LIVES, bricksLeft = MAX_BRICKS, waitTime = 10;
 
-        //TODO:initialize Map
-
-        playerName = JOptionPane.showInputDialog("Please enter your name:", "Brick Breaker, Corporate Slaves");
+    public Game(Player player, Map passedMap) {
+        this.player = player;
         ball = new Ball();
         paddle = new Paddle();
-        map = new MapGenerator(6, 12);
-        //TODO: addKeyListener
-        //addKeyListener(new BoardObserver());
-        //this.balls = new ArrayList<Ball>();
-        //added main ball to screen
-        //balls.add(new SimpleBall(BALL_X_START, BALL_Y_START, BALL_WIDTH, BALL_HEIGHT, Color.BLACK));
-        //Get the player's name
-
+        this.map = passedMap;
+        setTotalBricks(this.map.getBricks().size());
+        hitLock = System.currentTimeMillis();
     }
 
-    public void reinitialize() {
-        if (status == GameStatus.Lost) {
-            status = GameStatus.Undecided;
-            getBall().setX(120);
-            getBall().setY(530);
 
-            getBall().setXDir(-1);
-            getBall().setYDir(-2);
-
-            getPaddle().setXpos(310);
-            setScore(0);
-            setTotalBricks(21);
-            map = new MapGenerator(6, 12);
-        }
-        running = true;
-
+    public boolean gameIsOver() {
+        return (isGameStarted() && getStatus() == GameStatus.Lost);
     }
+
+    public void lostGame() {
+        setGameStarted(false);
+    }
+
+    public void restartGame() {
+        status = GameStatus.Undecided;
+        getBall().setX(385);
+        getBall().setY(519 - 30);
+
+        getBall().setXDir(-1);
+        getBall().setYDir(-2);
+
+        getPaddle().setXpos(310);
+        setScore(0);
+        setTotalBricks(this.map.getBricks().size());
+        renewBricks();
+        setGameStarted(true);
+        setRunning(true);
+    }
+
 
     public void runPhysics() {
 
         //If the innner loop needs to break due to collusion, it will break to this point
         outher_escape:
-        for (int i = 0; i < map.map.length; i++) {   //TODO :
-            for (int j = 0; j < map.map[0].length; j++) {
-                if (map.map[i][j] > 0) {
-                    //scores++;
-                    int brickX = j * map.brickWidth + 70;
-                    int brickY = i * map.brickHeight + 50;
-                    int brickWidth = map.brickWidth;
-                    int brickHeight = map.brickHeight;
+        for (Brick b : map.getBricks()) {
 
-                    Rectangle rect = new Rectangle(brickX, brickY, brickWidth, brickHeight);
-                    Rectangle ballRect = new Rectangle(ball.getX(), ball.getY(), 20, 20);
-                    Rectangle brickRect = rect;
+            if (!b.isDestroyed() && GameGeometrics.ballIntersectsBrick(b, ball)) {
 
-                    if (ballRect.intersects(brickRect)) {
-                        map.setBrickValue(0, i, j);
-                        setScore(getScore() + 5);
-                        setTotalBricks(getTotalBricks() - 1);
-                        // when ball hit right or left of brick
-                        if (getBall().getX() + 19 <= brickRect.x || getBall().getX() + 1 >= brickRect.x + brickRect.width) {
-                            getBall().setXDir(-getBall().getXDir());
+                if (System.currentTimeMillis() - hitLock > 100) {
+                    b.hit();
+                    setScore(getScore() + 5);
+                    hitLock = System.currentTimeMillis();
+                }
+                if (b.isDestroyed()) {
+                    totalBricks--;
+                }
+                // when ball hits top or bottom of brick
+                if (GameGeometrics.ballHitsTopOrBottom(b, getBall())) {
+                    if (System.currentTimeMillis() > verticalDirectionChangeLock + 50)  //This lock prevent the ball from oscillating
+                    {
+                        getBall().setYDir(-getBall().getYDir());
+                        verticalDirectionChangeLock = System.currentTimeMillis();
+                        if (b.getClass().getName() == "model.bricks.MineBrick") {
+                            for (Brick brick_to_explode : map.getBricks()) {
+                                if (!brick_to_explode.isDestroyed() && GameGeometrics.inExplosionRange(b, brick_to_explode)) {
+                                    brick_to_explode.destroyBrick();
+                                }
+                            }
                         }
-                        // when ball hits top or bottom of brick
-                        else {
-                            getBall().setYDir(-getBall().getYDir());
-                        }
-                        break outher_escape;
                     }
                 }
+                // when ball hit right or left of brick
+                else {
+                    if (System.currentTimeMillis() > horizontalDirectionChangeLock + 50) //This lock prevent the ball from oscillating
+                    {
+                        getBall().setXDir(-getBall().getXDir());
+                        horizontalDirectionChangeLock = System.currentTimeMillis();
+                    }
+                }
+                break outher_escape;
             }
         }
-
-
-    }
-
-
-    public String getPlayerName() {
-        return playerName;
     }
 
     public Ball getBall() {
@@ -147,19 +151,6 @@ public class Game implements Runnable, GameConstants {
         this.score = score;
     }
 
-    //Mutator methods
-//    public void setBallY(int y_coord) {
-//        this.ball.setY(y_coord);
-//    }
-//    public void setBallX(int x_coord) {
-//        this.ball.setX(x_coord);
-//    }
-//    public void setBallXDir(int xDir) {
-//        this.ball.setXDir(xDir);
-//    }
-//    public void setBallYDir(int yDir) {
-//        this.ball.setYDir(yDir);
-//    }
     public int getTotalBricks() {
         return totalBricks;
     }
@@ -168,41 +159,148 @@ public class Game implements Runnable, GameConstants {
         this.totalBricks = totalBricks;
     }
 
-    //Accessor methods
-    public int getBallXDir() {
-        return this.ball.getXDir();
-    }
-
-    public int getBallYDir() {
-        return this.ball.getYDir();
-    }
-
-    public int getBallX() {
-        return ball.getX();
-    }
-
-    public int getBallY() {
-        return ball.getY();
-    }
-
-
     public GameStatus getStatus() {
         return status;
     }
 
     public void moveRight() {
-        running = true;
-        getPaddle().moveRight();
+        //running = true;
+        if (!isGamePaused()) {
+            getPaddle().moveRight();
+            if (!isRunning() && !isGameStarted()) {
+                getBall().setX(getPaddle().getXpos() + getPaddle().getWidth() / 2 - BALL_WIDTH / 2);
+            }
+        }
     }
 
     public void moveLeft() {
-        running = true;
-        getPaddle().moveLeft();
+        //running = true;
+        if (!isGamePaused()) {
+            getPaddle().moveLeft();
+            if (!isRunning() && !isGameStarted()) {
+                getBall().setX(getPaddle().getXpos() + getPaddle().getWidth() / 2 - BALL_WIDTH / 2);
+            }
+        }
+        // getBall().setX(getBall().getX()-20);
+    }
+
+    public void throwBall() {
+        if (gameStarted == false) {
+            setGameStarted(true);
+            running = true;
+        }
+    }
+
+
+    public void changePaddleAnglePositively() {
+        if (!isGamePaused() && isRunning() && isGameStarted()) {
+            getPaddle().rotatePositive();
+
+        }
+
+    }
+
+    public void changePaddleAngleNegatively() {
+        if (!isGamePaused() && isRunning() && isGameStarted()) {
+            getPaddle().rotateNegative();
+
+        }
     }
 
     public void switchMode() {
-        running = false;
+        running = !running;
+        if (!isRunning()) {
+            setGamePaused(true);
+        } else setGamePaused(false);
     }
+
+    public Map getMap() {
+        return this.map;
+    }
+
+    public Player getPlayer() {
+        return this.player;
+    }
+
+    public int getlives() {
+        return this.lives;
+    }
+
+    private void collisionBallPaddle() {
+        //squashes with the paddle
+        if (getPaddle().getAngle() < 0) {
+            if (GameGeometrics.checkPaddleLineIntersectsBall((getBall().getX()), (getBall().getY()),
+                    getPaddle().getVirtualX(),
+                    getPaddle().getVirtualY(),
+                    getPaddle().getVirtualX() + (getPaddle().getWidth()) * (Math.cos(Math.toRadians(-getPaddle().getAngle()))),
+                    getPaddle().getVirtualY() - (getPaddle().getWidth()) * (Math.sin(Math.toRadians(-getPaddle().getAngle()))))) {
+                if (System.currentTimeMillis() > Lock + 100) {
+                    getBall().setAngle((180 - 2 * getPaddle().getAngle() - getBall().getAngle()));
+                    getBall().setYDirSpecial(-Math.abs(Math.sin(Math.toRadians(getBall().getAngle())) * getBall().getVectorLength()));
+                    getBall().setXDirSpecial(Math.cos(Math.toRadians(getBall().getAngle())) * getBall().getVectorLength());
+                    getBall().setAngleByDir(getBall().getXDir(), getBall().getYDir());
+                    Lock = System.currentTimeMillis();
+                }
+            }
+        } else if (getPaddle().getAngle() >= 0) {
+            if (GameGeometrics.checkPaddleLineIntersectsBall((getBall().getX()), (getBall().getY()),
+
+                    getPaddle().getXpos() + getPaddle().getWidth() - (getPaddle().getWidth()) * (Math.cos(Math.toRadians(getPaddle().getAngle()))),
+                    getPaddle().getYpos() - (getPaddle().getWidth()) * (Math.sin(Math.toRadians(getPaddle().getAngle()))),
+                    getPaddle().getXpos() + (getPaddle().getWidth()),
+                    getPaddle().getYpos())) {
+                if (System.currentTimeMillis() > Lock + 100) {
+                    getBall().setAngle((360 - 2 * getPaddle().getAngle() - getBall().getAngle()));
+                    getBall().setYDirSpecial(-Math.abs(Math.sin(Math.toRadians(getBall().getAngle())) * getBall().getVectorLength()));
+                    getBall().setXDirSpecial(Math.cos(Math.toRadians(getBall().getAngle())) * getBall().getVectorLength());
+                    getBall().setAngleByDir(getBall().getXDir(), getBall().getYDir());
+                    Lock = System.currentTimeMillis();
+                }
+            }
+        }
+
+    }
+    private void renewBricks(){
+        for (Brick b: getMap().getBricks()) {
+            b.setDestroyed(false);
+            b.resetHit();
+        }
+    }
+
+    private void collisionBallWall() {
+        //squashes with the wall
+        if (getBall().getX() < 0) {
+            getBall().setXDir(-getBall().getXDir());
+        }
+        if (getBall().getY() < 0) {
+            getBall().setYDir(-getBall().getYDir());
+        }
+        if (getBall().getX() > 670) {
+            getBall().setXDir(-getBall().getXDir());
+        }
+
+    }
+
+    public void saveCurrent() {
+        if (running == false) {
+            SLM.saveGame(this);
+            System.out.println("Game Savec");
+        }
+
+    }
+
+    public void loadCurrent() throws ClassNotFoundException, IOException {
+        if (running == false) {
+            GameState Load = SLM.loadGame(player);
+            this.setScore(Load.getScore());
+            this.paddle = Load.getPaddleState();
+            this.ball = Load.getBallState();
+            this.map = Load.getMapState();
+            this.lives = Load.getLives();
+        }
+    }
+
+
     @Override
     public void run() {
 
@@ -227,63 +325,12 @@ public class Game implements Runnable, GameConstants {
                 getPaddle().setXpos(520);
             }
 
-
-            //squashes with the paddle
-            if (new Rectangle(getBall().getX(), getBall().getY(), 20, 20).intersects(new Rectangle(getPaddle().getXpos(), PADDLE_Y_START, 30, 8))) {
-                getBall().setYDir(-getBall().getYDir());
-                getBall().setXDir(-2);
-            } else if (new Rectangle(getBall().getX(), getBall().getY(), 20, 20).intersects(new Rectangle(getPaddle().getXpos() + 120, PADDLE_Y_START, 30, 8))) {
-                getBall().setYDir(-getBall().getYDir());
-                getBall().setXDir(+2);
-            } else if (new Rectangle(getBall().getX(), getBall().getY(), 20, 20).intersects(new Rectangle(getPaddle().getXpos() + 30, PADDLE_Y_START, 30, 8))) {
-                getBall().setYDir(-getBall().getYDir());
-                getBall().setXDir(getBall().getXDir() - 1);
-            } else if (new Rectangle(getBall().getX(), getBall().getY(), 20, 20).intersects(new Rectangle(getPaddle().getXpos() + 90, PADDLE_Y_START, 30, 8))) {
-                getBall().setYDir(-getBall().getYDir());
-                getBall().setXDir(getBall().getXDir() + 1);
-            } else if (new Rectangle(getBall().getX(), getBall().getY(), 20, 20).intersects(new Rectangle(getPaddle().getXpos() + 60, PADDLE_Y_START, 30, 8))) {
-                getBall().setYDir(-getBall().getYDir());
-            }
-            //squashes with the wall
-            if (getBall().getX() < 0) {
-                getBall().setXDir(-getBall().getXDir());
-            }
-            if (getBall().getY() < 0) {
-                getBall().setYDir(-getBall().getYDir());
-            }
-            if (getBall().getX() > 670) {
-                getBall().setXDir(-getBall().getXDir());
-            }
-
-            //move the ball
+            collisionBallPaddle();
+            collisionBallWall();
 
             if (isRunning()) {
-                getBall().setX(getBall().getX() + getBall().getXDir());
-                getBall().setY(getBall().getY() + getBall().getYDir());
+                ball.move();
             }
-
-
-            //Makes sure speed doesnt get too fast/slow
-//            if (Math.abs(xSpeed) > 1) {
-//                if (xSpeed > 1) {
-//                    xSpeed--;
-//                }
-//                if (xSpeed < 1) {
-//                    xSpeed++;
-//                }
-//            }
-//
-//            //TODO: implement below functions
-//            //checkPaddleCollusion(balls);
-//            //checkWallCollusion(balls);
-//            //checkBrickCollusion(balls);
-//            //checkLives();
-//            //checkIfOut(y1);
-//            //ball.move();
-//            //dropItems();
-//            // checkItemList();
-//            // repaint();
-
             try {
                 Thread.sleep(waitTime);
             } catch (InterruptedException ie) {
@@ -294,10 +341,4 @@ public class Game implements Runnable, GameConstants {
 
 
 }
-
-
-//        if (playerName.toUpperCase().equals("WARRIS") || playerName.toUpperCase().equals("WARRIS GILL") || playerName.toUpperCase().equals("ATİLLA") || playerName.toUpperCase().equals("ATİLLA GÜRSOY")) {
-//            score += 1000;
-//            gameBoard.showMessage("What a nice nime ! You unlocked the secret 1,000 point bonus! Have fun!", "1,000 Points");
-//        }
 

@@ -1,61 +1,115 @@
 package model.balls;
+
 import game_engine.GameConstants;
 import model.GameObject;
 
-import java.awt.*;
+import java.io.Serializable;
 
-public class Ball extends GameObject implements GameConstants{
+public class Ball extends GameObject implements GameConstants, Serializable {
 
-    private int xDir = BALL_X_DIRECTION, yDir = BALL_Y_DIRECTION;
+    private double xDir = BALL_X_DIRECTION, yDir = BALL_Y_DIRECTION;
+
+    public double getVectorLength() {
+        return vectorLength;
+    }
+
+    private double vectorLength = Math.sqrt(xDir * xDir + yDir * yDir);
+
+    public void setAngle(double angle) {
+        this.angle = angle;
+
+        // System.out.println("angle changed to: "+angle);
+    }
+
+    private static final long serialVersionUID = 1L;
+    private double angle = Math.toDegrees(Math.atan(-(yDir / xDir)));
 
     public Ball() {
-        super(BALL_X_START, BALL_Y_START, BALL_WIDTH, BALL_HEIGHT, BALL_COLOR);
+        super(385, 519 - 30, BALL_WIDTH, BALL_HEIGHT, BALL_COLOR);
     }
 
     //Moves the ball
     public void move() {
         x_coordinate += xDir;
         y_coordinate += yDir;
+
     }
 
     //Resets the ball to original position at center of screen
     public void reset() {
         x_coordinate = BALL_X_START;
         y_coordinate = BALL_Y_START;
+
+        x_coordinate = 385;
+        y_coordinate = 519;
         xDir = 1;
         yDir = -1;
+        vectorLength = Math.sqrt(xDir * xDir + yDir * yDir);
     }
 
     //Mutator methods
-    public void setXDir(int xDir) {
+    public void setXDir(double xDir) {
         this.xDir = xDir;
+        setAngle(Math.toDegrees(Math.atan((double) -(yDir / xDir))));
+
     }
 
-    public void setYDir(int yDir) {
+    public void setYDir(double yDir) {
         this.yDir = yDir;
+        setAngle(Math.toDegrees(Math.atan((double) -(yDir / xDir))));
+
     }
 
-    public void setX(int xCoordinate){
+    public void setXDirSpecial(double xDir) {
+        this.xDir = xDir;
+
+
+    }
+
+    public void setYDirSpecial(double yDir) {
+        this.yDir = yDir;
+
+
+    }
+
+
+    public void setX(double xCoordinate) {
         super.x_coordinate = xCoordinate;
     }
-    public void setY(int yCoordinate){
+
+    public void setY(double yCoordinate) {
         super.y_coordinate = yCoordinate;
     }
 
     //Accessor methods
-    public int getXDir() {
+    public double getXDir() {
         return xDir;
     }
 
-    public int getYDir() {
+    public double getYDir() {
         return yDir;
     }
 
-    public int getX(){
+    public double getX() {
         return super.x_coordinate;
     }
-    public int getY(){
+
+    public double getY() {
         return super.y_coordinate;
     }
 
+    public double getAngle() {
+        return this.angle;
+    }
+
+    public void setDirByAngle(double angle) {
+        this.angle = angle;
+        xDir = vectorLength * Math.cos(Math.toRadians(angle));
+        yDir = -vectorLength * Math.sin(Math.toRadians(angle));
+
+    }
+
+    public void setAngleByDir(double xx, double yy) {
+        setAngle(Math.toDegrees(Math.atan((double) -yy / xx)));
+    }
 }

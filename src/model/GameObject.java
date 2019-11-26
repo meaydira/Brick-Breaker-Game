@@ -1,16 +1,18 @@
 package model;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public abstract class GameObject {
-    protected int x_coordinate;
-    protected int y_coordinate;
+public abstract class GameObject implements Serializable{
+    protected double x_coordinate;
+    protected double y_coordinate;
     protected int width;
     protected int height;
     protected Color color;
+    private static final long serialVersionUID = 13L;
 
     //Constructor
-    public GameObject(int x_coordianate, int y_coordinate, int width, int height, Color color) {
+    public GameObject(double x_coordianate, double y_coordinate, int width, int height, Color color) {
         this.setX(x_coordianate);
         setY(y_coordinate);
         setWidth(width);
@@ -18,11 +20,11 @@ public abstract class GameObject {
         setColor(color);
     }
 
-    public void setX(int x) {
+    public void setX(double x) {
         this.x_coordinate = x;
     }
 
-    public void setY(int y) {
+    public void setY(double y) {
         this.y_coordinate = y;
     }
 
@@ -39,11 +41,11 @@ public abstract class GameObject {
     }
 
 
-    public int getX() {
+    public double getX() {
         return this.x_coordinate;
     }
 
-    public int getY() {
+    public double getY() {
         return this.y_coordinate;
     }
 
