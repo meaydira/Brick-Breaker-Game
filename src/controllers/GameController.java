@@ -88,21 +88,24 @@ public class GameController {
     public boolean gameIsOver() {
         return game.gameIsOver();
     }
-    public boolean isGameStared(){
-       return  game.isGameStarted();
+
+    public boolean isGameStared() {
+        return game.isGameStarted();
     }
 
-    public void lostGame(){
+    public void lostGame() {
         game.lostGame();
     }
 
-    public void switchMode(){
+    public void switchMode() {
         game.switchMode();
     }
-    public void openPauseMenu(){
-        PauseGamePanel panel =PauseGamePanel.getInstance(this);
+
+    public void openPauseMenu() {
+        PauseGamePanel panel = PauseGamePanel.getInstance(this);
     }
-    public void restartGame(){
+
+    public void restartGame() {
         game.restartGame();
     }
 
@@ -120,7 +123,7 @@ public class GameController {
         game.runPhysics();
     }
 
-    public void exitGame(){
+    public void exitGame() {
         System.exit(0);
     }
 

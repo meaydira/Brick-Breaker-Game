@@ -68,7 +68,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         drawScores(g2d, 25, "Score : ", 700, 30, Color.BLACK);
 
         //help sign
-        if(!gameController.isGameStared()){
+        if(!gameController.isGameStared() && !gameController.gameIsOver()){
             drawText(g2d, 14, "Press T to throw the ball", 700, PADDLE_Y_START, Color.BLACK);
         }else{
             drawText(g2d, 14, "Press Enter to pause", 700, PADDLE_Y_START, Color.BLACK);
@@ -91,7 +91,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         // when you lose the game
         if (gameController.getStatus() == GameStatus.Lost) {
             showGameOverSign(g2d);
-            drawText(g2d, 20, "Press R to Restart", 230, 380, Color.white);
+            drawText(g2d, 20, "Press R to Restart", 260, 380, Color.white);
         }
 
         g.dispose();
@@ -149,7 +149,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
     }
 
     private void showGameOverSign(Graphics2D g2d) {
-        drawText(g2d, 25, "Game Over", 290, 350, Color.white);
+        drawText(g2d, 25, "Game Over", 290, 320, Color.white);
     }
 
     private void drawPaddle(Graphics2D g2d) {
@@ -184,6 +184,9 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
 
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             gameController.switchMode();
+
+
+
             gameController.openPauseMenu();
 
         }

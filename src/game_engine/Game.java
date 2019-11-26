@@ -53,13 +53,13 @@ public class Game implements Runnable, GameConstants {
 
     private int score = 0, lives = MAX_LIVES, bricksLeft = MAX_BRICKS, waitTime = 10;
 
-    public Game(Player player, Map map) {
+    public Game(Player player, Map passedMap) {
         this.player = player;
         ball = new Ball();
         paddle = new Paddle();
-        this.map = map;
-        this.initialMap = map;
-        totalBricks = map.getBricks().size();
+        this.map = passedMap;
+        this.initialMap = passedMap;
+        setTotalBricks(this.map.getBricks().size());
         hitLock = System.currentTimeMillis();
     }
 
@@ -81,8 +81,8 @@ public class Game implements Runnable, GameConstants {
 
         getPaddle().setXpos(310);
         setScore(0);
-        setTotalBricks(21);
         map = initialMap;
+        setTotalBricks(initialMap.getBricks().size());
         setGameStarted(true);
         setRunning(true);
     }
