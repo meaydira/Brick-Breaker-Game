@@ -71,7 +71,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         if(!gameController.isGameStared()){
             drawText(g2d, 14, "Press T to throw the ball", 700, PADDLE_Y_START, Color.BLACK);
         }else{
-            drawText(g2d, 14, "Press Enter to pause the game", 700, PADDLE_Y_START, Color.BLACK);
+            drawText(g2d, 14, "Press Enter to pause", 700, PADDLE_Y_START, Color.BLACK);
         }
         // running mode sign
         drawRM(g2d);
