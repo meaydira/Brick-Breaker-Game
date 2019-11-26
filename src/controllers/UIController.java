@@ -10,6 +10,7 @@ public class UIController {
     private RegisterPanel registerPanel;
     private GamePanel gamePanel;
     private BuildingModePanel buildingModePanel;
+    public static Gameboard buildingBoard;
     private static UIController UIController_instance = null;
 
     public static UIController getInstance(){
@@ -49,7 +50,7 @@ public class UIController {
 
     public BuildingModePanel getBuildingModePanel(BuildingMode bm) {
         this.buildingModePanel =  BuildingModePanel.getInstance(bm);
-        Gameboard gameBoard = Gameboard.getInstance(buildingModePanel);
+        buildingBoard = Gameboard.getInstance(buildingModePanel);
         return buildingModePanel;
     }
 }

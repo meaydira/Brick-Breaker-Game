@@ -1,5 +1,6 @@
 package game_engine;
 
+import controllers.UIController;
 import factories.Brickfactory;
 import model.GameGeometrics;
 import model.balls.Ball;
@@ -172,6 +173,7 @@ public class BuildingMode implements Runnable, GameConstants  {
         running = false;
         synchronized (this) {
             this.notify();
+            UIController.buildingBoard.setVisible(false);
         }
     }
 

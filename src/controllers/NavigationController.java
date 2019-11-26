@@ -55,8 +55,8 @@ public class NavigationController implements GameConstants {
 
         BuildingMode buildingMode = new BuildingMode(this.player);
         BuildingModePanel panel = uiController.getBuildingModePanel(buildingMode);
-        Thread thread = new Thread(buildingMode);
-        thread.run();
+        Thread threadBuildingMode = new Thread(buildingMode);
+        threadBuildingMode.run();
         controller_instance.playGame(buildingMode.getCurrentMap());
 
     }
