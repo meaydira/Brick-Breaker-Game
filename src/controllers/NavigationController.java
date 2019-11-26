@@ -3,6 +3,7 @@ package controllers;
 import game_engine.*;
 import gui.BuildingModePanel;
 import gui.LoginPanel;
+import gui.NotificationPanel;
 import gui.RegisterPanel;
 
 public class NavigationController implements GameConstants {
@@ -26,6 +27,7 @@ public class NavigationController implements GameConstants {
 
             boolean authentication_succesfull =Authentication.authenticated(player_to_authenticate);
             if (authentication_succesfull){
+                NotificationPanel panel = new NotificationPanel("Authentication Successful");
                 controller_instance.player=player_to_authenticate;
                 controller_instance.startBuildingMode();
             }else{
@@ -64,21 +66,22 @@ public class NavigationController implements GameConstants {
     }
 
     public Player redirectDesiredPage(Redirection desiredPage) {
+      Player player_to_play = null;
         while(desiredPage != Redirection.gamePage){
 
             if (desiredPage == Redirection.loginPage) {
                 LoginPanel lp = uiController.getLoginPanel();
                 desiredPage = lp.getDesiredPage();
-                if (desiredPage == Redirection.loginPage) {
-                    return auth.loginUser(lp.getUsername(),lp.getPassword());
+                if(desiredPage == Redirection.gamePage){
+                    player_to_play = auth.loginUser(lp.getUsername(),lp.getPassword());
                 }
             }
 
             else if (desiredPage == Redirection.registerPage) {
                 RegisterPanel rp = uiController.getRegisterPanel();
                 desiredPage = rp.getDesiredPage();
-                if (desiredPage == Redirection.registerPage) {
-                    return auth.registerUser(rp.getUsername(),rp.getPassword());
+                if(desiredPage == Redirection.gamePage){
+                    player_to_play = auth.registerUser(rp.getUsername(),rp.getPassword());
                 }
 
             }
@@ -87,7 +90,7 @@ public class NavigationController implements GameConstants {
             }
 
         }
-        return null;
+        return player_to_play;
     }
 }
 

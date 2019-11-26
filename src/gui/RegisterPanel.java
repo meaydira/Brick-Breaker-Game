@@ -121,9 +121,10 @@ public class RegisterPanel extends JFrame implements GameConstants {
 
             } else {
                 password = password1;
-                releaseLock();
                 setVisible(false);
+                releaseLock();
             }
+            desiredPage = Redirection.gamePage;
         }
 
 
@@ -138,8 +139,11 @@ public class RegisterPanel extends JFrame implements GameConstants {
     private class exitButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             desiredPage = Redirection.mainPage;
-            releaseLock();
+            remove(usernameField);
+            remove(passwordField1);
+            remove(passwordField2);
             setVisible(false);
+            releaseLock();
         }
     }
 

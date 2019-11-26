@@ -17,7 +17,6 @@ import javax.swing.JLabel;
 public class MainMenuPanel extends JFrame implements GameConstants {
 
     private Redirection mainMenuRedirection;
-    JButton playGameButton;
     JButton loginButton;
     JButton registerButton;
     JLabel welcomeLabel;
@@ -31,7 +30,6 @@ public class MainMenuPanel extends JFrame implements GameConstants {
         }
         mainmenu_instance.setTitle("Bricking Bad");
         mainmenu_instance.setLayout(null);
-        mainmenu_instance.playGameButton = new JButton("Play Game");
         mainmenu_instance.loginButton = new JButton("Login Game");
         mainmenu_instance.registerButton = new JButton("Register Game");
         mainmenu_instance.initializeMenu();
@@ -52,9 +50,8 @@ public class MainMenuPanel extends JFrame implements GameConstants {
         pack();
 
         imageContainer.setBounds(WINDOW_WIDTH / 2 - 150, 150, 300, 200);
-        playGameButton.setBounds(WINDOW_WIDTH / 2 - 255, 400, 150, 55);
-        loginButton.setBounds(WINDOW_WIDTH / 2 - 75, 400, 150, 55);
-        registerButton.setBounds(WINDOW_WIDTH / 2 + 95, 400, 150, 55);
+        loginButton.setBounds(WINDOW_WIDTH / 2 - 152, 400, 150, 55);
+        registerButton.setBounds(WINDOW_WIDTH / 2 + 8, 400, 150, 55);
         welcomeLabel = new JLabel("Welcome to Bricking Bad");
         clickLabel = new JLabel("Login Or Register To Save Score");
         welcomeLabel.setBounds(WINDOW_WIDTH / 2 - 150, 100, 300, 40);
@@ -65,9 +62,9 @@ public class MainMenuPanel extends JFrame implements GameConstants {
         addListeners();
         setVisible(true);
 
-        synchronized (playGameButton) {
+        synchronized (loginButton) {
             try {
-                playGameButton.wait();
+                loginButton.wait();
             } catch (InterruptedException e) {
                 System.out.println("Interrupted");
             }
@@ -76,8 +73,8 @@ public class MainMenuPanel extends JFrame implements GameConstants {
     }
 
     public void redirectPage(Redirection rd) {
-        synchronized (playGameButton) {
-            playGameButton.notify();
+        synchronized (loginButton) {
+            loginButton.notify();
         }
         this.mainMenuRedirection = rd;
     }
@@ -89,7 +86,6 @@ public class MainMenuPanel extends JFrame implements GameConstants {
     public void addComponents() {
         add(welcomeLabel);
         add(clickLabel);
-        add(playGameButton);
         add(loginButton);
         add(registerButton);
         add(imageContainer);
@@ -98,19 +94,13 @@ public class MainMenuPanel extends JFrame implements GameConstants {
     }
 
     public void addListeners() {
-        playGameButton.addActionListener(new playGameButtonHandler());
         registerButton.addActionListener(new registerGameButtonHandler());
-        loginButton.addActionListener(new loginGameButtonHandler());
+        loginButton.addActionListener(new loginButtonHandler());
     }
 
-private class playGameButtonHandler implements ActionListener {
-    public void actionPerformed(ActionEvent event) {
-        redirectPage(Redirection.gamePage);
-        setVisible(false);
-    }
-}
 
-private class loginGameButtonHandler implements ActionListener {
+
+private class loginButtonHandler implements ActionListener {
     public void actionPerformed(ActionEvent event) {
         redirectPage(Redirection.loginPage);
         setVisible(false);

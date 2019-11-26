@@ -7,6 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class LoginPanel extends JFrame implements GameConstants {
 
@@ -39,7 +41,7 @@ public class LoginPanel extends JFrame implements GameConstants {
 
     public void initializePanel() {
         loginButton = new JButton("Login Game");
-        backButton  = new JButton("Back");
+        backButton = new JButton("Back");
         ImageIcon gameImage = new ImageIcon("b_bad_logo.jpg");
         imageContainer = new JLabel();
         imageContainer.setIcon(gameImage);
@@ -99,33 +101,40 @@ public class LoginPanel extends JFrame implements GameConstants {
         backButton.addActionListener(new exitButtonHandler());
     }
 
+
     private class loginGameButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent event) {
+            desiredPage = Redirection.gamePage;
             username = usernameField.getText();
             password = passwordField.getText();
-            releaseLock();
             setVisible(false);
+            releaseLock();
         }
     }
 
     private class exitButtonHandler implements ActionListener {
-          public void actionPerformed(ActionEvent event) {
-              desiredPage = Redirection.mainPage;
-              releaseLock();
-              setVisible(false);
-          }
+        public void actionPerformed(ActionEvent event) {
+            desiredPage = Redirection.mainPage;
+            remove(usernameField);
+            remove(passwordField);
+            setVisible(false);
+            releaseLock();
+        }
     }
+
+
     private void releaseLock() {
         synchronized (loginButton) {
             loginButton.notify();
         }
     }
 
+
     public Redirection getDesiredPage() {
         return desiredPage;
     }
 
-    public  String getUsername() {
+    public String getUsername() {
         return username;
     }
 
