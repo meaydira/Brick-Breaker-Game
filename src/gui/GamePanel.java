@@ -68,8 +68,13 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         drawScores(g2d, 25, "Score : ", 700, 30, Color.BLACK);
 
         //help sign
-        String action = (gameController.isRunning()) ? "Pause" : "Continue";
-        drawText(g2d, 14, "Press Enter to " + action, 700, PADDLE_Y_START, Color.BLACK);
+        if(!gameController.isGameStared()){
+            drawText(g2d, 14, "Press T to throw the ball", 700, PADDLE_Y_START, Color.BLACK);
+        }else{
+            drawText(g2d, 14, "Press Enter to pause the game", 700, PADDLE_Y_START, Color.BLACK);
+        }
+        // running mode sign
+        drawRM(g2d);
 
         // the paddle
         drawPaddle(g2d);
@@ -79,20 +84,25 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
 
         // when you won the game
         if (gameController.getStatus() == GameStatus.Won) {
-            drawText(g2d, 30, "You Won", 260, 300, Color.white);
-            drawText(g2d, 20, "Press R to Restart", 230, 380, Color.white);
+            drawText(g2d, 30, "You Won", 270, 300, Color.white);
+            drawText(g2d, 20, "Press R to Restart", 250, 380, Color.white);
         }
 
         // when you lose the game
         if (gameController.getStatus() == GameStatus.Lost) {
             showGameOverSign(g2d);
-            drawText(g2d, 20, "Press (Enter) to Restart", 230, 380, Color.white);
+            drawText(g2d, 20, "Press R to Restart", 230, 380, Color.white);
         }
 
         g.dispose();
 
     }
 
+    private void drawRM(Graphics2D g2d){
+        //running mode
+        drawText(g2d, 15, "RUNNING MODE",320,30,Color.YELLOW);
+
+    }
     private void drawSimpleBrick(Graphics2D g2d, Color color, double x, double y, int width, int height) {
         g2d.setColor(color);
         g2d.fill(new Rectangle2D.Double(x, y, width, height));
@@ -213,6 +223,9 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         //TODO: Implement  boolean directionLock = false;
         if (gameController.isRunning()) {
             gameController.runPhysics();
+        }
+        if(gameController.gameIsOver()){
+            gameController.lostGame();
         }
         repaint();
     }

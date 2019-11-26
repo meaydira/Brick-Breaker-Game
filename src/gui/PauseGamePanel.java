@@ -38,7 +38,7 @@ public class PauseGamePanel extends JFrame implements GameConstants {
         setLayout(new GridLayout(5,1,10,5));
         setLocation(frame_x, frame_y);
         setResizable(false);
-        setTitle("Game Menu");
+        setTitle("Bricking Bad");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
 

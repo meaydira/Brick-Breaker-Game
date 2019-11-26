@@ -88,10 +88,14 @@ public class GameController {
     public boolean gameIsOver() {
         return game.gameIsOver();
     }
-
-    public void reinitialize() {
-        game.reinitialize();
+    public boolean isGameStared(){
+       return  game.isGameStarted();
     }
+
+    public void lostGame(){
+        game.lostGame();
+    }
+
     public void switchMode(){
         game.switchMode();
     }
@@ -99,7 +103,7 @@ public class GameController {
         PauseGamePanel panel =PauseGamePanel.getInstance(this);
     }
     public void restartGame(){
-        reinitialize();
+        game.restartGame();
     }
 
     public void loadCurrent() {

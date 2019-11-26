@@ -67,35 +67,26 @@ public class Game implements Runnable, GameConstants {
         return (isGameStarted() && getStatus() == GameStatus.Lost);
     }
 
-    public void reinitialize() {
-        if (!isGameStarted()) {
-            setGameStarted(true);
-            setRunning(true);
-        } else {
-            //Game Lost Case..
-            if (getStatus() == GameStatus.Lost) {
-                setGameStarted(false);
-                if (status == GameStatus.Lost) {
-                    status = GameStatus.Undecided;
-                    getBall().setX(385);
-                    getBall().setY(519 - 30);
-
-                    getBall().setXDir(-1);
-                    getBall().setYDir(-2);
-
-                    getPaddle().setXpos(310);
-                    setScore(0);
-                    setTotalBricks(21);
-                    map = initialMap;
-                    gameStarted = false;
-                }
-            } else {
-                //Game is not lost case
-                switchMode();
-            }
-        }
-
+    public void lostGame(){
+        setGameStarted(false);
     }
+
+    public void restartGame(){
+        status = GameStatus.Undecided;
+        getBall().setX(385);
+        getBall().setY(519 - 30);
+
+        getBall().setXDir(-1);
+        getBall().setYDir(-2);
+
+        getPaddle().setXpos(310);
+        setScore(0);
+        setTotalBricks(21);
+        map = initialMap;
+        setGameStarted(true);
+        setRunning(true);
+    }
+
 
     public void runPhysics() {
 
@@ -121,7 +112,7 @@ public class Game implements Runnable, GameConstants {
                         verticalDirectionChangeLock = System.currentTimeMillis();
                         if (b.getClass().getName() == "model.bricks.MineBrick") {
                             for (Brick brick_to_explode : map.getBricks()) {
-                                if (!brick_to_explode.isDestroyed() && GameGeometrics.inExplosionRange(b,brick_to_explode)) {
+                                if (!brick_to_explode.isDestroyed() && GameGeometrics.inExplosionRange(b, brick_to_explode)) {
                                     brick_to_explode.destroyBrick();
                                 }
                             }
