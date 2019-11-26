@@ -64,16 +64,21 @@ public class PauseGamePanel extends JFrame implements GameConstants {
         add(resumeButton);
         add(exitButton);
 
+        loadButton.addActionListener(new loadGameButtonHandler());
+        saveButton.addActionListener(new saveGameButtonHandler());
         exitButton.addActionListener(new exitGameButtonHandler());
         resumeButton.addActionListener(new resumeGameButtonHandler());
+
     }
 
     private class loadGameButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent event) {
+            gameController.loadCurrent();
         }
     }
     private class saveGameButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent event) {
+            gameController.saveCurrent();
         }
     }
     private class resumeGameButtonHandler implements ActionListener {

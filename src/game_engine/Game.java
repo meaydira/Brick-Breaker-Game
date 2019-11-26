@@ -8,7 +8,7 @@ import model.bricks.Brick;
 
 import java.io.IOException;
 
-public class Game implements Runnable, GameConstants {
+public class Game implements Runnable, GameConstants, Cloneable {
 
     private Player player;
     private int totalBricks = 0;
@@ -47,7 +47,6 @@ public class Game implements Runnable, GameConstants {
     private long horizontalDirectionChangeLock = 0;
     private long hitLock = 0;
     private long Lock;
-    private Map initialMap;
     private Map map;
     SaveLoadManager SLM = SaveLoadManager.getInstance();
 
@@ -58,20 +57,20 @@ public class Game implements Runnable, GameConstants {
         ball = new Ball();
         paddle = new Paddle();
         this.map = passedMap;
-        this.initialMap = passedMap;
         setTotalBricks(this.map.getBricks().size());
         hitLock = System.currentTimeMillis();
     }
+
 
     public boolean gameIsOver() {
         return (isGameStarted() && getStatus() == GameStatus.Lost);
     }
 
-    public void lostGame(){
+    public void lostGame() {
         setGameStarted(false);
     }
 
-    public void restartGame(){
+    public void restartGame() {
         status = GameStatus.Undecided;
         getBall().setX(385);
         getBall().setY(519 - 30);
@@ -81,8 +80,8 @@ public class Game implements Runnable, GameConstants {
 
         getPaddle().setXpos(310);
         setScore(0);
-        map = initialMap;
-        setTotalBricks(initialMap.getBricks().size());
+        setTotalBricks(this.map.getBricks().size());
+        renewBricks();
         setGameStarted(true);
         setRunning(true);
     }
@@ -260,6 +259,12 @@ public class Game implements Runnable, GameConstants {
             }
         }
 
+    }
+    private void renewBricks(){
+        for (Brick b: getMap().getBricks()) {
+            b.setDestroyed(false);
+            b.resetHit();
+        }
     }
 
     private void collisionBallWall() {
