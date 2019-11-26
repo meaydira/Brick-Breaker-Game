@@ -80,7 +80,7 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         // when you won the game
         if (gameController.getStatus() == GameStatus.Won) {
             drawText(g2d, 30, "You Won", 260, 300, Color.white);
-            drawText(g2d, 20, "Press (Enter) to Restart", 230, 380, Color.white);
+            drawText(g2d, 20, "Press R to Restart", 230, 380, Color.white);
         }
 
         // when you lose the game
@@ -173,12 +173,8 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
         }
 
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-
-            gameController.reinitialize();
-
-            if (gameController.isReinitialized()) {
-                repaint();
-            }
+            gameController.switchMode();
+            gameController.openPauseMenu();
 
         }
         if (e.getKeyCode() == KeyEvent.VK_A) {
@@ -192,11 +188,14 @@ public class GamePanel extends JPanel implements GameConstants, KeyListener, Act
             gameController.saveCurrent();
         }
         if (e.getKeyCode() == KeyEvent.VK_T) {
-            gameController.tPressed();
+            gameController.throwBall();
         }
 
         if (e.getKeyCode() == KeyEvent.VK_L) {
             gameController.loadCurrent();
+        }
+        if (e.getKeyCode() == KeyEvent.VK_R) {
+            gameController.restartGame();
         }
 
     }

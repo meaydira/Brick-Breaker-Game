@@ -63,7 +63,7 @@ public class Game implements Runnable, GameConstants {
         hitLock = System.currentTimeMillis();
     }
 
-    public boolean isReinitialized() {
+    public boolean gameIsOver() {
         return (isGameStarted() && getStatus() == GameStatus.Lost);
     }
 
@@ -72,10 +72,9 @@ public class Game implements Runnable, GameConstants {
             setGameStarted(true);
             setRunning(true);
         } else {
+            //Game Lost Case..
             if (getStatus() == GameStatus.Lost) {
                 setGameStarted(false);
-
-
                 if (status == GameStatus.Lost) {
                     status = GameStatus.Undecided;
                     getBall().setX(385);
@@ -91,6 +90,7 @@ public class Game implements Runnable, GameConstants {
                     gameStarted = false;
                 }
             } else {
+                //Game is not lost case
                 switchMode();
             }
         }

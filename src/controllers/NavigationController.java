@@ -13,35 +13,37 @@ public class NavigationController implements GameConstants {
     private UIController uiController;
     private Player player;
     private Authentication auth;
+
     //Constructor
     private NavigationController() {
 
     }
-    public static NavigationController getInstance(){
-        if(controller_instance == null){
+
+    public static NavigationController getInstance() {
+        if (controller_instance == null) {
             controller_instance = new NavigationController();
             controller_instance.uiController = UIController.getInstance();
             controller_instance.auth = Authentication.getInstance();
             desiredPage = controller_instance.uiController.getMainMenu().getMainMenuRedirection();
-            Player player_to_authenticate =  controller_instance.redirectDesiredPage(desiredPage);
+            Player player_to_authenticate = controller_instance.redirectDesiredPage(desiredPage);
 
-            boolean authentication_succesfull =Authentication.authenticated(player_to_authenticate);
-            if (authentication_succesfull){
+            boolean authentication_succesfull = Authentication.authenticated(player_to_authenticate);
+            if (authentication_succesfull) {
                 NotificationPanel panel = new NotificationPanel("Authentication Successful");
-                controller_instance.player=player_to_authenticate;
+                controller_instance.player = player_to_authenticate;
                 controller_instance.startBuildingMode();
-            }else{
+            } else {
                 controller_instance.showErrorPanel();
                 System.exit(0);
             }
             return controller_instance;
-        }else{
+        } else {
             return controller_instance;
         }
     }
 
 
-    public void playGame(Map map){
+    public void playGame(Map map) {
         Game game = new Game(this.player, map);
         GameController g_controller = GameController.getInstance(game);
         uiController.getGamePanel(g_controller);
@@ -50,7 +52,7 @@ public class NavigationController implements GameConstants {
 
     }
 
-    public void startBuildingMode(){
+    public void startBuildingMode() {
         //TODO: Normally we will call game here. That object will be responsible from every third party in the game.
 
         BuildingMode buildingMode = new BuildingMode(this.player);
@@ -61,31 +63,41 @@ public class NavigationController implements GameConstants {
 
     }
 
-    public void showErrorPanel(){
+    public void showErrorPanel() {
         uiController.getErrorPanel();
     }
 
     public Player redirectDesiredPage(Redirection desiredPage) {
-      Player player_to_play = null;
-        while(desiredPage != Redirection.gamePage){
+        Player player_to_play = null;
+        while (desiredPage != Redirection.gamePage) {
 
             if (desiredPage == Redirection.loginPage) {
                 LoginPanel lp = uiController.getLoginPanel();
                 desiredPage = lp.getDesiredPage();
-                if(desiredPage == Redirection.gamePage){
-                    player_to_play = auth.loginUser(lp.getUsername(),lp.getPassword());
+                if (desiredPage == Redirection.gamePage) {
+                    try {
+                        player_to_play = auth.loginUser(lp.getUsername(), lp.getPassword());
+                    } catch (IllegalArgumentException e) {
+                        NotificationPanel panel = new NotificationPanel("No such user!");
+                        desiredPage = Redirection.loginPage;
+                    } catch (SecurityException e) {
+                        NotificationPanel panel = new NotificationPanel("Wrong password is entered!");
+                        desiredPage = Redirection.loginPage;
+                    }
                 }
-            }
-
-            else if (desiredPage == Redirection.registerPage) {
+            } else if (desiredPage == Redirection.registerPage) {
                 RegisterPanel rp = uiController.getRegisterPanel();
                 desiredPage = rp.getDesiredPage();
-                if(desiredPage == Redirection.gamePage){
-                    player_to_play = auth.registerUser(rp.getUsername(),rp.getPassword());
+                if (desiredPage == Redirection.gamePage) {
+                    try {
+                        player_to_play = auth.registerUser(rp.getUsername(), rp.getPassword());
+                    } catch (IllegalArgumentException e) {
+                        NotificationPanel panel = new NotificationPanel("Already taken username is entered");
+                        desiredPage = Redirection.registerPage;
+                    }
                 }
 
-            }
-            else if (desiredPage == Redirection.mainPage){
+            } else if (desiredPage == Redirection.mainPage) {
                 desiredPage = controller_instance.uiController.getMainMenu().getMainMenuRedirection();
             }
 
